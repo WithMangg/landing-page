@@ -1,0 +1,1525 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Senja & Seduh — Roastery & Kopi Spesialti Nusantara</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Playfair Display & Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        espresso: {
+                            950: '#160d08',
+                            900: '#23150D',
+                            800: '#382216',
+                            700: '#4E3020',
+                        },
+                        cream: {
+                            50: '#FDFBF7',
+                            100: '#F7F2E7',
+                            200: '#EFE5CF',
+                            300: '#E2D1B0',
+                        },
+                        caramel: {
+                            400: '#E09F5A',
+                            500: '#C87D32',
+                            600: '#A9621E',
+                        },
+                        gold: {
+                            400: '#E5C158',
+                            500: '#D4AF37',
+                        }
+                    },
+                    fontFamily: {
+                        serif: ['"Playfair Display"', 'serif'],
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        'warm': '0 20px 40px -15px rgba(35, 21, 13, 0.08)',
+                        'warm-lg': '0 25px 50px -12px rgba(35, 21, 13, 0.18)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #FDFBF7;
+            color: #23150D;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            overflow-x: hidden;
+        }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #F7F2E7;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #C87D32;
+            border-radius: 9999px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #382216;
+        }
+
+        /* Steam Animation */
+        @keyframes steam {
+            0% { transform: translateY(0) scaleX(1); opacity: 0; }
+            50% { opacity: 0.6; }
+            100% { transform: translateY(-35px) scaleX(1.3); opacity: 0; }
+        }
+        .steam-1 { animation: steam 3.2s infinite ease-out; }
+        .steam-2 { animation: steam 3.8s infinite ease-out 1.2s; }
+        .steam-3 { animation: steam 2.9s infinite ease-out 0.6s; }
+
+        /* Floating Animation */
+        @keyframes floatSlow {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-8px); }
+        }
+        .animate-float {
+            animation: floatSlow 5s ease-in-out infinite;
+        }
+
+        /* Subtle Grain Texture Overlay */
+        .bg-grain {
+            background-image: radial-gradient(rgba(200, 125, 50, 0.08) 1px, transparent 0);
+            background-size: 24px 24px;
+        }
+    </style>
+</head>
+<body class="bg-cream-50 text-espresso-900 selection:bg-caramel-500 selection:text-cream-50">
+
+    <!-- Top Announcement Bar -->
+    <div class="bg-espresso-950 text-cream-200 text-xs py-2.5 px-4 text-center border-b border-espresso-800">
+        <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-center gap-2">
+            <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-caramel-500/20 text-caramel-400 font-semibold text-[11px]">
+                <i data-lucide="sparkles" class="w-3 h-3"></i> Micro-Lot Baru
+            </span>
+            <span>Panen Baru <strong>Flores Bajawa Honey Process</strong> kini tersedia di seluruh gerai & pengiriman rumah!</span>
+            <a href="#nusantara" class="underline text-caramel-400 hover:text-cream-50 font-medium ml-1">Cek Profil Rasa &rarr;</a>
+        </div>
+    </div>
+
+    <!-- Navigation Bar -->
+    <header id="navbar" class="sticky top-0 z-40 transition-all duration-300 bg-cream-50/90 backdrop-blur-md border-b border-cream-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <!-- Brand Logo -->
+            <a href="#" class="flex items-center gap-3 group">
+                <div class="w-11 h-11 rounded-2xl bg-espresso-900 flex items-center justify-center text-caramel-400 shadow-md group-hover:bg-caramel-500 group-hover:text-espresso-950 transition-colors">
+                    <i data-lucide="coffee" class="w-6 h-6"></i>
+                </div>
+                <div>
+                    <span class="font-serif text-xl sm:text-2xl font-bold tracking-tight text-espresso-900 block leading-none">Senja & Seduh</span>
+                    <span class="text-[10px] uppercase tracking-[0.22em] text-caramel-600 font-semibold block mt-1">Nusantara Roastery</span>
+                </div>
+            </a>
+
+            <!-- Desktop Menu Links -->
+            <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-espresso-800">
+                <a href="#katalog" class="hover:text-caramel-500 transition-colors">Menu Kopi</a>
+                <a href="#nusantara" class="hover:text-caramel-500 transition-colors">Biji Nusantara</a>
+                <a href="#panduan-seduh" class="hover:text-caramel-500 transition-colors">Panduan Seduh</a>
+                <a href="#testimoni" class="hover:text-caramel-500 transition-colors">Cerita Pelanggan</a>
+                <a href="#lokasi" class="hover:text-caramel-500 transition-colors">Lokasi Kedai</a>
+            </nav>
+
+            <!-- Action Buttons -->
+            <div class="flex items-center gap-3">
+                <!-- Cart Button -->
+                <button onclick="toggleCartDrawer(true)" class="relative inline-flex items-center gap-2.5 px-4 py-2.5 rounded-full bg-cream-100 hover:bg-cream-200 border border-cream-300 text-espresso-900 transition-all text-sm font-semibold" aria-label="Buka Keranjang Pesanan">
+                    <i data-lucide="shopping-bag" class="w-4 h-4 text-caramel-600"></i>
+                    <span class="hidden sm:inline">Pesanan</span>
+                    <span id="cart-badge" class="w-5 h-5 rounded-full bg-caramel-500 text-cream-50 text-xs flex items-center justify-center font-bold">2</span>
+                </button>
+
+                <!-- Book Table CTA -->
+                <button onclick="openReservationModal()" class="hidden sm:inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-espresso-900 hover:bg-caramel-600 text-cream-50 text-sm font-semibold transition-all shadow-sm">
+                    <span>Reservasi Meja</span>
+                </button>
+
+                <!-- Mobile Hamburger -->
+                <button onclick="toggleMobileMenu()" class="md:hidden p-2.5 rounded-xl bg-cream-100 text-espresso-900 hover:bg-cream-200" aria-label="Menu Navigasi">
+                    <i data-lucide="menu" id="mobile-menu-icon" class="w-5 h-5"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Dropdown -->
+        <div id="mobile-menu" class="hidden md:hidden bg-cream-50 border-b border-cream-200 px-4 pt-2 pb-6 space-y-3">
+            <a href="#katalog" onclick="toggleMobileMenu()" class="block py-2 px-3 rounded-xl hover:bg-cream-100 font-medium text-espresso-900">Menu Kopi</a>
+            <a href="#nusantara" onclick="toggleMobileMenu()" class="block py-2 px-3 rounded-xl hover:bg-cream-100 font-medium text-espresso-900">Eksplorasi Biji Nusantara</a>
+            <a href="#panduan-seduh" onclick="toggleMobileMenu()" class="block py-2 px-3 rounded-xl hover:bg-cream-100 font-medium text-espresso-900">Kalkulator & Panduan Seduh</a>
+            <a href="#testimoni" onclick="toggleMobileMenu()" class="block py-2 px-3 rounded-xl hover:bg-cream-100 font-medium text-espresso-900">Cerita Pelanggan</a>
+            <a href="#lokasi" onclick="toggleMobileMenu()" class="block py-2 px-3 rounded-xl hover:bg-cream-100 font-medium text-espresso-900">Lokasi Kedai</a>
+            <div class="pt-2">
+                <button onclick="toggleMobileMenu(); openReservationModal();" class="w-full py-3 rounded-xl bg-espresso-900 text-cream-50 font-semibold text-sm">
+                    Reservasi Meja Kedai
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="relative overflow-hidden pt-8 pb-20 lg:py-24 bg-grain">
+        <!-- Decorative Warm Blur -->
+        <div class="absolute -top-24 -right-24 w-96 h-96 rounded-full bg-caramel-400/15 blur-3xl pointer-events-none"></div>
+        <div class="absolute top-1/2 -left-24 w-80 h-80 rounded-full bg-gold-400/10 blur-3xl pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+                
+                <!-- Left Column: Typography & CTA -->
+                <div class="lg:col-span-7 space-y-6 text-left">
+                    <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-cream-100 border border-cream-300 text-caramel-600 text-xs font-semibold tracking-wide uppercase">
+                        <span class="w-2 h-2 rounded-full bg-caramel-500 animate-pulse"></span>
+                        100% Arabika & Fine Robusta Indonesia
+                    </div>
+
+                    <h1 class="font-serif text-4xl sm:text-5xl lg:text-6xl font-bold text-espresso-950 leading-[1.12] tracking-tight">
+                        Menyeduh Cita Rasa <span class="italic font-normal text-caramel-600">Tanah Vulkanik</span> Nusantara.
+                    </h1>
+
+                    <p class="text-base sm:text-lg text-espresso-700 max-w-2xl leading-relaxed">
+                        Dari lereng berkabut dataran tinggi Gayo hingga kebun teduh di kaki Gunung Batur. Kami menyangrai setiap biji kopi secara *small-batch* setiap pekan untuk menjaga kejujuran aroma di cangkir Anda.
+                    </p>
+
+                    <div class="flex flex-wrap items-center gap-4 pt-2">
+                        <a href="#katalog" class="inline-flex items-center gap-3 px-7 py-4 rounded-full bg-espresso-900 hover:bg-caramel-600 text-cream-50 font-semibold text-sm sm:text-base transition-all shadow-warm hover:shadow-warm-lg group">
+                            <span>Pesan Kopi Sekarang</span>
+                            <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
+                        </a>
+                        <a href="#nusantara" class="inline-flex items-center gap-2.5 px-6 py-4 rounded-full bg-cream-100 hover:bg-cream-200 text-espresso-900 border border-cream-300 font-semibold text-sm sm:text-base transition-all">
+                            <i data-lucide="compass" class="w-4 h-4 text-caramel-600"></i>
+                            <span>Kenali Origin Kami</span>
+                        </a>
+                    </div>
+
+                    <!-- Trust Metrics -->
+                    <div class="pt-6 border-t border-cream-200 grid grid-cols-3 gap-4 max-w-lg">
+                        <div>
+                            <p class="font-serif text-2xl sm:text-3xl font-bold text-espresso-900">86.5+</p>
+                            <p class="text-xs text-espresso-700 mt-0.5">Skor Cupping SCA</p>
+                        </div>
+                        <div>
+                            <p class="font-serif text-2xl sm:text-3xl font-bold text-espresso-900">14 Petani</p>
+                            <p class="text-xs text-espresso-700 mt-0.5">Mitra Direct Trade</p>
+                        </div>
+                        <div>
+                            <p class="font-serif text-2xl sm:text-3xl font-bold text-espresso-900">Fresh Roast</p>
+                            <p class="text-xs text-espresso-700 mt-0.5">Maks. 7 Hari Sangrai</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column: Visual Showcase Card -->
+                <div class="lg:col-span-5 relative">
+                    <div class="relative mx-auto max-w-md lg:max-w-none">
+                        <!-- Main Photo Frame -->
+                        <div class="relative rounded-3xl overflow-hidden shadow-warm-lg border-4 border-cream-100 bg-espresso-900 aspect-[4/5]">
+                            <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=1000&q=85" 
+                                 alt="Seduhan Kopi Spesialti Nusantara" 
+                                 onerror="this.src='https://placehold.co/800x1000/23150D/F7F2E7?text=Senja+%26+Seduh+Coffee'"
+                                 class="w-full h-full object-cover opacity-90 hover:scale-105 transition-transform duration-700">
+                            <div class="absolute inset-0 bg-gradient-to-t from-espresso-950/90 via-espresso-950/20 to-transparent"></div>
+
+                            <!-- Bottom Overlay Info inside Image -->
+                            <div class="absolute bottom-6 left-6 right-6 text-cream-50">
+                                <div class="flex items-center justify-between bg-espresso-950/80 backdrop-blur-md p-4 rounded-2xl border border-cream-50/15">
+                                    <div>
+                                        <span class="text-[11px] uppercase tracking-wider text-caramel-400 font-semibold block">Seduhan Favorit Hari Ini</span>
+                                        <h3 class="font-serif text-lg font-bold">Kopi Susu Senja Gula Aren</h3>
+                                        <p class="text-xs text-cream-200/80 mt-0.5">House Blend Toraja & Gayo • Aren Organik Lebak</p>
+                                    </div>
+                                    <button onclick="quickAddById(7)" class="px-3.5 py-2 rounded-xl bg-caramel-500 hover:bg-caramel-400 text-espresso-950 font-bold text-xs transition-colors shrink-0">
+                                        + Rp 28rb
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Floating Badge: Roasting Temperature -->
+                        <div class="hidden sm:flex items-center gap-3 absolute -top-5 -left-6 bg-cream-50 p-3.5 rounded-2xl shadow-warm border border-cream-200 animate-float">
+                            <div class="w-10 h-10 rounded-xl bg-caramel-500/15 text-caramel-600 flex items-center justify-center">
+                                <i data-lucide="flame" class="w-5 h-5"></i>
+                            </div>
+                            <div>
+                                <p class="text-xs font-bold text-espresso-900">Artisan Small-Batch</p>
+                                <p class="text-[11px] text-espresso-700">Disangrai segar setiap Senin & Kamis</p>
+                            </div>
+                        </div>
+
+                        <!-- Floating Badge: Cupping Notes -->
+                        <div class="hidden sm:flex items-center gap-3 absolute top-1/3 -right-6 bg-espresso-900 text-cream-50 p-3.5 rounded-2xl shadow-warm-lg border border-espresso-700">
+                            <div class="w-9 h-9 rounded-xl bg-gold-500/20 text-gold-400 flex items-center justify-center">
+                                <i data-lucide="award" class="w-5 h-5"></i>
+                            </div>
+                            <div>
+                                <p class="text-xs font-semibold text-gold-400">Single Origin Terbaik</p>
+                                <p class="text-[11px] text-cream-200">4 Kepulauan Nusantara</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- CERITA BIJI KOPI NUSANTARA (INTERACTIVE ORIGIN EXPLORER) -->
+    <section id="nusantara" class="py-20 bg-espresso-950 text-cream-50 relative overflow-hidden">
+        <!-- Subtle Topographical SVG Pattern Background -->
+        <div class="absolute inset-0 opacity-5 pointer-events-none">
+            <svg class="w-full h-full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400">
+                <path d="M0 100 Q 200 50 400 120 T 800 90" fill="none" stroke="#FDFBF7" stroke-width="2"/>
+                <path d="M0 180 Q 250 110 450 200 T 800 170" fill="none" stroke="#FDFBF7" stroke-width="2"/>
+                <path d="M0 260 Q 180 230 380 290 T 800 250" fill="none" stroke="#FDFBF7" stroke-width="2"/>
+                <path d="M0 340 Q 300 290 500 350 T 800 320" fill="none" stroke="#FDFBF7" stroke-width="2"/>
+            </svg>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <!-- Section Header -->
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+                <div>
+                    <span class="text-caramel-400 text-xs font-bold uppercase tracking-[0.2em] block mb-2">Jejak Terroir Khatulistiwa</span>
+                    <h2 class="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-cream-50">Cerita di Balik Biji Nusantara</h2>
+                </div>
+                <p class="text-cream-200/80 text-sm sm:text-base max-w-md">
+                    Klik salah satu daerah asal untuk melihat ketinggian tanam, metode pasca-panen, hingga karakter rasa uniknya.
+                </p>
+            </div>
+
+            <!-- Origin Selector Pills -->
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-10" id="origin-tabs">
+                <!-- Populated dynamically by JS -->
+            </div>
+
+            <!-- Interactive Origin Detail Display Card -->
+            <div id="origin-detail-card" class="bg-espresso-900/90 border border-espresso-800 rounded-3xl p-6 sm:p-10 shadow-warm-lg transition-all duration-300">
+                <!-- Populated dynamically by JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- KATALOG MENU KOPI INTERAKTIF -->
+    <section id="katalog" class="py-20 bg-cream-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <!-- Header & Search/Filter Bar -->
+            <div class="text-center max-w-2xl mx-auto mb-10">
+                <span class="text-caramel-600 text-xs font-bold uppercase tracking-[0.2em] block mb-2">Kurasi Barista Kami</span>
+                <h2 class="font-serif text-3xl sm:text-4xl font-bold text-espresso-950">Katalog Menu & Seduhan</h2>
+                <p class="text-espresso-700 text-sm sm:text-base mt-3">
+                    Setiap cangkir diseduh sesuai pesanan. Pilih kategori minuman favorit Anda dan sesuaikan tingkat kemanisan atau suhu di keranjang.
+                </p>
+            </div>
+
+            <!-- Category Filter Buttons -->
+            <div class="flex flex-wrap items-center justify-center gap-2 sm:gap-3 mb-10" id="menu-filters">
+                <button onclick="filterMenu('Semua')" data-category="Semua" class="filter-btn px-5 py-2.5 rounded-full text-sm font-semibold transition-all bg-espresso-900 text-cream-50 shadow-sm">
+                    Semua Menu
+                </button>
+                <button onclick="filterMenu('Signature Nusantara')" data-category="Signature Nusantara" class="filter-btn px-5 py-2.5 rounded-full text-sm font-semibold transition-all bg-cream-100 text-espresso-800 hover:bg-cream-200 border border-cream-300">
+                    ✨ Signature Nusantara
+                </button>
+                <button onclick="filterMenu('Espresso Based')" data-category="Espresso Based" class="filter-btn px-5 py-2.5 rounded-full text-sm font-semibold transition-all bg-cream-100 text-espresso-800 hover:bg-cream-200 border border-cream-300">
+                    ☕ Espresso Based
+                </button>
+                <button onclick="filterMenu('Manual Brew')" data-category="Manual Brew" class="filter-btn px-5 py-2.5 rounded-full text-sm font-semibold transition-all bg-cream-100 text-espresso-800 hover:bg-cream-200 border border-cream-300">
+                    🫖 Manual Brew
+                </button>
+                <button onclick="filterMenu('Non-Kopi')" data-category="Non-Kopi" class="filter-btn px-5 py-2.5 rounded-full text-sm font-semibold transition-all bg-cream-100 text-espresso-800 hover:bg-cream-200 border border-cream-300">
+                    🍵 Non-Kopi & Artisan Tea
+                </button>
+            </div>
+
+            <!-- Menu Grid -->
+            <div id="menu-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+                <!-- Populated by JavaScript -->
+            </div>
+
+        </div>
+    </section>
+
+    <!-- PANDUAN SEDUH INTERAKTIF (INTERACTIVE BREW CALCULATOR & GUIDE) -->
+    <section id="panduan-seduh" class="py-20 bg-cream-100 border-y border-cream-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-2xl mx-auto mb-12">
+                <span class="text-caramel-600 text-xs font-bold uppercase tracking-[0.2em] block mb-2">Seduh di Rumah Seperti Barista</span>
+                <h2 class="font-serif text-3xl sm:text-4xl font-bold text-espresso-950">Panduan & Kalkulator Rasio Seduh</h2>
+                <p class="text-espresso-700 text-sm sm:text-base mt-2">
+                    Beli biji kopi kami untuk di rumah? Pilih metode alat seduh Anda dan atur dosis kopi untuk mendapatkan resep presisi beserta *timer* ekstraksi.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                
+                <!-- Left Column: Method Selector & Dose Slider -->
+                <div class="lg:col-span-5 bg-cream-50 p-6 sm:p-8 rounded-3xl border border-cream-300 shadow-warm space-y-6">
+                    <div>
+                        <label class="text-xs font-bold uppercase tracking-wider text-espresso-700 block mb-3">1. Pilih Metode Alat Seduh</label>
+                        <div class="grid grid-cols-2 gap-3" id="brew-method-buttons">
+                            <!-- Generated via JS -->
+                        </div>
+                    </div>
+
+                    <!-- Dose Slider -->
+                    <div class="pt-4 border-t border-cream-200">
+                        <div class="flex justify-between items-center mb-2">
+                            <label for="coffee-dose" class="text-xs font-bold uppercase tracking-wider text-espresso-700">2. Takaran Biji Kopi (Gram)</label>
+                            <span id="dose-display" class="font-serif text-2xl font-bold text-caramel-600">15 gram</span>
+                        </div>
+                        <input id="coffee-dose" type="range" min="10" max="35" step="1" value="15" oninput="updateBrewCalculation()"
+                               class="w-full h-2 bg-cream-200 rounded-lg appearance-none cursor-pointer accent-caramel-600">
+                        <div class="flex justify-between text-[11px] text-espresso-700/70 mt-1">
+                            <span>10g (1 Cangkir Kecil)</span>
+                            <span>20g (Medium)</span>
+                            <span>35g (Sharing)</span>
+                        </div>
+                    </div>
+
+                    <!-- Calculated Metrics Grid -->
+                    <div class="grid grid-cols-2 gap-3 pt-2">
+                        <div class="bg-cream-100 p-4 rounded-2xl border border-cream-200">
+                            <span class="text-xs text-espresso-700 block">Total Air Panas</span>
+                            <p id="water-display" class="font-serif text-2xl font-bold text-espresso-950 mt-0.5">225 ml</p>
+                            <span id="ratio-display" class="text-[11px] text-caramel-600 font-semibold">Rasio 1:15</span>
+                        </div>
+                        <div class="bg-cream-100 p-4 rounded-2xl border border-cream-200">
+                            <span class="text-xs text-espresso-700 block">Suhu Air Ideal</span>
+                            <p id="temp-display" class="font-serif text-2xl font-bold text-espresso-950 mt-0.5">92°C</p>
+                            <span id="grind-display" class="text-[11px] text-caramel-600 font-semibold">Gilingan Medium</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column: Step-by-Step Guide & Interactive Stopwatch -->
+                <div class="lg:col-span-7 bg-espresso-900 text-cream-50 p-6 sm:p-8 rounded-3xl shadow-warm-lg relative overflow-hidden">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-espresso-800">
+                        <div>
+                            <span id="brew-title-badge" class="inline-block px-3 py-1 rounded-full bg-caramel-500/20 text-caramel-400 text-xs font-semibold mb-1">Pour Over V60</span>
+                            <h3 id="brew-title" class="font-serif text-2xl font-bold">Tahapan Ekstraksi Presisi</h3>
+                        </div>
+
+                        <!-- Interactive Brew Timer -->
+                        <div class="flex items-center gap-3 bg-espresso-950 px-4 py-2.5 rounded-2xl border border-espresso-800">
+                            <div class="text-right">
+                                <span class="text-[10px] uppercase tracking-wider text-cream-300 block">Timer Seduh</span>
+                                <span id="brew-timer-display" class="font-mono text-xl font-bold text-gold-400">00:00</span>
+                            </div>
+                            <button onclick="toggleBrewTimer()" id="brew-timer-btn" class="px-3.5 py-2 rounded-xl bg-caramel-500 hover:bg-caramel-400 text-espresso-950 font-bold text-xs transition-colors flex items-center gap-1.5">
+                                <i data-lucide="play" class="w-3.5 h-3.5"></i>
+                                <span>Mulai</span>
+                            </button>
+                            <button onclick="resetBrewTimer()" class="p-2 rounded-xl bg-espresso-800 hover:bg-espresso-700 text-cream-200 transition-colors" title="Reset Timer">
+                                <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Steps List -->
+                    <div id="brew-steps-list" class="space-y-4 my-6">
+                        <!-- Dynamically rendered steps -->
+                    </div>
+
+                    <!-- Barista Tip Box -->
+                    <div class="bg-espresso-950/80 border border-espresso-800 rounded-2xl p-4 flex items-start gap-3">
+                        <div class="w-8 h-8 rounded-lg bg-gold-500/20 text-gold-400 flex items-center justify-center shrink-0 mt-0.5">
+                            <i data-lucide="lightbulb" class="w-4 h-4"></i>
+                        </div>
+                        <div>
+                            <p class="text-xs font-bold text-gold-400 uppercase tracking-wider">Tips Kepala Roaster</p>
+                            <p id="brew-pro-tip" class="text-xs sm:text-sm text-cream-200 mt-1 leading-relaxed">
+                                Bilas kertas filter dengan air panas terlebih dahulu agar rasa kertas tidak menempel pada hasil seduhan dan sekaligus menghangatkan server kaca Anda.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- TESTIMONI PELANGGAN & PENIKMAT KOPI -->
+    <section id="testimoni" class="py-20 bg-cream-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
+                <div>
+                    <span class="text-caramel-600 text-xs font-bold uppercase tracking-[0.2em] block mb-2">Suara Teman Seduh</span>
+                    <h2 class="font-serif text-3xl sm:text-4xl font-bold text-espresso-950">Cerita dari Meja Kedai</h2>
+                </div>
+                <div class="flex items-center gap-2 text-sm font-semibold text-espresso-800 bg-cream-100 px-4 py-2 rounded-full border border-cream-300">
+                    <div class="flex text-gold-500">
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                    </div>
+                    <span>4.9/5 dari 1.240+ Ulasan Google</span>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Testimonial 1 -->
+                <div class="bg-cream-100/70 p-7 rounded-3xl border border-cream-200 flex flex-col justify-between hover:shadow-warm transition-all">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="px-3 py-1 rounded-full bg-caramel-500/15 text-caramel-600 text-xs font-semibold">V60 Bali Kintamani</span>
+                            <i data-lucide="quote" class="w-6 h-6 text-cream-300"></i>
+                        </div>
+                        <p class="text-espresso-800 text-sm sm:text-base leading-relaxed italic">
+                            "Jarang nemu roastery lokal yang konsisten menjaga *notes* jeruk keprok dan gula merah di biji Kintamani tanpa terasa pahit gosong. Baristanya juga ramah banget menjelaskan rasio seduhan."
+                        </p>
+                    </div>
+                    <div class="flex items-center gap-3.5 pt-6 mt-6 border-t border-cream-200">
+                        <div class="w-11 h-11 rounded-full bg-espresso-900 text-gold-400 font-serif font-bold flex items-center justify-center text-base">
+                            AR
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-sm text-espresso-950">Andi Rahadian</h4>
+                            <p class="text-xs text-espresso-700">Arsitek & Home Brewer, Jakarta</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Testimonial 2 -->
+                <div class="bg-espresso-900 text-cream-50 p-7 rounded-3xl shadow-warm-lg flex flex-col justify-between relative overflow-hidden">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="px-3 py-1 rounded-full bg-gold-500/20 text-gold-400 text-xs font-semibold">Kopi Susu Senja & Roastery</span>
+                            <i data-lucide="quote" class="w-6 h-6 text-espresso-700"></i>
+                        </div>
+                        <p class="text-cream-100 text-sm sm:text-base leading-relaxed italic">
+                            "Tempat paling nyaman buat kerja pagi. Aroma biji kopi yang baru disangrai memenuhi ruangan, *playlist* musiknya tenang, dan Es Kopi Susu Senja-nya punya *aftertaste* karamel yang lembut banget!"
+                        </p>
+                    </div>
+                    <div class="flex items-center gap-3.5 pt-6 mt-6 border-t border-espresso-800">
+                        <div class="w-11 h-11 rounded-full bg-caramel-500 text-espresso-950 font-serif font-bold flex items-center justify-center text-base">
+                            NP
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-sm text-cream-50">Nadia Pramesti</h4>
+                            <p class="text-xs text-cream-300">Penulis Lepas, Bandung</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Testimonial 3 -->
+                <div class="bg-cream-100/70 p-7 rounded-3xl border border-cream-200 flex flex-col justify-between hover:shadow-warm transition-all">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="px-3 py-1 rounded-full bg-caramel-500/15 text-caramel-600 text-xs font-semibold">Langganan Biji Kopi</span>
+                            <i data-lucide="quote" class="w-6 h-6 text-cream-300"></i>
+                        </div>
+                        <p class="text-espresso-800 text-sm sm:text-base leading-relaxed italic">
+                            "Sejak langganan biji Flores Bajawa dan Aceh Gayo dari Senja & Seduh, ritual ngopi pagi di rumah naik kelas. Kemasannya punya *one-way valve* dan selalu dicantumkan tanggal *roasting* yang baru."
+                        </p>
+                    </div>
+                    <div class="flex items-center gap-3.5 pt-6 mt-6 border-t border-cream-200">
+                        <div class="w-11 h-11 rounded-full bg-espresso-900 text-gold-400 font-serif font-bold flex items-center justify-center text-base">
+                            BS
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-sm text-espresso-950">Bagaskara Santoso</h4>
+                            <p class="text-xs text-espresso-700">Product Designer, Yogyakarta</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- LOKASI KEDAI & FOOTER -->
+    <footer id="lokasi" class="bg-espresso-950 text-cream-100 pt-16 pb-12 border-t border-espresso-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <!-- Locations Highlight Card -->
+            <div class="bg-espresso-900 rounded-3xl p-6 sm:p-10 border border-espresso-800 mb-16">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                    <div class="lg:col-span-5 space-y-4">
+                        <span class="text-caramel-400 text-xs font-bold uppercase tracking-[0.2em] block">Kunjungi Kedai Kami</span>
+                        <h3 class="font-serif text-2xl sm:text-3xl font-bold text-cream-50">Mampir Menyeduh & Berbincang Langsung</h3>
+                        <p class="text-sm text-cream-200/80 leading-relaxed">
+                            Tersedia Wi-Fi berkecepatan tinggi, stopkontak di setiap meja, area *slow bar* untuk berdiskusi langsung dengan barista, dan ruang *cupping* akhir pekan.
+                        </p>
+                        <div class="pt-2">
+                            <button onclick="openReservationModal()" class="inline-flex items-center gap-2 px-6 py-3.5 rounded-full bg-caramel-500 hover:bg-caramel-400 text-espresso-950 font-bold text-sm transition-all">
+                                <i data-lucide="calendar-check" class="w-4 h-4"></i>
+                                <span>Reservasi Meja / Sesi Cupping</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- 3 Flagship Branches -->
+                    <div class="lg:col-span-7 grid grid-cols-1 sm:grid-cols-3 gap-4">
+                        <div class="bg-espresso-950/70 p-5 rounded-2xl border border-espresso-800">
+                            <span class="text-[11px] font-bold uppercase tracking-wider text-caramel-400">Flagship & Roastery</span>
+                            <h4 class="font-serif text-lg font-bold text-cream-50 mt-1">Jakarta Selatan</h4>
+                            <p class="text-xs text-cream-300 mt-2 leading-relaxed">Jl. Cipete Raya No. 42, Cilandak, Jakarta Selatan</p>
+                            <p class="text-xs text-gold-400 font-medium mt-3 flex items-center gap-1.5">
+                                <i data-lucide="clock" class="w-3.5 h-3.5"></i> 07.00 – 22.00 WIB
+                            </p>
+                        </div>
+                        <div class="bg-espresso-950/70 p-5 rounded-2xl border border-espresso-800">
+                            <span class="text-[11px] font-bold uppercase tracking-wider text-caramel-400">Slow Bar & Garden</span>
+                            <h4 class="font-serif text-lg font-bold text-cream-50 mt-1">Bandung</h4>
+                            <p class="text-xs text-cream-300 mt-2 leading-relaxed">Jl. Progo No. 18, Citarum, Kec. Bandung Wetan</p>
+                            <p class="text-xs text-gold-400 font-medium mt-3 flex items-center gap-1.5">
+                                <i data-lucide="clock" class="w-3.5 h-3.5"></i> 07.00 – 23.00 WIB
+                            </p>
+                        </div>
+                        <div class="bg-espresso-950/70 p-5 rounded-2xl border border-espresso-800">
+                            <span class="text-[11px] font-bold uppercase tracking-wider text-caramel-400">Heritage Brew Bar</span>
+                            <h4 class="font-serif text-lg font-bold text-cream-50 mt-1">Yogyakarta</h4>
+                            <p class="text-xs text-cream-300 mt-2 leading-relaxed">Jl. Prawirotaman II No. 11, Mergangsan</p>
+                            <p class="text-xs text-gold-400 font-medium mt-3 flex items-center gap-1.5">
+                                <i data-lucide="clock" class="w-3.5 h-3.5"></i> 08.00 – 23.00 WIB
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer Links & Newsletter -->
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-10 pb-12 border-b border-espresso-800">
+                <div class="md:col-span-5 space-y-4">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-2xl bg-caramel-500 flex items-center justify-center text-espresso-950">
+                            <i data-lucide="coffee" class="w-5 h-5"></i>
+                        </div>
+                        <span class="font-serif text-2xl font-bold text-cream-50">Senja & Seduh</span>
+                    </div>
+                    <p class="text-sm text-cream-300 max-w-sm leading-relaxed">
+                        Merayakan kekayaan agrikultur kopi Indonesia melalui perdagangan berkeadilan (*Direct Trade*) bersama petani lokal dan penyangraian berstandar spesialti.
+                    </p>
+                    <p class="text-xs text-cream-300/70">
+                        WhatsApp Roastery: +62 812-8899-7744 • halo@senjadanseduh.id
+                    </p>
+                </div>
+
+                <div class="md:col-span-3 space-y-2.5 text-sm">
+                    <p class="font-bold text-cream-50 uppercase tracking-wider text-xs mb-3">Eksplorasi</p>
+                    <a href="#katalog" class="block text-cream-300 hover:text-caramel-400 transition-colors">Menu Minuman</a>
+                    <a href="#nusantara" class="block text-cream-300 hover:text-caramel-400 transition-colors">Biji Single Origin</a>
+                    <a href="#panduan-seduh" class="block text-cream-300 hover:text-caramel-400 transition-colors">Kalkulator V60 & French Press</a>
+                    <a href="#lokasi" class="block text-cream-300 hover:text-caramel-400 transition-colors">Kemitraan B2B & Grosir</a>
+                </div>
+
+                <div class="md:col-span-4 space-y-3">
+                    <p class="font-bold text-cream-50 uppercase tracking-wider text-xs">Jurnal Kopi & Diskon Panen Baru</p>
+                    <p class="text-xs text-cream-300">Dapatkan voucher diskon 20% untuk pembelian pertama biji kopi 250g dan jadwal rilis *micro-lot* bulanan.</p>
+                    <form onsubmit="handleNewsletter(event)" class="flex gap-2 pt-1">
+                        <input type="email" id="newsletter-email" required placeholder="Masukkan email Anda..." 
+                               class="w-full px-4 py-2.5 rounded-xl bg-espresso-900 border border-espresso-700 text-cream-50 text-sm focus:outline-none focus:border-caramel-400">
+                        <button type="submit" class="px-4 py-2.5 rounded-xl bg-caramel-500 hover:bg-caramel-400 text-espresso-950 font-bold text-xs shrink-0 transition-colors">
+                            Gabung
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-cream-300/60 gap-4">
+                <p>&copy; 2026 PT Senja Seduh Nusantara. Seluruh hak cipta dilindungi.</p>
+                <div class="flex gap-6">
+                    <span>Kemasan Ramah Lingkungan</span>
+                    <span>•</span>
+                    <span>Sertifikasi Halal Indonesia</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- SLIDE-OVER CART DRAWER (KERANJANG PESANAN SINGKAT) -->
+    <div id="cart-backdrop" onclick="toggleCartDrawer(false)" class="fixed inset-0 bg-espresso-950/60 backdrop-blur-xs z-50 hidden opacity-0 transition-opacity duration-300"></div>
+    <aside id="cart-drawer" class="fixed top-0 right-0 h-full w-full max-w-md bg-cream-50 text-espresso-950 z-50 shadow-2xl transform translate-x-full transition-transform duration-300 flex flex-col">
+        <!-- Drawer Header -->
+        <div class="p-6 bg-espresso-900 text-cream-50 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <i data-lucide="shopping-bag" class="w-5 h-5 text-caramel-400"></i>
+                <div>
+                    <h3 class="font-serif text-lg font-bold">Keranjang Seduhan</h3>
+                    <p class="text-xs text-cream-200/80">Siap diseduh segar untuk Anda</p>
+                </div>
+            </div>
+            <button onclick="toggleCartDrawer(false)" class="p-2 rounded-xl bg-espresso-800 hover:bg-espresso-700 text-cream-200 transition-colors" aria-label="Tutup Keranjang">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+        </div>
+
+        <!-- Order Mode Selector (Dine-in / Pickup / Delivery) -->
+        <div class="px-6 py-3 bg-cream-100 border-b border-cream-200 flex items-center justify-between gap-2 text-xs">
+            <span class="font-semibold text-espresso-800">Metode Pesanan:</span>
+            <div class="inline-flex rounded-xl bg-cream-200 p-1">
+                <button onclick="setOrderMode('Minum di Kedai')" id="mode-dinein" class="px-3 py-1 rounded-lg font-semibold bg-espresso-900 text-cream-50 transition-all">Minum di Kedai</button>
+                <button onclick="setOrderMode('Ambil Sendiri')" id="mode-pickup" class="px-3 py-1 rounded-lg font-semibold text-espresso-800 hover:text-espresso-950 transition-all">Ambil Sendiri</button>
+            </div>
+        </div>
+
+        <!-- Cart Items List -->
+        <div id="cart-items-container" class="flex-1 overflow-y-auto p-6 space-y-4">
+            <!-- Populated by JS -->
+        </div>
+
+        <!-- Cart Footer Summary & Checkout -->
+        <div class="p-6 bg-cream-100 border-t border-cream-200 space-y-4">
+            <div class="space-y-1.5 text-sm">
+                <div class="flex justify-between text-espresso-700">
+                    <span>Subtotal Menu</span>
+                    <span id="cart-subtotal">Rp 0</span>
+                </div>
+                <div class="flex justify-between text-espresso-700 text-xs">
+                    <span>Pajak & Layanan Barista (10%)</span>
+                    <span id="cart-tax">Rp 0</span>
+                </div>
+                <div class="flex justify-between font-serif text-lg font-bold text-espresso-950 pt-2 border-t border-cream-300">
+                    <span>Total Pembayaran</span>
+                    <span id="cart-total" class="text-caramel-600">Rp 0</span>
+                </div>
+            </div>
+
+            <div>
+                <input type="text" id="customer-name-input" placeholder="Nama Pemesan / Nomor Meja (opsional)" 
+                       class="w-full px-3.5 py-2.5 rounded-xl bg-cream-50 border border-cream-300 text-xs text-espresso-900 mb-3 focus:outline-none focus:border-caramel-500">
+                <button onclick="processCheckout()" class="w-full py-3.5 rounded-xl bg-espresso-900 hover:bg-caramel-600 text-cream-50 font-bold text-sm transition-all flex items-center justify-center gap-2 shadow-warm">
+                    <i data-lucide="check-circle-2" class="w-4 h-4"></i>
+                    <span>Konfirmasi & Kirim ke Barista</span>
+                </button>
+            </div>
+        </div>
+    </aside>
+
+    <!-- RESERVATION MODAL -->
+    <div id="reservation-modal" class="fixed inset-0 bg-espresso-950/70 backdrop-blur-xs z-50 hidden items-center justify-center p-4">
+        <div class="bg-cream-50 text-espresso-950 rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl border border-cream-200 relative">
+            <button onclick="closeReservationModal()" class="absolute top-5 right-5 p-2 rounded-xl bg-cream-100 hover:bg-cream-200 text-espresso-800">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+            <span class="text-xs font-bold uppercase tracking-wider text-caramel-600">Senja & Seduh Space</span>
+            <h3 class="font-serif text-2xl font-bold mt-1">Reservasi Meja & Slow Bar</h3>
+            <p class="text-xs text-espresso-700 mt-1 mb-6">Amankan tempat duduk terbaik Anda atau jadwalkan sesi *private cupping* bersama roaster kami.</p>
+
+            <form onsubmit="submitReservation(event)" class="space-y-4 text-sm">
+                <div>
+                    <label class="block text-xs font-bold uppercase text-espresso-700 mb-1">Nama Lengkap</label>
+                    <input type="text" required placeholder="Contoh: Raka Pratama" class="w-full px-4 py-2.5 rounded-xl bg-cream-100 border border-cream-300 focus:outline-none focus:border-caramel-500">
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-bold uppercase text-espresso-700 mb-1">Pilih Lokasi Kedai</label>
+                        <select class="w-full px-4 py-2.5 rounded-xl bg-cream-100 border border-cream-300 focus:outline-none focus:border-caramel-500">
+                            <option>Cipete, Jakarta Selatan</option>
+                            <option>Jl. Progo, Bandung</option>
+                            <option>Prawirotaman, Yogyakarta</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold uppercase text-espresso-700 mb-1">Jumlah Tamu</label>
+                        <select class="w-full px-4 py-2.5 rounded-xl bg-cream-100 border border-cream-300 focus:outline-none focus:border-caramel-500">
+                            <option>1 - 2 Orang (Slow Bar)</option>
+                            <option>3 - 4 Orang (Meja Reguler)</option>
+                            <option>5 - 8 Orang (Meja Komunal)</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-bold uppercase text-espresso-700 mb-1">Tanggal</label>
+                        <input type="date" required class="w-full px-4 py-2.5 rounded-xl bg-cream-100 border border-cream-300 focus:outline-none focus:border-caramel-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold uppercase text-espresso-700 mb-1">Jam Kedatangan</label>
+                        <input type="time" required value="16:00" class="w-full px-4 py-2.5 rounded-xl bg-cream-100 border border-cream-300 focus:outline-none focus:border-caramel-500">
+                    </div>
+                </div>
+                <div class="pt-2">
+                    <button type="submit" class="w-full py-3.5 rounded-xl bg-espresso-900 hover:bg-caramel-600 text-cream-50 font-bold transition-colors">
+                        Konfirmasi Reservasi Tempat
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- CUSTOM TOAST NOTIFICATION -->
+    <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 pointer-events-none"></div>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // ==========================================
+        // 1. DATA: CERITA BIJI KOPI NUSANTARA
+        // ==========================================
+        const originsData = [
+            {
+                id: 'gayo',
+                name: 'Aceh Gayo',
+                region: 'Dataran Tinggi Tengah, Aceh',
+                altitude: '1.400 – 1.700 mdpl',
+                process: 'Giling Basah (Wet Hulled)',
+                roast: 'Medium to Dark',
+                score: '87.25',
+                acidity: 65,
+                body: 90,
+                sweetness: 80,
+                notes: ['Dark Chocolate', 'Rempah Hangat', 'Karamel Gelap', 'Earthy Cedar'],
+                story: 'Ditanam secara organik oleh koperasi petani di sekitar Danau Laut Tawar. Tanah vulkanik yang subur dan metode tradisional Giling Basah menghasilkan kopi dengan kekentalan (body) yang mantap, tingkat keasaman rendah yang nyaman di lambung, serta jejak rasa cokelat hitam dan rempah Nusantara.',
+                pairing: 'Sangat cocok untuk Espresso, Kopi Susu Gula Aren, dan Tubruk.',
+                price250g: 95000,
+                menuId: 9
+            },
+            {
+                id: 'toraja',
+                name: 'Toraja Sapan',
+                region: 'Pegunungan Sapan, Sulawesi Selatan',
+                altitude: '1.500 – 1.800 mdpl',
+                process: 'Semi-Washed',
+                roast: 'Medium Roast',
+                score: '87.50',
+                acidity: 75,
+                body: 85,
+                sweetness: 85,
+                notes: ['Brown Sugar', 'Kayu Manis', 'Herbal Segar', 'Dark Berries'],
+                story: 'Tumbuh berdampingan dengan pohon-pohon tua di lereng tinggi Toraja Utara. Toraja Sapan dikenal di seluruh dunia karena keseimbangan luar biasa antara body yang tebal nan lembut dengan aftertaste manis menyerupai gula merah dan aroma kayu manis yang menenangkan.',
+                pairing: 'Ideal untuk Pour Over V60, Kalita Wave, dan Long Black.',
+                price250g: 105000,
+                menuId: 10
+            },
+            {
+                id: 'kintamani',
+                name: 'Bali Kintamani',
+                region: 'Lereng Gunung Batur, Bali',
+                altitude: '1.200 – 1.450 mdpl',
+                process: 'Full Washed & Natural',
+                roast: 'Light to Medium',
+                score: '86.75',
+                acidity: 90,
+                body: 65,
+                sweetness: 85,
+                notes: ['Jeruk Keprok', 'Bunga Melati', 'Teh Hitam Manis', 'Madu Hutan'],
+                story: 'Dikelola melalui sistem pengairan filosofis Subak Abian, di mana pohon kopi ditanam berselang-seling dengan kebun jeruk. Tidak heran jika biji Arabika Kintamani memiliki karakter citrus yang segar, bersih, dan bebas dari rasa sepat.',
+                pairing: 'Terbaik disajikan sebagai Japanese Iced Coffee atau V60 hangat.',
+                price250g: 92000,
+                menuId: 5
+            },
+            {
+                id: 'flores',
+                name: 'Flores Bajawa',
+                region: 'Kabupaten Ngada, Nusa Tenggara Timur',
+                altitude: '1.300 – 1.600 mdpl',
+                process: 'Honey Process',
+                roast: 'Medium Roast',
+                score: '88.00',
+                acidity: 70,
+                body: 85,
+                sweetness: 92,
+                notes: ['Kacang Panggang', 'Vanila Madu', 'Cokelat Susu', 'Kismis Manis'],
+                story: 'Abu vulkanik dari Gunung Inerie memberi nutrisi mineral tinggi bagi perkebunan kopi di Bajawa. Dengan proses Honey (mengeringkan biji bersama lapisan lendir manis buah kopi), biji ini menghadirkan rasa manis alami yang kaya dengan aroma vanila dan kacang.',
+                pairing: 'Sempurna untuk French Press, Cappucino, maupun Cold Brew.',
+                price250g: 98000,
+                menuId: 6
+            }
+        ];
+
+        let selectedOriginId = 'gayo';
+
+        // ==========================================
+        // 2. DATA: KATALOG MENU KOPI
+        // ==========================================
+        const menuData = [
+            {
+                id: 1,
+                name: 'Es Kopi Susu Senja',
+                category: 'Signature Nusantara',
+                price: 28000,
+                badge: 'Terlaris',
+                origin: 'House Blend Toraja & Gayo',
+                desc: 'Double ristretto dengan susu segar creamy dan gula aren organik dari petani Lebak.',
+                image: 'https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?auto=format&fit=crop&w=600&q=80',
+                tempOptions: 'Dingin (Es)'
+            },
+            {
+                id: 2,
+                name: 'Kintamani Cascara Cold Brew',
+                category: 'Signature Nusantara',
+                price: 34000,
+                badge: 'Segar & Unik',
+                origin: 'Arabika Bali Kintamani',
+                desc: 'Cold brew yang dimaserasi selama 16 jam bersama teh kulit ceri kopi (cascara) dan kulit jeruk.',
+                image: 'https://images.unsplash.com/photo-1461023058943-07fcbe16d735?auto=format&fit=crop&w=600&q=80',
+                tempOptions: 'Dingin (Es)'
+            },
+            {
+                id: 3,
+                name: 'Pandan Semerbak Latte',
+                category: 'Signature Nusantara',
+                price: 32000,
+                badge: null,
+                origin: 'Flores Bajawa Espresso',
+                desc: 'Perpaduan espresso lembut dengan reduksi daun pandan asli dan santan tipis yang gurih.',
+                image: 'https://images.unsplash.com/photo-1534778101976-62847782c213?auto=format&fit=crop&w=600&q=80',
+                tempOptions: 'Panas / Dingin'
+            },
+            {
+                id: 4,
+                name: 'Artisan Cappuccino',
+                category: 'Espresso Based',
+                price: 30000,
+                badge: null,
+                origin: 'Full Arabika Nusantara Blend',
+                desc: 'Keseimbangan klasik satu shot espresso pekat dengan micro-foam susu bertekstur sehalus beludru.',
+                image: 'https://images.unsplash.com/photo-1572442388796-11668a67e53d?auto=format&fit=crop&w=600&q=80',
+                tempOptions: 'Panas'
+            },
+            {
+                id: 5,
+                name: 'V60 Bali Kintamani Natural',
+                category: 'Manual Brew',
+                price: 35000,
+                badge: 'Single Origin',
+                origin: 'Gunung Batur, 1.350 mdpl',
+                desc: 'Diseduh manual dengan profil rasa buah tropis, jeruk keprok manis, dan aroma bunga melati.',
+                image: 'https://images.unsplash.com/photo-1544787219-7f47ccb76574?auto=format&fit=crop&w=600&q=80',
+                tempOptions: 'Panas / Japanese Iced'
+            },
+            {
+                id: 6,
+                name: 'Flores Bajawa Honey Press',
+                category: 'Manual Brew',
+                price: 36000,
+                badge: 'Panen Baru',
+                origin: 'Ngada Flores, 1.500 mdpl',
+                desc: 'Seduhan full-immersion yang menonjolkan body tebal serta rasa manis madu dan cokelat kacang.',
+                image: 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=600&q=80',
+                tempOptions: 'Panas'
+            },
+            {
+                id: 7,
+                name: 'Picollo Latte',
+                category: 'Espresso Based',
+                price: 29000,
+                badge: null,
+                origin: 'Single Origin Toraja Sapan',
+                desc: 'Ristretto shot dalam gelas 100ml dengan steamed milk hangat untuk penikmat kopi kuat namun lembut.',
+                image: 'https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=600&q=80',
+                tempOptions: 'Panas'
+            },
+            {
+                id: 8,
+                name: 'Cokelat Kokoa Sulawesi',
+                category: 'Non-Kopi',
+                price: 31000,
+                badge: 'Favorit Non-Kopi',
+                origin: '70% Dark Cocoa Luwu',
+                desc: 'Cokelat murni single-origin dari Sulawesi Selatan yang dilelehkan dengan susu segar pilihan.',
+                image: 'https://images.unsplash.com/photo-1542990253-0d0f5be5f0ed?auto=format&fit=crop&w=600&q=80',
+                tempOptions: 'Panas / Dingin'
+            },
+            {
+                id: 9,
+                name: 'Teh Rosella & Rempah Senja',
+                category: 'Non-Kopi',
+                price: 26000,
+                badge: 'Bebas Kafein',
+                origin: 'Tisane Organik Jawa',
+                desc: 'Seduhan kelopak bunga rosella merah, serai wangi, kayu manis, dan madu hutan murni.',
+                image: 'https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&w=600&q=80',
+                tempOptions: 'Panas / Dingin'
+            }
+        ];
+
+        // ==========================================
+        // 3. DATA: PANDUAN SEDUH INTERAKTIF
+        // ==========================================
+        const brewGuides = {
+            v60: {
+                name: 'Pour Over V60',
+                icon: 'filter',
+                ratio: 15,
+                temp: '91°C – 93°C',
+                grind: 'Medium-Fine (Garam Meja)',
+                proTip: 'Bilas kertas filter dengan air panas terlebih dahulu agar rasa kertas hilang dan server kaca tetap hangat.',
+                steps: [
+                    { time: '00:00 - 00:40', title: 'Blooming (Pelepasan Gas)', multiplier: 2.5, desc: 'Tuang air perlahan secara memutar dari tengah untuk membasahi seluruh kopi, lalu diamkan 40 detik.' },
+                    { time: '00:40 - 01:25', title: 'Tuangan Pertama (Ekstraksi Rasa Asam & Manis)', multiplier: 9, desc: 'Tuang air dengan gerakan spiral stabil hingga mencapai volume target tahap kedua.' },
+                    { time: '01:25 - 02:30', title: 'Tuangan Akhir (Keseimbangan Body)', multiplier: 15, desc: 'Lanjutkan tuangan lembut di bagian tengah hingga mencapai total air dan biarkan menetes tuntas.' }
+                ]
+            },
+            frenchpress: {
+                name: 'French Press',
+                icon: 'cup-soda',
+                ratio: 14,
+                temp: '93°C – 95°C',
+                grind: 'Coarse (Kasar / Gula Pasir Kasar)',
+                proTip: 'Jangan menekan plunger terlalu keras agar partikel halus (fines) di dasar tidak ikut naik dan membuat kopi keruh.',
+                steps: [
+                    { time: '00:00 - 01:00', title: 'Tuang Seluruh Air Panas', multiplier: 14, desc: 'Masukkan bubuk kopi kasar, lalu tuang seluruh takaran air panas secara merata.' },
+                    { time: '01:00 - 04:00', title: 'Aduk Ringan & Diamkan', multiplier: 14, desc: 'Aduk lapisan kerak kopi di permukaan sebanyak 3 kali dengan sendok, pasang tutup tanpa ditekan.' },
+                    { time: '04:00 - 04:30', title: 'Plunge & Segera Tuang', multiplier: 14, desc: 'Tekan saringan perlahan ke bawah dan segera tuang seluruh kopi ke cangkir agar tidak over-extracted.' }
+                ]
+            },
+            tubruk: {
+                name: 'Kopi Tubruk Specialty',
+                icon: 'flame',
+                ratio: 13,
+                temp: '92°C (Diamkan 1 menit setelah mendidih)',
+                grind: 'Medium-Fine',
+                proTip: 'Jangan gunakan air yang sedang mendidih 100°C langsung karena dapat membakar bubuk kopi dan memunculkan rasa pahit getir.',
+                steps: [
+                    { time: '00:00 - 00:30', title: 'Basahi & Aduk Merata', multiplier: 13, desc: 'Tuang seluruh air panas ke dalam cangkir berisi kopi, lalu aduk memutar sebanyak 8-10 kali.' },
+                    { time: '00:30 - 03:30', title: 'Tunggu Ampas Turun', multiplier: 13, desc: 'Diamkan selama 3 menit hingga bubuk kopi mengendap sempurna di dasar cangkir.' },
+                    { time: '03:30 - 04:00', title: 'Angkat Crema Atas & Nikmati', multiplier: 13, desc: 'Singkirkan sedikit busa ampas yang mengapung di permukaan dengan sendok, kopi siap dinikmati.' }
+                ]
+            },
+            japanese: {
+                name: 'Japanese Iced Coffee',
+                icon: 'snowflake',
+                ratio: 15, // 60% hot water + 40% ice cubes
+                temp: '93°C + Es Batu Kristal',
+                grind: 'Fine-Medium (Lebih Halus dari V60 Biasa)',
+                proTip: 'Gunakan 40% dari total berat air sebagai es batu di dalam server bawah, dan seduh dengan 60% air panas di atas dripper.',
+                steps: [
+                    { time: '00:00 - 00:35', title: 'Siapkan Es di Server & Blooming', multiplier: 2.5, desc: 'Masukkan es batu ke server bawah. Tuang sedikit air panas ke bubuk kopi untuk blooming.' },
+                    { time: '00:35 - 01:45', title: 'Tuangan Air Panas Konsentrat', multiplier: 9, desc: 'Tuang sisa air panas perlahan; tetesan kopi panas langsung terkunci aromanya saat menyentuh es.' },
+                    { time: '01:45 - 02:15', title: 'Goyang Server & Sajikan', multiplier: 15, desc: 'Putar-putar server kaca agar suhu dingin merata sempurna dan sajikan segar.' }
+                ]
+            }
+        };
+
+        let activeBrewMethod = 'v60';
+        let timerInterval = null;
+        let timerSeconds = 0;
+
+        // ==========================================
+        // 4. STATE: KERANJANG PESANAN
+        // ==========================================
+        let cart = [
+            { id: 1, name: 'Es Kopi Susu Senja', price: 28000, qty: 1, note: 'Normal Sugar' },
+            { id: 5, name: 'V60 Bali Kintamani Natural', price: 35000, qty: 1, note: 'Panas' }
+        ];
+        let orderMode = 'Minum di Kedai';
+
+        // Format Rupiah Helper
+        function formatRupiah(num) {
+            return 'Rp ' + num.toLocaleString('id-ID');
+        }
+
+        // ==========================================
+        // 5. RENDER FUNCTIONS
+        // ==========================================
+
+        // Render Origin Explorer Tabs & Detail
+        function renderOrigins() {
+            const tabsContainer = document.getElementById('origin-tabs');
+            const detailCard = document.getElementById('origin-detail-card');
+
+            tabsContainer.innerHTML = originsData.map(origin => {
+                const isActive = origin.id === selectedOriginId;
+                return `
+                    <button onclick="selectOrigin('${origin.id}')" 
+                            class="text-left p-4 rounded-2xl border transition-all ${
+                                isActive 
+                                ? 'bg-caramel-500 text-espresso-950 border-caramel-400 shadow-lg scale-[1.01]' 
+                                : 'bg-espresso-900/70 text-cream-100 border-espresso-800 hover:border-espresso-700 hover:bg-espresso-900'
+                            }">
+                        <div class="flex items-center justify-between">
+                            <span class="text-[11px] font-bold uppercase tracking-wider ${isActive ? 'text-espresso-900' : 'text-caramel-400'}">${origin.process}</span>
+                            <span class="text-xs font-bold px-2 py-0.5 rounded-md ${isActive ? 'bg-espresso-950/15 text-espresso-950' : 'bg-espresso-800 text-gold-400'}">★ ${origin.score}</span>
+                        </div>
+                        <h3 class="font-serif text-lg sm:text-xl font-bold mt-1">${origin.name}</h3>
+                        <p class="text-xs mt-0.5 truncate ${isActive ? 'text-espresso-900/80' : 'text-cream-300/70'}">${origin.altitude}</p>
+                    </button>
+                `;
+            }).join('');
+
+            const activeOrigin = originsData.find(o => o.id === selectedOriginId);
+
+            detailCard.innerHTML = `
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                    <div class="lg:col-span-7 space-y-5">
+                        <div class="flex flex-wrap items-center gap-2">
+                            <span class="px-3 py-1 rounded-full bg-caramel-500/20 text-caramel-400 text-xs font-semibold">${activeOrigin.region}</span>
+                            <span class="px-3 py-1 rounded-full bg-espresso-800 text-cream-200 text-xs">${activeOrigin.roast}</span>
+                            <span class="px-3 py-1 rounded-full bg-espresso-800 text-gold-400 text-xs">Ketinggian ${activeOrigin.altitude}</span>
+                        </div>
+
+                        <h3 class="font-serif text-3xl sm:text-4xl font-bold text-cream-50">${activeOrigin.name}</h3>
+                        
+                        <p class="text-cream-200/90 text-sm sm:text-base leading-relaxed">
+                            ${activeOrigin.story}
+                        </p>
+
+                        <!-- Tasting Notes Pills -->
+                        <div>
+                            <span class="text-xs font-bold uppercase tracking-wider text-caramel-400 block mb-2.5">Karakter Rasa (Tasting Notes):</span>
+                            <div class="flex flex-wrap gap-2">
+                                ${activeOrigin.notes.map(note => `
+                                    <span class="px-3.5 py-1.5 rounded-xl bg-espresso-950 border border-espresso-700 text-cream-100 text-xs font-medium">
+                                        ✦ ${note}
+                                    </span>
+                                `).join('')}
+                            </div>
+                        </div>
+
+                        <div class="pt-3 flex flex-wrap items-center justify-between gap-4 border-t border-espresso-800">
+                            <div>
+                                <span class="text-xs text-cream-300 block">Biji Sangrai Kemasan 250g (Biji Utuh / Giling)</span>
+                                <span class="font-serif text-2xl font-bold text-gold-400">${formatRupiah(activeOrigin.price250g)}</span>
+                            </div>
+                            <button onclick="addBeanPackToCart('${activeOrigin.id}')" class="inline-flex items-center gap-2 px-6 py-3.5 rounded-full bg-caramel-500 hover:bg-caramel-400 text-espresso-950 font-bold text-sm transition-all shadow-md">
+                                <i data-lucide="package-plus" class="w-4 h-4"></i>
+                                <span>Beli Biji Kopi 250g</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Flavor Profile Bars -->
+                    <div class="lg:col-span-5 bg-espresso-950 p-6 rounded-2xl border border-espresso-800 space-y-5">
+                        <div class="flex items-center justify-between border-b border-espresso-800 pb-3">
+                            <span class="font-serif font-bold text-lg text-cream-50">Profil Sensorik Cupping</span>
+                            <span class="text-xs text-gold-400 font-semibold">Skor SCA: ${activeOrigin.score}</span>
+                        </div>
+
+                        <div class="space-y-4">
+                            <div>
+                                <div class="flex justify-between text-xs mb-1.5">
+                                    <span class="text-cream-200 font-medium">Keasaman (Acidity)</span>
+                                    <span class="text-caramel-400 font-bold">${activeOrigin.acidity}%</span>
+                                </div>
+                                <div class="w-full h-2.5 bg-espresso-800 rounded-full overflow-hidden">
+                                    <div class="h-full bg-caramel-500 rounded-full transition-all duration-500" style="width: ${activeOrigin.acidity}%"></div>
+                                </div>
+                            </div>
+
+                            <div>
+                                <div class="flex justify-between text-xs mb-1.5">
+                                    <span class="text-cream-200 font-medium">Kekentalan (Body)</span>
+                                    <span class="text-caramel-400 font-bold">${activeOrigin.body}%</span>
+                                </div>
+                                <div class="w-full h-2.5 bg-espresso-800 rounded-full overflow-hidden">
+                                    <div class="h-full bg-gold-500 rounded-full transition-all duration-500" style="width: ${activeOrigin.body}%"></div>
+                                </div>
+                            </div>
+
+                            <div>
+                                <div class="flex justify-between text-xs mb-1.5">
+                                    <span class="text-cream-200 font-medium">Tingkat Manis Alami (Sweetness)</span>
+                                    <span class="text-caramel-400 font-bold">${activeOrigin.sweetness}%</span>
+                                </div>
+                                <div class="w-full h-2.5 bg-espresso-800 rounded-full overflow-hidden">
+                                    <div class="h-full bg-caramel-400 rounded-full transition-all duration-500" style="width: ${activeOrigin.sweetness}%"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="p-3.5 rounded-xl bg-espresso-900 border border-espresso-800 text-xs text-cream-200">
+                            <strong class="text-caramel-400 block mb-0.5">Rekomendasi Seduh:</strong>
+                            ${activeOrigin.pairing}
+                        </div>
+                    </div>
+                </div>
+            `;
+            lucide.createIcons();
+        }
+
+        function selectOrigin(id) {
+            selectedOriginId = id;
+            renderOrigins();
+        }
+
+        function addBeanPackToCart(originId) {
+            const origin = originsData.find(o => o.id === originId);
+            if (!origin) return;
+            const customId = 100 + originsData.indexOf(origin);
+            const existing = cart.find(item => item.id === customId);
+            if (existing) {
+                existing.qty += 1;
+            } else {
+                cart.push({
+                    id: customId,
+                    name: `Biji Kopi ${origin.name} (250g)`,
+                    price: origin.price250g,
+                    qty: 1,
+                    note: 'Biji Utuh (Whole Bean)'
+                });
+            }
+            updateCartUI();
+            showToast(`Biji Kopi ${origin.name} (250g) ditambahkan ke keranjang!`);
+        }
+
+        // Render Menu Catalog
+        function renderMenu(category = 'Semua') {
+            const grid = document.getElementById('menu-grid');
+            const filtered = category === 'Semua' 
+                ? menuData 
+                : menuData.filter(item => item.category === category);
+
+            grid.innerHTML = filtered.map(item => `
+                <div class="bg-cream-100/60 rounded-3xl border border-cream-200 overflow-hidden hover:shadow-warm-lg transition-all duration-300 flex flex-col justify-between group">
+                    <div>
+                        <!-- Image Header -->
+                        <div class="relative h-56 overflow-hidden bg-espresso-900">
+                            <img src="${item.image}" alt="${item.name}" 
+                                 onerror="this.src='https://placehold.co/600x400/382216/F7F2E7?text=${encodeURIComponent(item.name)}'"
+                                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            <div class="absolute inset-0 bg-gradient-to-t from-espresso-950/60 via-transparent to-transparent"></div>
+                            
+                            <!-- Category Pill -->
+                            <span class="absolute top-3.5 left-3.5 px-3 py-1 rounded-full bg-espresso-950/80 backdrop-blur-xs text-cream-100 text-[11px] font-semibold">
+                                ${item.category}
+                            </span>
+
+                            ${item.badge ? `
+                                <span class="absolute top-3.5 right-3.5 px-3 py-1 rounded-full bg-caramel-500 text-espresso-950 text-[11px] font-bold shadow-xs">
+                                    ${item.badge}
+                                </span>
+                            ` : ''}
+
+                            <span class="absolute bottom-3 left-3.5 text-xs text-cream-100 font-medium flex items-center gap-1">
+                                <i data-lucide="bean" class="w-3.5 h-3.5 text-caramel-400"></i> ${item.origin}
+                            </span>
+                        </div>
+
+                        <!-- Card Content -->
+                        <div class="p-6">
+                            <div class="flex items-start justify-between gap-2">
+                                <h3 class="font-serif text-xl font-bold text-espresso-950">${item.name}</h3>
+                                <span class="font-serif text-lg font-bold text-caramel-600 shrink-0">${formatRupiah(item.price)}</span>
+                            </div>
+                            <p class="text-xs sm:text-sm text-espresso-700 mt-2 leading-relaxed">
+                                ${item.desc}
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Footer Actions -->
+                    <div class="px-6 pb-6 pt-3 border-t border-cream-200/80 flex items-center justify-between gap-3">
+                        <span class="text-[11px] text-espresso-700 font-medium bg-cream-200/70 px-2.5 py-1 rounded-lg">
+                            ${item.tempOptions}
+                        </span>
+                        <button onclick="quickAddById(${item.id})" class="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-espresso-900 hover:bg-caramel-600 text-cream-50 text-xs font-bold transition-colors">
+                            <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+                            <span>Tambah Pesanan</span>
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+
+            lucide.createIcons();
+        }
+
+        function filterMenu(category) {
+            const buttons = document.querySelectorAll('.filter-btn');
+            buttons.forEach(btn => {
+                if (btn.dataset.category === category) {
+                    btn.className = 'filter-btn px-5 py-2.5 rounded-full text-sm font-semibold transition-all bg-espresso-900 text-cream-50 shadow-sm';
+                } else {
+                    btn.className = 'filter-btn px-5 py-2.5 rounded-full text-sm font-semibold transition-all bg-cream-100 text-espresso-800 hover:bg-cream-200 border border-cream-300';
+                }
+            });
+            renderMenu(category);
+        }
+
+        // ==========================================
+        // 6. BREW CALCULATOR LOGIC
+        // ==========================================
+        function renderBrewMethodButtons() {
+            const container = document.getElementById('brew-method-buttons');
+            container.innerHTML = Object.keys(brewGuides).map(key => {
+                const method = brewGuides[key];
+                const isActive = key === activeBrewMethod;
+                return `
+                    <button onclick="selectBrewMethod('${key}')" 
+                            class="p-3.5 rounded-2xl border text-left transition-all flex items-center gap-3 ${
+                                isActive 
+                                ? 'bg-espresso-900 text-cream-50 border-espresso-900 shadow-sm' 
+                                : 'bg-cream-100 text-espresso-800 border-cream-200 hover:bg-cream-200'
+                            }">
+                        <div class="w-8 h-8 rounded-xl ${isActive ? 'bg-caramel-500 text-espresso-950' : 'bg-cream-200 text-caramel-600'} flex items-center justify-center shrink-0">
+                            <i data-lucide="${method.icon}" class="w-4 h-4"></i>
+                        </div>
+                        <span class="text-xs sm:text-sm font-bold leading-tight">${method.name}</span>
+                    </button>
+                `;
+            }).join('');
+            lucide.createIcons();
+        }
+
+        function selectBrewMethod(methodKey) {
+            activeBrewMethod = methodKey;
+            resetBrewTimer();
+            renderBrewMethodButtons();
+            updateBrewCalculation();
+        }
+
+        function updateBrewCalculation() {
+            const dose = parseInt(document.getElementById('coffee-dose').value, 10);
+            const guide = brewGuides[activeBrewMethod];
+            const totalWater = dose * guide.ratio;
+
+            document.getElementById('dose-display').textContent = `${dose} gram`;
+            document.getElementById('water-display').textContent = `${totalWater} ml`;
+            document.getElementById('ratio-display').textContent = `Rasio 1:${guide.ratio}`;
+            document.getElementById('temp-display').textContent = guide.temp.split(' ')[0];
+            document.getElementById('grind-display').textContent = guide.grind.split(' (')[0];
+
+            document.getElementById('brew-title-badge').textContent = guide.name;
+            document.getElementById('brew-pro-tip').textContent = guide.proTip;
+
+            const stepsList = document.getElementById('brew-steps-list');
+            stepsList.innerHTML = guide.steps.map((step, index) => {
+                const targetWater = Math.round(dose * step.multiplier);
+                return `
+                    <div class="p-4 rounded-2xl bg-espresso-950/60 border border-espresso-800 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                        <div class="space-y-1">
+                            <div class="flex items-center gap-2">
+                                <span class="w-5 h-5 rounded-full bg-caramel-500 text-espresso-950 text-xs font-bold flex items-center justify-center">${index + 1}</span>
+                                <span class="font-bold text-sm text-cream-50">${step.title}</span>
+                                <span class="text-xs font-mono text-gold-400 bg-espresso-900 px-2 py-0.5 rounded-md">${step.time}</span>
+                            </div>
+                            <p class="text-xs text-cream-300 pl-7">${step.desc}</p>
+                        </div>
+                        <div class="sm:text-right pl-7 sm:pl-0 shrink-0">
+                            <span class="text-[10px] uppercase tracking-wider text-cream-300 block">Target Timbangan</span>
+                            <span class="font-serif text-lg font-bold text-caramel-400">${targetWater} ml</span>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function toggleBrewTimer() {
+            const btn = document.getElementById('brew-timer-btn');
+            if (timerInterval) {
+                clearInterval(timerInterval);
+                timerInterval = null;
+                btn.innerHTML = `<i data-lucide="play" class="w-3.5 h-3.5"></i><span>Lanjut</span>`;
+            } else {
+                timerInterval = setInterval(() => {
+                    timerSeconds++;
+                    const mins = String(Math.floor(timerSeconds / 60)).padStart(2, '0');
+                    const secs = String(timerSeconds % 60).padStart(2, '0');
+                    document.getElementById('brew-timer-display').textContent = `${mins}:${secs}`;
+                }, 1000);
+                btn.innerHTML = `<i data-lucide="pause" class="w-3.5 h-3.5"></i><span>Jeda</span>`;
+            }
+            lucide.createIcons();
+        }
+
+        function resetBrewTimer() {
+            if (timerInterval) {
+                clearInterval(timerInterval);
+                timerInterval = null;
+            }
+            timerSeconds = 0;
+            document.getElementById('brew-timer-display').textContent = '00:00';
+            const btn = document.getElementById('brew-timer-btn');
+            btn.innerHTML = `<i data-lucide="play" class="w-3.5 h-3.5"></i><span>Mulai</span>`;
+            lucide.createIcons();
+        }
+
+        // ==========================================
+        // 7. CART & ORDER INTERACTION
+        // ==========================================
+        function quickAddById(menuId) {
+            const product = menuData.find(m => m.id === menuId);
+            if (!product) return;
+
+            const existing = cart.find(item => item.id === menuId);
+            if (existing) {
+                existing.qty += 1;
+            } else {
+                cart.push({
+                    id: product.id,
+                    name: product.name,
+                    price: product.price,
+                    qty: 1,
+                    note: 'Standar Barista'
+                });
+            }
+            updateCartUI();
+            showToast(`${product.name} ditambahkan ke pesanan!`);
+        }
+
+        function updateCartQty(id, delta) {
+            const index = cart.findIndex(item => item.id === id);
+            if (index === -1) return;
+
+            cart[index].qty += delta;
+            if (cart[index].qty <= 0) {
+                cart.splice(index, 1);
+            }
+            updateCartUI();
+        }
+
+        function updateCartUI() {
+            const badge = document.getElementById('cart-badge');
+            const container = document.getElementById('cart-items-container');
+            const subtotalEl = document.getElementById('cart-subtotal');
+            const taxEl = document.getElementById('cart-tax');
+            const totalEl = document.getElementById('cart-total');
+
+            const totalItems = cart.reduce((acc, item) => acc + item.qty, 0);
+            badge.textContent = totalItems;
+
+            if (cart.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-12 space-y-3">
+                        <div class="w-14 h-14 rounded-full bg-cream-200 text-espresso-700 mx-auto flex items-center justify-center">
+                            <i data-lucide="coffee" class="w-6 h-6"></i>
+                        </div>
+                        <p class="font-serif text-lg font-bold text-espresso-900">Keranjang Seduhan Kosong</p>
+                        <p class="text-xs text-espresso-700 max-w-xs mx-auto">Pilih menu kopi favorit atau biji sangrai Nusantara untuk mulai memesan.</p>
+                    </div>
+                `;
+            } else {
+                container.innerHTML = cart.map(item => `
+                    <div class="p-4 rounded-2xl bg-cream-100 border border-cream-200 flex items-center justify-between gap-3">
+                        <div>
+                            <h4 class="font-bold text-sm text-espresso-950">${item.name}</h4>
+                            <p class="text-[11px] text-espresso-700">${item.note} • ${formatRupiah(item.price)}</p>
+                            <p class="font-serif font-bold text-sm text-caramel-600 mt-1">${formatRupiah(item.price * item.qty)}</p>
+                        </div>
+                        <div class="flex items-center gap-2 bg-cream-50 px-2 py-1 rounded-xl border border-cream-300">
+                            <button onclick="updateCartQty(${item.id}, -1)" class="w-6 h-6 rounded-lg hover:bg-cream-200 text-espresso-900 font-bold text-sm flex items-center justify-center">-</button>
+                            <span class="text-xs font-bold w-5 text-center">${item.qty}</span>
+                            <button onclick="updateCartQty(${item.id}, 1)" class="w-6 h-6 rounded-lg hover:bg-cream-200 text-espresso-900 font-bold text-sm flex items-center justify-center">+</button>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            const subtotal = cart.reduce((acc, item) => acc + (item.price * item.qty), 0);
+            const tax = Math.round(subtotal * 0.1);
+            const total = subtotal + tax;
+
+            subtotalEl.textContent = formatRupiah(subtotal);
+            taxEl.textContent = formatRupiah(tax);
+            totalEl.textContent = formatRupiah(total);
+
+            lucide.createIcons();
+        }
+
+        function toggleCartDrawer(open) {
+            const backdrop = document.getElementById('cart-backdrop');
+            const drawer = document.getElementById('cart-drawer');
+            if (open) {
+                backdrop.classList.remove('hidden');
+                setTimeout(() => backdrop.classList.remove('opacity-0'), 10);
+                drawer.classList.remove('translate-x-full');
+            } else {
+                backdrop.classList.add('opacity-0');
+                drawer.classList.add('translate-x-full');
+                setTimeout(() => backdrop.classList.add('hidden'), 300);
+            }
+        }
+
+        function setOrderMode(mode) {
+            orderMode = mode;
+            const dineBtn = document.getElementById('mode-dinein');
+            const pickupBtn = document.getElementById('mode-pickup');
+            if (mode === 'Minum di Kedai') {
+                dineBtn.className = 'px-3 py-1 rounded-lg font-semibold bg-espresso-900 text-cream-50 transition-all';
+                pickupBtn.className = 'px-3 py-1 rounded-lg font-semibold text-espresso-800 hover:text-espresso-950 transition-all';
+            } else {
+                pickupBtn.className = 'px-3 py-1 rounded-lg font-semibold bg-espresso-900 text-cream-50 transition-all';
+                dineBtn.className = 'px-3 py-1 rounded-lg font-semibold text-espresso-800 hover:text-espresso-950 transition-all';
+            }
+        }
+
+        function processCheckout() {
+            if (cart.length === 0) {
+                showToast('Tambahkan minimal 1 menu terlebih dahulu!');
+                return;
+            }
+            const customer = document.getElementById('customer-name-input').value.trim() || 'Teman Seduh';
+            const queueNumber = Math.floor(10 + Math.random() * 89);
+            cart = [];
+            document.getElementById('customer-name-input').value = '';
+            updateCartUI();
+            toggleCartDrawer(false);
+            showToast(`Terima kasih, ${customer}! Pesanan #${queueNumber} (${orderMode}) sedang diseduh oleh Barista.`);
+        }
+
+        // ==========================================
+        // 8. MODALS, NAVIGATION & TOASTS
+        // ==========================================
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        function openReservationModal() {
+            const modal = document.getElementById('reservation-modal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeReservationModal() {
+            const modal = document.getElementById('reservation-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        function submitReservation(e) {
+            e.preventDefault();
+            closeReservationModal();
+            showToast('Reservasi meja berhasil tercatat! Konfirmasi telah dikirim ke WhatsApp/Email Anda.');
+        }
+
+        function handleNewsletter(e) {
+            e.preventDefault();
+            const emailInput = document.getElementById('newsletter-email');
+            showToast(`Kode Voucher SENJA20 telah dikirim ke ${emailInput.value}!`);
+            emailInput.value = '';
+        }
+
+        function showToast(message) {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = 'pointer-events-auto flex items-center gap-3 bg-espresso-900 text-cream-50 px-4 py-3.5 rounded-2xl shadow-warm-lg border border-caramel-500/40 text-xs sm:text-sm font-medium max-w-sm transition-all duration-300 transform translate-y-2 opacity-0';
+            toast.innerHTML = `
+                <div class="w-7 h-7 rounded-xl bg-caramel-500 text-espresso-950 flex items-center justify-center shrink-0">
+                    <i data-lucide="check" class="w-4 h-4"></i>
+                </div>
+                <span>${message}</span>
+            `;
+            container.appendChild(toast);
+            lucide.createIcons();
+
+            requestAnimationFrame(() => {
+                toast.classList.remove('translate-y-2', 'opacity-0');
+            });
+
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'translate-y-2');
+                setTimeout(() => toast.remove(), 300);
+            }, 3800);
+        }
+
+        // Initialize Everything on DOM Content Loaded
+        window.addEventListener('DOMContentLoaded', () => {
+            renderOrigins();
+            renderMenu('Semua');
+            renderBrewMethodButtons();
+            updateBrewCalculation();
+            updateCartUI();
+            lucide.createIcons();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,1310 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AURELIA — Private Mobility Atelier & Bespoke Fleet Ledger</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Cormorant Garamond (Monumental Editorial), JetBrains Mono (Technical), Plus Jakarta Sans (Grotesque) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=JetBrains+Mono:wght@300;400;500&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        serif: ['"Cormorant Garamond"', 'Georgia', 'serif'],
+                        mono: ['"JetBrains Mono"', 'monospace'],
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        :root {
+            --bg-primary: #F4F1EA;
+            --bg-secondary: #EAE5D9;
+            --bg-elevated: #FBF9F5;
+            --text-primary: #141413;
+            --text-muted: #6E6A5F;
+            --accent: #4A151B; /* Deep Oxblood Burgundy */
+            --accent-hover: #2E0B0F;
+            --hairline: rgba(20, 20, 19, 0.15);
+        }
+
+        html.dark {
+            --bg-primary: #0F0F0E;
+            --bg-secondary: #171715;
+            --bg-elevated: #1D1D1A;
+            --text-primary: #EAE6DF;
+            --text-muted: #8C877B;
+            --accent: #9E333E;
+            --accent-hover: #B8434F;
+            --hairline: rgba(234, 230, 223, 0.14);
+        }
+
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            transition: background-color 0.45s cubic-bezier(0.16, 1, 0.3, 1), color 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+            overflow-x: hidden;
+        }
+
+        /* Exposed 1px Architectural Hairline Utilities */
+        .b-top { border-top: 1px solid var(--hairline); }
+        .b-bottom { border-bottom: 1px solid var(--hairline); }
+        .b-left { border-left: 1px solid var(--hairline); }
+        .b-right { border-right: 1px solid var(--hairline); }
+        .b-all { border: 1px solid var(--hairline); }
+
+        @media (min-width: 1024px) {
+            .lg-b-right { border-right: 1px solid var(--hairline); }
+            .lg-b-left { border-left: 1px solid var(--hairline); }
+            .lg-b-bottom-0 { border-bottom: none; }
+        }
+
+        /* Subtle Tactile Paper / Film Grain Overlay */
+        .grain-overlay {
+            position: fixed;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 0.04;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        /* Monumental Typography */
+        .hero-monument {
+            font-size: clamp(3.3rem, 9.4vw, 9.8rem);
+            line-height: 0.87;
+            letter-spacing: -0.03em;
+        }
+
+        /* Ledger Row States */
+        .ledger-row {
+            transition: background-color 0.25s ease, padding-left 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .ledger-row:hover {
+            background-color: var(--bg-secondary);
+        }
+        .ledger-row.active {
+            background-color: var(--text-primary);
+            color: var(--bg-primary);
+            padding-left: 2rem;
+        }
+        .ledger-row.active .muted-cell {
+            color: var(--bg-secondary);
+            opacity: 0.75;
+        }
+        .ledger-row.active .accent-badge {
+            border-color: var(--bg-primary);
+            color: var(--bg-primary);
+        }
+
+        /* Brutalist / Architectural Buttons */
+        .btn-atelier {
+            background-color: var(--text-primary);
+            color: var(--bg-primary);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .btn-atelier:hover {
+            background-color: var(--accent);
+            color: #F4F1EA;
+        }
+
+        .btn-outline-atelier {
+            border: 1px solid var(--hairline);
+            color: var(--text-primary);
+            transition: all 0.25s ease;
+        }
+        .btn-outline-atelier:hover,
+        .btn-outline-atelier.active {
+            border-color: var(--text-primary);
+            background-color: var(--text-primary);
+            color: var(--bg-primary);
+        }
+
+        /* Custom Range Input (Architectural Slider) */
+        input[type="range"].atelier-range {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 100%;
+            height: 1px;
+            background: var(--text-primary);
+            outline: none;
+        }
+        input[type="range"].atelier-range::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 14px;
+            height: 24px;
+            background: var(--accent);
+            cursor: pointer;
+            border: 1px solid var(--bg-primary);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 5px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-primary);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--text-muted);
+        }
+    </style>
+</head>
+<body class="selection:bg-[#4A151B] selection:text-[#F4F1EA]">
+
+    <!-- Subtle SVG Film Grain Overlay -->
+    <div class="grain-overlay"></div>
+
+    <!-- TOP TELEMETRY & NAVIGATION GRID BAR -->
+    <header class="sticky top-0 z-40 b-bottom backdrop-blur-md bg-[var(--bg-primary)]/90">
+        <!-- Upper Telemetry Micro-Bar -->
+        <div class="grid grid-cols-2 lg:grid-cols-12 b-bottom font-mono text-[10px] tracking-[0.16em] uppercase text-[var(--text-muted)]">
+            <div class="col-span-1 lg:col-span-3 px-4 sm:px-6 py-2 b-right flex items-center justify-between">
+                <span>DOSSIER NO. IV / 2026</span>
+                <span class="inline-block w-1.5 h-1.5 rounded-full bg-[#4A151B]"></span>
+            </div>
+            <div class="hidden lg:flex lg:col-span-4 px-6 py-2 b-right items-center justify-between">
+                <span>JKT 06°13'S 106°48'E</span>
+                <span id="live-clock-jkt" class="text-[var(--text-primary)]">--:--:-- WIB</span>
+            </div>
+            <div class="hidden lg:flex lg:col-span-3 px-6 py-2 b-right items-center justify-between">
+                <span>DPS 08°44'S 115°10'E</span>
+                <span id="live-clock-dps" class="text-[var(--text-primary)]">--:--:-- WITA</span>
+            </div>
+            <div class="col-span-1 lg:col-span-2 px-4 sm:px-6 py-2 flex items-center justify-end gap-2">
+                <span>PROTOCOL: ACTIVE</span>
+            </div>
+        </div>
+
+        <!-- Main Architectural Header -->
+        <div class="grid grid-cols-12 items-stretch">
+            <!-- Brand Identity -->
+            <div class="col-span-7 sm:col-span-5 lg:col-span-3 px-4 sm:px-6 py-4 b-right flex flex-col justify-between">
+                <a href="#" class="block group">
+                    <span class="font-serif text-2xl sm:text-3xl tracking-[0.18em] font-semibold block leading-none">AURELIA</span>
+                    <span class="font-mono text-[9px] tracking-[0.26em] uppercase text-[var(--text-muted)] block mt-1">Private Mobility Office</span>
+                </a>
+            </div>
+
+            <!-- Navigation Links -->
+            <nav class="hidden lg:flex lg:col-span-5 px-8 items-center justify-between b-right font-mono text-xs uppercase tracking-[0.14em]">
+                <a href="#manifesto" class="hover:underline underline-offset-8 decoration-1">01. Manifesto</a>
+                <a href="#ledger" class="hover:underline underline-offset-8 decoration-1">02. Indeks Armada</a>
+                <a href="#tariff" class="hover:underline underline-offset-8 decoration-1">03. Manifes Tarif</a>
+                <a href="#lookbook" class="hover:underline underline-offset-8 decoration-1">04. Protokol</a>
+            </nav>
+
+            <!-- Night Chauffeur Mode Toggle -->
+            <div class="col-span-2 sm:col-span-3 lg:col-span-2 px-3 sm:px-5 b-right flex items-center justify-center">
+                <button onclick="toggleTheme()" id="theme-toggle-btn" class="w-full py-2 px-2 flex items-center justify-between font-mono text-[10px] uppercase tracking-[0.14em] hover:opacity-70 transition" title="Sakelar Mode Malam">
+                    <span id="theme-label" class="hidden sm:inline">Linen Day</span>
+                    <span class="w-5 h-3 b-all flex items-center p-0.5">
+                        <span id="theme-dot" class="w-2 h-2 bg-[var(--text-primary)] transition-transform duration-300"></span>
+                    </span>
+                </button>
+            </div>
+
+            <!-- Direct Concierge Dossier Trigger -->
+            <div class="col-span-3 sm:col-span-4 lg:col-span-2 flex items-stretch">
+                <button onclick="openDossierDrawer()" class="w-full px-3 sm:px-6 btn-atelier font-mono text-[10px] sm:text-xs uppercase tracking-[0.18em] flex items-center justify-between">
+                    <span>Buka Dossier</span>
+                    <span>↗</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- SECTION 01: MONUMENTAL EDITORIAL HERO & ASYMMETRIC SPLIT -->
+    <section id="manifesto" class="b-bottom">
+        <!-- Full-Width Monumental Title Strip -->
+        <div class="px-4 sm:px-8 lg:px-12 pt-8 pb-6 b-bottom">
+            <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-4 mb-2">
+                <p class="font-mono text-[11px] uppercase tracking-[0.22em] text-[var(--text-muted)]">
+                    [ KATALOG MOBILITAS PRIBADI &amp; PENGAWALAN DIPLOMATIK — JAKARTA / BALI ]
+                </p>
+                <p class="font-mono text-[11px] uppercase tracking-[0.2em] text-[#4A151B] dark:text-[#C85A65]">
+                    ● TERSEDIA UNTUK PENUGASAN HARI INI
+                </p>
+            </div>
+            <h1 class="font-serif hero-monument font-normal uppercase tracking-tight">
+                Siluet <span class="italic font-light">Keheningan</span> &amp; Otoritas.
+            </h1>
+        </div>
+
+        <!-- Asymmetric Architectural Cells -->
+        <div class="grid grid-cols-1 lg:grid-cols-12">
+            
+            <!-- Left Cell: Vertical Index & Editorial Manifesto (5 Columns) -->
+            <div class="lg:col-span-5 lg-b-right flex flex-col justify-between">
+                <!-- Upper Narrative -->
+                <div class="p-6 sm:p-10 lg:p-12 space-y-6 b-bottom">
+                    <div class="flex items-center justify-between font-mono text-[10px] uppercase tracking-[0.2em] text-[var(--text-muted)]">
+                        <span>NOTA REDAKSI — 01</span>
+                        <span>HALIM / SCBD / NUSA DUA</span>
+                    </div>
+                    <h2 class="font-serif text-3xl sm:text-4xl leading-[1.15] font-normal">
+                        Kami menolak estetika penyewaan komersial. Setiap perjalanan dirancang layaknya kabin pesawat pribadi di atas aspal.
+                    </h2>
+                    <p class="text-sm leading-relaxed text-[var(--text-muted)] font-light">
+                        Aurelia Private Office mengelola enam belas sasis pesanan khusus (*bespoke chassis*) untuk kepala negara, prinsipal ekuitas swasta, dan delegasi keluarga kerajaan. Tanpa stiker perusahaan, tanpa kompromi akustik, dan dioperasikan sepenuhnya di bawah perjanjian kerahasiaan mutlak (*Non-Disclosure Agreement*).
+                    </p>
+                </div>
+
+                <!-- Middle Technical Spec Micro-Grid -->
+                <div class="grid grid-cols-3 b-bottom font-mono">
+                    <div class="p-5 sm:p-6 b-right">
+                        <span class="text-[10px] uppercase tracking-widest text-[var(--text-muted)] block">AKUSTIK KABIN</span>
+                        <span class="text-xl sm:text-2xl font-normal mt-1 block">54.2 dB</span>
+                        <span class="text-[10px] text-[var(--text-muted)]">Pada 100 km/j</span>
+                    </div>
+                    <div class="p-5 sm:p-6 b-right">
+                        <span class="text-[10px] uppercase tracking-widest text-[var(--text-muted)] block">RESPON APRON</span>
+                        <span class="text-xl sm:text-2xl font-normal mt-1 block">&lt; 18 Mnt</span>
+                        <span class="text-[10px] text-[var(--text-muted)]">Akses Jet Pribadi</span>
+                    </div>
+                    <div class="p-5 sm:p-6">
+                        <span class="text-[10px] uppercase tracking-widest text-[var(--text-muted)] block">OTORISASI NDA</span>
+                        <span class="text-xl sm:text-2xl font-normal mt-1 block">Tingkat I</span>
+                        <span class="text-[10px] text-[var(--text-muted)]">Chauffeur Bersertifikat</span>
+                    </div>
+                </div>
+
+                <!-- Bottom Direct Dispatch Selector -->
+                <div class="p-6 sm:p-10 lg:p-12 bg-[var(--bg-secondary)]/50 flex flex-col justify-between gap-6">
+                    <div class="flex items-center justify-between">
+                        <span class="font-mono text-[10px] uppercase tracking-[0.2em] text-[var(--text-muted)]">INISIASI PENUGASAN CEPAT</span>
+                        <span class="font-mono text-[10px] uppercase tracking-[0.2em]">LANGSUNG KE MANIFES ↓</span>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <a href="#ledger" class="py-4 px-5 btn-atelier font-mono text-xs uppercase tracking-[0.16em] flex items-center justify-between">
+                            <span>Telusuri 06 Sasis</span>
+                            <span>→</span>
+                        </a>
+                        <a href="#tariff" class="py-4 px-5 btn-outline-atelier font-mono text-xs uppercase tracking-[0.16em] flex items-center justify-between">
+                            <span>Kalkulasi Manifes</span>
+                            <span>+</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Cell: Oversized Framed Automotive Photograph + Spec Overlay (7 Columns) -->
+            <div class="lg:col-span-7 relative flex flex-col justify-between p-6 sm:p-10 lg:p-12 bg-[var(--bg-elevated)]">
+                <!-- Top Plate Metadata -->
+                <div class="flex flex-wrap items-center justify-between gap-4 pb-6 b-bottom font-mono text-[11px] uppercase tracking-[0.15em]">
+                    <div>
+                        <span class="text-[var(--text-muted)]">SASIS UTAMA PEKAN INI:</span>
+                        <span class="font-medium ml-2">W223 / MAYBACH S680 HAUTE VOITURE</span>
+                    </div>
+                    <div class="px-2.5 py-1 b-all text-[10px]">
+                        MESIN: 6.0L V12 BITURBO
+                    </div>
+                </div>
+
+                <!-- Framed Image Container -->
+                <div class="relative my-6 overflow-hidden b-all group bg-[#141413]">
+                    <img id="hero-showcase-img"
+                         src="https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?auto=format&fit=crop&w=1400&q=85"
+                         onerror="this.src='https://placehold.co/1200x750/141413/EAE6DF?text=W223+Maybach+S680'"
+                         alt="Mercedes-Maybach S680 Haute Voiture"
+                         class="w-full h-[360px] sm:h-[460px] lg:h-[500px] object-cover object-center filter contrast-[1.04] group-hover:scale-[1.02] transition duration-700">
+                    
+                    <!-- Architectural Crosshair Overlay -->
+                    <div class="absolute top-4 left-4 bg-[#141413]/85 text-[#F4F1EA] px-3 py-1.5 font-mono text-[10px] tracking-[0.18em] uppercase">
+                        FIG 01. — EKSTERIOR OBSIDIAN / NAUTICAL BLUE
+                    </div>
+
+                    <div class="absolute bottom-4 right-4 bg-[#F4F1EA] text-[#141413] px-4 py-2 font-mono text-[11px] tracking-[0.15em] uppercase shadow-sm">
+                        TARIF DASAR: IDR 24.500.000 / 12 JAM
+                    </div>
+                </div>
+
+                <!-- Bottom Spec Strip & Dossier Trigger -->
+                <div class="grid grid-cols-1 sm:grid-cols-12 gap-4 pt-4 b-top items-center">
+                    <div class="sm:col-span-8 grid grid-cols-3 gap-2 font-mono text-[11px]">
+                        <div>
+                            <span class="text-[var(--text-muted)] block text-[9px] uppercase">KONFIGURASI</span>
+                            <span>2+2 First-Class Lounge</span>
+                        </div>
+                        <div>
+                            <span class="text-[var(--text-muted)] block text-[9px] uppercase">SAManye KABIN</span>
+                            <span>Flute Perak &amp; Nappa</span>
+                        </div>
+                        <div>
+                            <span class="text-[var(--text-muted)] block text-[9px] uppercase">PENEMPATAN</span>
+                            <span>Halim VIP / SCBD</span>
+                        </div>
+                    </div>
+                    <div class="sm:col-span-4 flex justify-end">
+                        <button onclick="openDossierWithCar('Mercedes-Maybach S680 Haute Voiture', 'W223-V12', 24500000)" class="w-full sm:w-auto px-5 py-3 bg-[#4A151B] text-[#F4F1EA] hover:bg-[#2E0B0F] transition font-mono text-[11px] uppercase tracking-[0.18em]">
+                            Inquire Dossier →
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- SECTION 02: INTERACTIVE "SPEC-SHEET" FLEET LEDGER -->
+    <section id="ledger" class="b-bottom">
+        <!-- Section Header Bar -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 b-bottom">
+            <div class="lg:col-span-7 p-6 sm:p-10 lg:p-12 lg-b-right">
+                <span class="font-mono text-[11px] uppercase tracking-[0.22em] text-[var(--text-muted)] block mb-2">
+                    02 / ARSIP &amp; INDEKS ARMADA AKTIF
+                </span>
+                <h2 class="font-serif text-4xl sm:text-6xl font-normal tracking-tight">
+                    Lembar Spesifikasi <span class="italic font-light">Enam Sasis Utama.</span>
+                </h2>
+            </div>
+
+            <!-- Protocol Filter Controls -->
+            <div class="lg:col-span-5 p-6 sm:p-10 lg:p-12 flex flex-col justify-between bg-[var(--bg-secondary)]/35">
+                <span class="font-mono text-[10px] uppercase tracking-[0.2em] text-[var(--text-muted)]">
+                    SARING BERDASARKAN PROTOKOL OPERASIONAL:
+                </span>
+                <div class="flex flex-wrap gap-2 mt-4">
+                    <button onclick="filterLedger('ALL')" data-protocol="ALL" class="protocol-btn btn-outline-atelier active px-3.5 py-2 font-mono text-[11px] uppercase tracking-[0.14em]">
+                        Semua [06]
+                    </button>
+                    <button onclick="filterLedger('Chauffeur-Driven')" data-protocol="Chauffeur-Driven" class="protocol-btn btn-outline-atelier px-3.5 py-2 font-mono text-[11px] uppercase tracking-[0.14em]">
+                        Chauffeur-Driven
+                    </button>
+                    <button onclick="filterLedger('Self-Drive GT')" data-protocol="Self-Drive GT" class="protocol-btn btn-outline-atelier px-3.5 py-2 font-mono text-[11px] uppercase tracking-[0.14em]">
+                        Self-Drive GT
+                    </button>
+                    <button onclick="filterLedger('Armored / Diplomatic')" data-protocol="Armored / Diplomatic" class="protocol-btn btn-outline-atelier px-3.5 py-2 font-mono text-[11px] uppercase tracking-[0.14em]">
+                        Armored / Diplomatic
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Split Architectural Ledger Table + Sticky Inspection Panel -->
+        <div class="grid grid-cols-1 lg:grid-cols-12">
+            
+            <!-- Left 7 Columns: Interactive Horizontal Ledger Rows -->
+            <div class="lg:col-span-7 lg-b-right flex flex-col justify-between">
+                <div>
+                    <!-- Table Column Headers -->
+                    <div class="hidden sm:grid sm:grid-cols-12 px-6 py-3 b-bottom font-mono text-[10px] uppercase tracking-[0.18em] text-[var(--text-muted)] bg-[var(--bg-secondary)]/30">
+                        <div class="col-span-2">INDEKS / SASIS</div>
+                        <div class="col-span-5">NOMENKLATUR KENDARAAN</div>
+                        <div class="col-span-3">PROTOKOL</div>
+                        <div class="col-span-2 text-right">TARIF / 12J</div>
+                    </div>
+
+                    <!-- Dynamic Rows Container -->
+                    <div id="ledger-rows-container" class="divide-y divide-[var(--hairline)]">
+                        <!-- Populated via JavaScript -->
+                    </div>
+                </div>
+
+                <!-- Ledger Footnote -->
+                <div class="p-6 sm:px-8 sm:py-5 b-top bg-[var(--bg-secondary)]/25 flex flex-col sm:flex-row sm:items-center justify-between gap-2 font-mono text-[11px] text-[var(--text-muted)]">
+                    <span>* Klik atau arahkan kursor pada baris sasis untuk memuat cetak biru teknis di panel kanan.</span>
+                    <span>INSPEKSI TUV &amp; OZONE STERILIZED</span>
+                </div>
+            </div>
+
+            <!-- Right 5 Columns: Sticky Technical Blueprint & Visual Showcase Panel -->
+            <div class="lg:col-span-5 bg-[var(--bg-elevated)] p-6 sm:p-10 flex flex-col justify-between">
+                <div>
+                    <!-- Top Blueprint Header -->
+                    <div class="flex items-center justify-between pb-4 b-bottom font-mono text-[11px] uppercase tracking-[0.16em]">
+                        <span id="spec-chassis-code" class="text-[#4A151B] dark:text-[#C85A65] font-medium">SASIS: W223-V12</span>
+                        <span id="spec-protocol-badge" class="px-2.5 py-0.5 b-all text-[10px]">CHAUFFEUR-DRIVEN</span>
+                    </div>
+
+                    <!-- Vehicle Title & Subtitle -->
+                    <div class="my-5">
+                        <h3 id="spec-title" class="font-serif text-3xl sm:text-4xl font-normal leading-tight">
+                            Mercedes-Maybach S680 Haute Voiture
+                        </h3>
+                        <p id="spec-notes" class="text-xs text-[var(--text-muted)] mt-2 leading-relaxed">
+                            Edisi terbatas 1 dari 150 unit dunia. Dilengkapi sekat akustik kabin belakang, konsol sampanye berpendingin, dan peredam bising aktif frekuensi rendah.
+                        </p>
+                    </div>
+
+                    <!-- Vehicle High-Res Plate -->
+                    <div class="relative b-all overflow-hidden bg-[#141413] mb-6">
+                        <img id="spec-image"
+                             src="https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?auto=format&fit=crop&w=1000&q=85"
+                             onerror="this.src='https://placehold.co/900x560/141413/EAE6DF?text=Aurelia+Atelier+Fleet'"
+                             alt="Vehicle Spec Preview"
+                             class="w-full h-60 sm:h-72 object-cover object-center transition duration-500">
+                        <div class="absolute bottom-3 left-3 bg-[#141413]/90 text-[#F4F1EA] px-3 py-1 font-mono text-[10px] tracking-widest uppercase">
+                            <span id="spec-origin">STUTTGART — JERMAN</span>
+                        </div>
+                    </div>
+
+                    <!-- Technical Blueprint Grid (Monospace) -->
+                    <div class="grid grid-cols-2 b-top b-left font-mono text-xs">
+                        <div class="p-3.5 b-right b-bottom">
+                            <span class="text-[9px] text-[var(--text-muted)] uppercase block">DISPLASEMEN MESIN</span>
+                            <span id="spec-engine" class="font-medium mt-0.5 block">5.980 cc V12 Biturbo</span>
+                        </div>
+                        <div class="p-3.5 b-right b-bottom">
+                            <span class="text-[9px] text-[var(--text-muted)] uppercase block">AKSELERASI 0-100</span>
+                            <span id="spec-accel" class="font-medium mt-0.5 block">4.5 Detik (612 HP)</span>
+                        </div>
+                        <div class="p-3.5 b-right b-bottom">
+                            <span class="text-[9px] text-[var(--text-muted)] uppercase block">AKUSTIK KABIN</span>
+                            <span id="spec-acoustics" class="font-medium mt-0.5 block">54.2 dB @ 100 km/j</span>
+                        </div>
+                        <div class="p-3.5 b-right b-bottom">
+                            <span class="text-[9px] text-[var(--text-muted)] uppercase block">KONFIGURASI KURSI</span>
+                            <span id="spec-seating" class="font-medium mt-0.5 block">2 Executive Ottoman</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Instant Rate Breakdown & Actions -->
+                <div class="pt-6 mt-6 b-top">
+                    <div class="flex items-baseline justify-between mb-4 font-mono">
+                        <div>
+                            <span class="text-[10px] uppercase text-[var(--text-muted)] block">ALOKASI 12 JAM (TERMASUK CHAUFFEUR)</span>
+                            <span id="spec-price" class="text-2xl font-medium">IDR 24.500.000</span>
+                        </div>
+                        <span class="text-[10px] uppercase text-[#4A151B] dark:text-[#C85A65]">TERMASUK PAJAK &amp; NDA</span>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-3">
+                        <button onclick="loadIntoManifest()" class="py-3.5 px-4 btn-outline-atelier font-mono text-[11px] uppercase tracking-[0.15em]">
+                            Muat ke Kalkulator ↓
+                        </button>
+                        <button onclick="openDossierFromActiveSpec()" class="py-3.5 px-4 btn-atelier font-mono text-[11px] uppercase tracking-[0.15em]">
+                            Pesan Sasis Ini →
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- SECTION 03: BESPOKE ITINERARY & TARIFF CONFIGURATOR (ARCHITECTURAL LEDGER) -->
+    <section id="tariff" class="b-bottom">
+        <!-- Header Bar -->
+        <div class="p-6 sm:p-10 lg:p-12 b-bottom flex flex-col lg:flex-row lg:items-end justify-between gap-4">
+            <div>
+                <span class="font-mono text-[11px] uppercase tracking-[0.22em] text-[var(--text-muted)] block mb-2">
+                    03 / KONFIGURATOR MANIFES &amp; OTORISASI TARIF
+                </span>
+                <h2 class="font-serif text-4xl sm:text-6xl font-normal tracking-tight">
+                    Penyusunan <span class="italic font-light">Rencana Perjalanan.</span>
+                </h2>
+            </div>
+            <p class="font-mono text-xs text-[var(--text-muted)] max-w-md">
+                Seluruh angka dalam Rupiah (IDR). Manifes mencakup bahan bakar oktan tinggi, asuransi komprehensif penuh, serta akses lobi VVIP.
+            </p>
+        </div>
+
+        <!-- Configurator Split Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-12">
+            
+            <!-- Left 7 Columns: Parameters & Protocols -->
+            <div class="lg:col-span-7 lg-b-right divide-y divide-[var(--hairline)]">
+                
+                <!-- Parameter 01: Vehicle Selection -->
+                <div class="p-6 sm:p-10">
+                    <div class="flex items-center justify-between font-mono text-[11px] uppercase tracking-[0.18em] text-[var(--text-muted)] mb-4">
+                        <span>PARAMETER 01 — PILIHAN SASIS UTAMA</span>
+                        <span>WAJIB</span>
+                    </div>
+                    <select id="manifest-car-select" onchange="updateManifestReceipt()" class="w-full bg-[var(--bg-elevated)] b-all px-4 py-4 font-serif text-xl sm:text-2xl focus:outline-none cursor-pointer">
+                        <!-- Populated dynamically -->
+                    </select>
+                </div>
+
+                <!-- Parameter 02: Departure Terminal -->
+                <div class="p-6 sm:p-10">
+                    <div class="flex items-center justify-between font-mono text-[11px] uppercase tracking-[0.18em] text-[var(--text-muted)] mb-4">
+                        <span>PARAMETER 02 — TITIK PENEMPATAN &amp; TERMINAL KEBERANGKATAN</span>
+                        <span>KOORDINAT</span>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 font-mono text-xs">
+                        <label class="p-4 b-all cursor-pointer flex items-start gap-3 bg-[var(--bg-elevated)] hover:border-[var(--text-primary)] transition">
+                            <input type="radio" name="terminal" value="Halim Perdanakusuma — Private Jet Apron" data-fee="1500000" checked onchange="updateManifestReceipt()" class="mt-1 accent-[#4A151B]">
+                            <div>
+                                <span class="font-medium block">Halim VIP / Private Jet Apron</span>
+                                <span class="text-[10px] text-[var(--text-muted)]">Izin masuk landasan pacu (+IDR 1,5 Jt)</span>
+                            </div>
+                        </label>
+                        <label class="p-4 b-all cursor-pointer flex items-start gap-3 bg-[var(--bg-elevated)] hover:border-[var(--text-primary)] transition">
+                            <input type="radio" name="terminal" value="Soekarno-Hatta — Saphire VIP Terminal" data-fee="1200000" onchange="updateManifestReceipt()" class="mt-1 accent-[#4A151B]">
+                            <div>
+                                <span class="font-medium block">CGK — Saphire VIP Terminal</span>
+                                <span class="text-[10px] text-[var(--text-muted)]">Penjemputan pintu pesawat (+IDR 1,2 Jt)</span>
+                            </div>
+                        </label>
+                        <label class="p-4 b-all cursor-pointer flex items-start gap-3 bg-[var(--bg-elevated)] hover:border-[var(--text-primary)] transition">
+                            <input type="radio" name="terminal" value="Ngurah Rai Bali — VVIP State Building" data-fee="2000000" onchange="updateManifestReceipt()" class="mt-1 accent-[#4A151B]">
+                            <div>
+                                <span class="font-medium block">DPS Bali — Gedung VVIP Bandara</span>
+                                <span class="text-[10px] text-[var(--text-muted)]">Penanganan bagasi privat (+IDR 2,0 Jt)</span>
+                            </div>
+                        </label>
+                        <label class="p-4 b-all cursor-pointer flex items-start gap-3 bg-[var(--bg-elevated)] hover:border-[var(--text-primary)] transition">
+                            <input type="radio" name="terminal" value="SCBD / Kediaman Pribadi / Helipad" data-fee="0" onchange="updateManifestReceipt()" class="mt-1 accent-[#4A151B]">
+                            <div>
+                                <span class="font-medium block">Kediaman Pribadi / Helipad SCBD</span>
+                                <span class="text-[10px] text-[var(--text-muted)]">Pengantaran langsung tanpa biaya</span>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Parameter 03: Duration & Charter Mode -->
+                <div class="p-6 sm:p-10">
+                    <div class="flex items-center justify-between font-mono text-[11px] uppercase tracking-[0.18em] text-[var(--text-muted)] mb-4">
+                        <span>PARAMETER 03 — DURASI PENUGASAN</span>
+                        <span id="manifest-days-indicator" class="text-[var(--text-primary)] font-medium">02 HARI PENUGASAN</span>
+                    </div>
+                    <input type="range" id="manifest-days" min="1" max="14" value="2" oninput="updateManifestReceipt()" class="atelier-range my-4">
+                    <div class="flex justify-between font-mono text-[10px] text-[var(--text-muted)] uppercase">
+                        <span>01 Hari (Min)</span>
+                        <span>03 Hari (Retainer -8%)</span>
+                        <span>07 Hari (Diplomatik -15%)</span>
+                        <span>14 Hari</span>
+                    </div>
+                </div>
+
+                <!-- Parameter 04: Security & Cabin Protocol -->
+                <div class="p-6 sm:p-10">
+                    <div class="flex items-center justify-between font-mono text-[11px] uppercase tracking-[0.18em] text-[var(--text-muted)] mb-4">
+                        <span>PARAMETER 04 — PROTOKOL KEAMANAN &amp; HOSPITALITAS KABIN</span>
+                        <span>OPSIONAL</span>
+                    </div>
+                    <div class="space-y-3 font-mono text-xs">
+                        <label class="p-4 b-all flex items-center justify-between cursor-pointer bg-[var(--bg-elevated)] hover:border-[var(--text-primary)] transition">
+                            <div class="flex items-center gap-3">
+                                <input type="checkbox" id="prot-escort" onchange="updateManifestReceipt()" class="w-4 h-4 accent-[#4A151B]">
+                                <div>
+                                    <span class="font-medium block">Pengawalan Taktis Diplomatik (Voorijder Resmi)</span>
+                                    <span class="text-[10px] text-[var(--text-muted)]">Prioritas persimpangan &amp; pengamanan rute</span>
+                                </div>
+                            </div>
+                            <span class="text-[11px] shrink-0">+IDR 4.200.000 / hr</span>
+                        </label>
+
+                        <label class="p-4 b-all flex items-center justify-between cursor-pointer bg-[var(--bg-elevated)] hover:border-[var(--text-primary)] transition">
+                            <div class="flex items-center gap-3">
+                                <input type="checkbox" id="prot-protection" onchange="updateManifestReceipt()" class="w-4 h-4 accent-[#4A151B]">
+                                <div>
+                                    <span class="font-medium block">Bilingual Close Protection Officer (CPO)</span>
+                                    <span class="text-[10px] text-[var(--text-muted)]">Ajudan pengamanan pribadi bersertifikasi internasional</span>
+                                </div>
+                            </div>
+                            <span class="text-[11px] shrink-0">+IDR 3.800.000 / hr</span>
+                        </label>
+
+                        <label class="p-4 b-all flex items-center justify-between cursor-pointer bg-[var(--bg-elevated)] hover:border-[var(--text-primary)] transition">
+                            <div class="flex items-center gap-3">
+                                <input type="checkbox" id="prot-sommelier" checked onchange="updateManifestReceipt()" class="w-4 h-4 accent-[#4A151B]">
+                                <div>
+                                    <span class="font-medium block">Kurasi Kabin: Acqua Panna, Handuk Hinoki &amp; Pers Internasional</span>
+                                    <span class="text-[10px] text-[var(--text-muted)]">Financial Times cetak pagi, pengatur kelembapan cerutu</span>
+                                </div>
+                            </div>
+                            <span class="text-[11px] shrink-0">+IDR 950.000</span>
+                        </label>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Right 5 Columns: Live Itemized Manifest Receipt (Private Bank Style) -->
+            <div class="lg:col-span-5 bg-[var(--bg-secondary)]/55 p-6 sm:p-10 lg:p-12 flex flex-col justify-between font-mono">
+                <div>
+                    <!-- Receipt Header -->
+                    <div class="pb-6 b-bottom flex items-start justify-between">
+                        <div>
+                            <span class="text-[10px] uppercase tracking-[0.2em] text-[var(--text-muted)] block">LEMBAR MANIFES RESMI</span>
+                            <h3 class="font-serif text-3xl font-normal tracking-normal mt-1">Aurelia Private Ledger</h3>
+                        </div>
+                        <div class="text-right text-[10px] text-[var(--text-muted)]">
+                            <span id="receipt-no" class="block">REF: #MN-88412</span>
+                            <span>MATA UANG: IDR</span>
+                        </div>
+                    </div>
+
+                    <!-- Selected Vehicle Summary -->
+                    <div class="py-5 b-bottom space-y-1">
+                        <span class="text-[10px] uppercase tracking-widest text-[var(--text-muted)]">SASIS TERPILIH</span>
+                        <p id="receipt-car-name" class="text-sm font-medium">Mercedes-Maybach S680 Haute Voiture</p>
+                        <p id="receipt-terminal" class="text-[11px] text-[var(--text-muted)]">Titik: Halim Perdanakusuma — Private Jet Apron</p>
+                    </div>
+
+                    <!-- Line Items -->
+                    <div class="py-6 b-bottom space-y-3.5 text-xs">
+                        <div class="flex justify-between">
+                            <span id="receipt-base-label" class="text-[var(--text-muted)]">Alokasi Sasis (2 Hari)</span>
+                            <span id="receipt-base-val">IDR 49.000.000</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-[var(--text-muted)]">Otorisasi Terminal / Apron</span>
+                            <span id="receipt-terminal-val">IDR 1.500.000</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-[var(--text-muted)]">Protokol Keamanan &amp; Kabin</span>
+                            <span id="receipt-protocol-val">IDR 950.000</span>
+                        </div>
+                        <div id="receipt-discount-row" class="hidden flex justify-between text-[#4A151B] dark:text-[#C85A65]">
+                            <span id="receipt-discount-label">Retainer Korporat</span>
+                            <span id="receipt-discount-val">- IDR 0</span>
+                        </div>
+                        <div class="flex justify-between text-[11px] pt-2 text-[var(--text-muted)]">
+                            <span>Asuransi Komprehensif &amp; NDA</span>
+                            <span>TERMASUK [0]</span>
+                        </div>
+                    </div>
+
+                    <!-- Total Valuation -->
+                    <div class="py-6">
+                        <div class="flex items-baseline justify-between">
+                            <span class="text-[10px] uppercase tracking-[0.2em] text-[var(--text-muted)]">TOTAL ESTIMASI MANIFES</span>
+                            <span id="receipt-total" class="text-2xl sm:text-3xl font-medium tracking-tight">IDR 51.450.000</span>
+                        </div>
+                        <p class="text-[10px] text-[var(--text-muted)] mt-3 leading-relaxed">
+                            Dokumen ini bukan tagihan publik. Penugasan dikonfirmasi setelah verifikasi jadwal oleh Kepala Protokol kami melalui saluran terenkripsi.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Trigger Dossier with Receipt Data -->
+                <div class="pt-6 b-top space-y-3">
+                    <button onclick="transferManifestToDossier()" class="w-full py-4 px-6 btn-atelier text-xs uppercase tracking-[0.2em] flex items-center justify-between">
+                        <span>Kirim Manifes ke Private Office</span>
+                        <span>→</span>
+                    </button>
+                    <div class="flex items-center justify-between text-[10px] text-[var(--text-muted)]">
+                        <span>PEMBAYARAN: WIRE / AMEX CENTURION</span>
+                        <span>SLA: &lt; 10 MENIT</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- SECTION 04: EDITORIAL LOOKBOOK / PROTOCOL SPREAD -->
+    <section id="lookbook" class="b-bottom">
+        <div class="grid grid-cols-1 lg:grid-cols-12">
+            
+            <!-- Left 4 Columns: Editorial Essay -->
+            <div class="lg:col-span-4 p-6 sm:p-10 lg:p-12 lg-b-right flex flex-col justify-between">
+                <div>
+                    <span class="font-mono text-[11px] uppercase tracking-[0.22em] text-[var(--text-muted)] block mb-4">
+                        04 / JURNAL PROTOKOL &amp; ETIKA
+                    </span>
+                    <h2 class="font-serif text-4xl sm:text-5xl font-normal leading-[1.08]">
+                        Seni Menghilang di Tengah <span class="italic">Keramaian Kota.</span>
+                    </h2>
+                    <p class="text-sm text-[var(--text-muted)] leading-relaxed mt-6 font-light">
+                        Kemewahan sejati tidak berteriak. Seluruh armada kami dipesan dalam palet warna redup—*Obsidian Black*, *Selite Grey*, atau *Brewster Green*—tanpa lencana mencolok.
+                    </p>
+                </div>
+
+                <div class="pt-10 mt-10 b-top space-y-6">
+                    <div>
+                        <span class="font-mono text-[10px] uppercase tracking-[0.2em] text-[#4A151B] dark:text-[#C85A65] block">PASAL I — DISIPLIN AKUSTIK</span>
+                        <p class="text-xs text-[var(--text-muted)] mt-1 leading-relaxed">
+                            Pengemudi kami pantang memulai percakapan kecuali disapa terlebih dahulu. Suhu kabin ditetapkan tepat pada 20.5°C dengan aroma kayu cedar tipis sebelum pintu dibuka.
+                        </p>
+                    </div>
+                    <div>
+                        <span class="font-mono text-[10px] uppercase tracking-[0.2em] text-[#4A151B] dark:text-[#C85A65] block">PASAL II — TELEMETRI BUTA</span>
+                        <p class="text-xs text-[var(--text-muted)] mt-1 leading-relaxed">
+                            Setelah masa sewa berakhir, seluruh riwayat navigasi GPS, log panggilan Bluetooth, dan rekaman kabin dihapus secara permanen di hadapan perwakilan Anda.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right 8 Columns: Asymmetric Magazine Visual Spread -->
+            <div class="lg:col-span-8 grid grid-cols-1 sm:grid-cols-12">
+                <!-- Large Portrait Cell -->
+                <div class="sm:col-span-7 p-6 sm:p-10 b-bottom sm:b-bottom-0 sm:b-right flex flex-col justify-between">
+                    <div class="overflow-hidden b-all bg-[#141413]">
+                        <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1000&q=85"
+                             onerror="this.src='https://placehold.co/800x900/141413/EAE6DF?text=Grand+Touring+Protocol'"
+                             alt="Porsche GT3 Touring Editorial"
+                             class="w-full h-[380px] sm:h-[460px] object-cover object-center grayscale hover:grayscale-0 transition duration-700">
+                    </div>
+                    <div class="pt-5 flex items-baseline justify-between font-mono text-[11px]">
+                        <span>ARSIP FOTO 04.A — TRANS-BALI GRAND TOuring</span>
+                        <span class="text-[var(--text-muted)]">992 GT3 TOURING</span>
+                    </div>
+                </div>
+
+                <!-- Stacked Detail Cell -->
+                <div class="sm:col-span-5 flex flex-col justify-between divide-y divide-[var(--hairline)]">
+                    <div class="p-6 sm:p-8">
+                        <span class="font-mono text-[10px] uppercase tracking-[0.2em] text-[var(--text-muted)] block mb-3">
+                            KLIEN &amp; DELEGASI
+                        </span>
+                        <blockquote class="font-serif text-2xl italic leading-snug">
+                            “Satu-satunya layanan di Asia Tenggara yang memahami standar protokol Geneva Private Banking tanpa perlu dijelaskan dua kali.”
+                        </blockquote>
+                        <p class="font-mono text-[10px] uppercase tracking-[0.16em] text-[var(--text-muted)] mt-4">
+                            — KEPALA KANTOR KELUARGA, ZURICH / SINGAPURA
+                        </p>
+                    </div>
+
+                    <div class="p-6 sm:p-8 bg-[var(--bg-secondary)]/40 flex-1 flex flex-col justify-between">
+                        <div>
+                            <span class="font-mono text-[10px] uppercase tracking-[0.2em] text-[var(--text-muted)] block mb-2">
+                                PRIVATE GARAGE VIEWING
+                            </span>
+                            <p class="text-xs leading-relaxed text-[var(--text-muted)]">
+                                Klien korporat dan kepala protokol kedutaan dapat menjadwalkan inspeksi fisik armada secara tertutup di fasilitas bawah tanah kami di SCBD Lot 10.
+                            </p>
+                        </div>
+                        <button onclick="openDossierDrawer()" class="mt-6 w-full py-3 px-4 btn-outline-atelier font-mono text-[10px] uppercase tracking-[0.18em] text-left flex justify-between items-center">
+                            <span>Jadwalkan Inspeksi Garasi</span>
+                            <span>↗</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ARCHITECTURAL COLOPHON / FOOTER -->
+    <footer class="bg-[var(--bg-primary)]">
+        <div class="grid grid-cols-1 md:grid-cols-12 b-bottom">
+            <div class="md:col-span-5 p-6 sm:p-10 lg:p-12 b-bottom md:b-bottom-0 md:b-right flex flex-col justify-between">
+                <div>
+                    <span class="font-serif text-3xl sm:text-4xl tracking-[0.16em] uppercase block">AURELIA</span>
+                    <span class="font-mono text-[10px] uppercase tracking-[0.25em] text-[var(--text-muted)] block mt-1">
+                        PT Aurelia Bespoke Mobility Indonesia
+                    </span>
+                </div>
+                <p class="text-xs text-[var(--text-muted)] mt-8 max-w-sm leading-relaxed">
+                    Seluruh reservasi ditangani secara eksklusif melalui meja Private Office dengan otorisasi identitas penuh. Kami tidak melayani pemesanan jalanan tanpa rujukan.
+                </p>
+            </div>
+
+            <div class="md:col-span-4 p-6 sm:p-10 lg:p-12 b-bottom md:b-bottom-0 md:b-right font-mono text-xs space-y-4">
+                <span class="text-[10px] uppercase tracking-[0.2em] text-[var(--text-muted)] block">KANTOR &amp; HANGGAR</span>
+                <div>
+                    <p class="font-medium">JAKARTA CHANCERY</p>
+                    <p class="text-[11px] text-[var(--text-muted)]">District 8 Treasury Tower, Lantai 52, SCBD, Jakarta Selatan 12190</p>
+                </div>
+                <div>
+                    <p class="font-medium">BALI SANCTUARY</p>
+                    <p class="text-[11px] text-[var(--text-muted)]">Kawasan Sawangan, Nusa Dua Selatan, Badung, Bali 80363</p>
+                </div>
+            </div>
+
+            <div class="md:col-span-3 p-6 sm:p-10 lg:p-12 font-mono text-xs flex flex-col justify-between">
+                <div>
+                    <span class="text-[10px] uppercase tracking-[0.2em] text-[var(--text-muted)] block mb-3">SALURAN LANGSUNG 24/7</span>
+                    <p class="text-base font-medium">+62 21 5098 8800</p>
+                    <p class="text-[11px] text-[var(--text-muted)] mt-1">desk@aurelia-atelier.co.id</p>
+                </div>
+                <div class="pt-8">
+                    <a href="#manifesto" class="inline-block font-mono text-[10px] uppercase tracking-[0.2em] hover:underline">
+                        KEMBALI KE ATAS ↑
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="px-6 sm:px-12 py-4 flex flex-col sm:flex-row items-center justify-between font-mono text-[10px] uppercase tracking-[0.18em] text-[var(--text-muted)] gap-2">
+            <span>© MMXXVI AURELIA PRIVATE OFFICE. HAK CIPTA DILINDUNGI.</span>
+            <span>DICETAK DALAM FORMAT BROADSHEET DIGITAL — EDISI NUSANTARA</span>
+        </div>
+    </footer>
+
+    <!-- SLIDE-OVER CONCIERGE DOSSIER DRAWER -->
+    <div id="dossier-backdrop" onclick="closeDossierDrawer()" class="fixed inset-0 bg-black/60 backdrop-blur-xs z-50 hidden opacity-0 transition-opacity duration-300"></div>
+
+    <aside id="dossier-drawer" class="fixed top-0 right-0 bottom-0 w-full max-w-xl bg-[var(--bg-primary)] b-left z-50 transform translate-x-full transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] flex flex-col justify-between overflow-y-auto">
+        <!-- Drawer Top Header -->
+        <div>
+            <div class="p-6 sm:p-8 b-bottom flex items-center justify-between">
+                <div>
+                    <span class="font-mono text-[10px] uppercase tracking-[0.22em] text-[#4A151B] dark:text-[#C85A65] block">
+                        TRANSMISI TERENKRIPSI // NDA LEVEL I
+                    </span>
+                    <h3 class="font-serif text-3xl font-normal mt-1">Dossier Penugasan</h3>
+                </div>
+                <button onclick="closeDossierDrawer()" class="px-3 py-2 b-all font-mono text-xs uppercase tracking-widest hover:bg-[var(--text-primary)] hover:text-[var(--bg-primary)] transition">
+                    TUTUP [ESC]
+                </button>
+            </div>
+
+            <!-- Form Body -->
+            <form id="dossier-form" onsubmit="submitDossier(event)" class="p-6 sm:p-8 space-y-6 font-mono text-xs">
+                <!-- Selected Spec Summary Box -->
+                <div class="p-4 b-all bg-[var(--bg-secondary)]/50 space-y-1.5">
+                    <div class="flex justify-between text-[10px] text-[var(--text-muted)] uppercase">
+                        <span>SASIS &amp; MANIFES TERLAMPIR</span>
+                        <span id="drawer-chassis-tag">W223-V12</span>
+                    </div>
+                    <input type="text" id="drawer-vehicle-input" readonly value="Mercedes-Maybach S680 Haute Voiture" class="w-full bg-transparent font-serif text-xl font-medium focus:outline-none">
+                    <input type="text" id="drawer-manifest-summary" readonly value="Alokasi Standar 12 Jam — IDR 24.500.000" class="w-full bg-transparent text-[11px] text-[var(--text-muted)] focus:outline-none">
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-[10px] uppercase tracking-[0.16em] text-[var(--text-muted)] mb-2">
+                            NAMA PRINSIPAL / PERWAKILAN *
+                        </label>
+                        <input type="text" id="drawer-client-name" required placeholder="Nama atau Kode Klien" class="w-full bg-[var(--bg-elevated)] b-all px-3.5 py-3 text-xs focus:outline-none focus:border-[var(--text-primary)]">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] uppercase tracking-[0.16em] text-[var(--text-muted)] mb-2">
+                            INSTITUSI / KEDUTAAN
+                        </label>
+                        <input type="text" id="drawer-client-org" placeholder="Opsional / Privat" class="w-full bg-[var(--bg-elevated)] b-all px-3.5 py-3 text-xs focus:outline-none focus:border-[var(--text-primary)]">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-[10px] uppercase tracking-[0.16em] text-[var(--text-muted)] mb-2">
+                            TANGGAL PENEMPATAN *
+                        </label>
+                        <input type="date" id="drawer-date" required class="w-full bg-[var(--bg-elevated)] b-all px-3.5 py-3 text-xs focus:outline-none focus:border-[var(--text-primary)]">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] uppercase tracking-[0.16em] text-[var(--text-muted)] mb-2">
+                            SALURAN KOMUNIKASI (WA / SIGNAL) *
+                        </label>
+                        <input type="tel" id="drawer-contact" required placeholder="+62 811..." class="w-full bg-[var(--bg-elevated)] b-all px-3.5 py-3 text-xs focus:outline-none focus:border-[var(--text-primary)]">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-[10px] uppercase tracking-[0.16em] text-[var(--text-muted)] mb-2">
+                        INSTRUKSI PROTOKOL / NOMOR PENERBANGAN TAIL-NUMBER
+                    </label>
+                    <textarea id="drawer-notes" rows="3" placeholder="Contoh: Pesawat Gulfstream G650 mendarat di Halim PK pukul 16:30 WIB. Sediakan koran cetak dan air tanpa gas..." class="w-full bg-[var(--bg-elevated)] b-all px-3.5 py-3 text-xs focus:outline-none focus:border-[var(--text-primary)]"></textarea>
+                </div>
+
+                <div class="pt-2">
+                    <button type="submit" class="w-full py-4 px-6 btn-atelier text-xs uppercase tracking-[0.2em] flex items-center justify-between">
+                        <span>Otorisasi &amp; Kirim Dossier</span>
+                        <span>→</span>
+                    </button>
+                </div>
+            </form>
+
+            <!-- Confirmation Message inside Drawer -->
+            <div id="dossier-confirmation" class="hidden p-6 sm:p-8 space-y-6 font-mono">
+                <div class="p-6 b-all bg-[var(--bg-secondary)]/60 space-y-4">
+                    <span class="text-[10px] uppercase tracking-[0.2em] text-[#4A151B] dark:text-[#C85A65] block">
+                        ● TRANSMISI DITERIMA OLEH MEJA PROTOKOL
+                    </span>
+                    <h4 class="font-serif text-3xl font-normal">Dossier Terdaftar.</h4>
+                    <p id="dossier-confirm-text" class="text-xs text-[var(--text-muted)] leading-relaxed"></p>
+                    <div class="pt-4 b-top flex justify-between text-[11px]">
+                        <span>KODE OTORISASI:</span>
+                        <span id="dossier-auth-code" class="font-medium">AUR-DP-2026</span>
+                    </div>
+                </div>
+                <button onclick="closeDossierDrawer()" class="w-full py-3.5 px-6 btn-outline-atelier text-xs uppercase tracking-[0.18em]">
+                    Kembali ke Lembar Utama
+                </button>
+            </div>
+        </div>
+
+        <!-- Drawer Footer -->
+        <div class="p-6 sm:p-8 b-top font-mono text-[10px] text-[var(--text-muted)] flex items-center justify-between">
+            <span>ENKRIPSI: TLS 1.3 PRIVATE DESK</span>
+            <span>JAKARTA / DENPASAR</span>
+        </div>
+    </aside>
+
+    <!-- JAVASCRIPT: FLEET LEDGER, LIVE CLOCKS, MANIFEST & DRAWER -->
+    <script>
+        // 6 Curated Bespoke Vehicles
+        const atelierFleet = [
+            {
+                index: '01',
+                chassis: 'W223-V12',
+                name: 'Mercedes-Maybach S680 Haute Voiture',
+                protocol: 'Chauffeur-Driven',
+                origin: 'STUTTGART — JERMAN',
+                engine: '5.980 cc V12 Biturbo',
+                accel: '4.5 Detik (612 HP)',
+                acoustics: '54.2 dB @ 100 km/j',
+                seating: '2 Executive Ottoman',
+                rate12h: 24500000,
+                notes: 'Edisi kolektor 1 dari 150 di dunia. Dilengkapi konsol sampanye perak, tekstil boucle jahitan tangan, dan peredam bising kabin aktif.',
+                image: 'https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?auto=format&fit=crop&w=1100&q=85'
+            },
+            {
+                index: '02',
+                chassis: 'RR-CUL-II',
+                name: 'Rolls-Royce Cullinan Series II',
+                protocol: 'Chauffeur-Driven',
+                origin: 'GOODWOOD — INGGRIS',
+                engine: '6.75L Twin-Turbo V12',
+                accel: '5.0 Detik (563 HP)',
+                acoustics: '52.8 dB @ 100 km/j',
+                seating: 'Individual Sanctuary Lounge',
+                rate12h: 34000000,
+                notes: 'Partisi kaca akustik kedap suara yang memisahkan ruang kabin utama dari kompartemen belakang. Suspensi Magic Carpet Ride.',
+                image: 'https://images.unsplash.com/photo-1631295868223-63265b40d9e4?auto=format&fit=crop&w=1100&q=85'
+            },
+            {
+                index: '03',
+                chassis: '992-GT3T',
+                name: 'Porsche 911 GT3 Touring (992)',
+                protocol: 'Self-Drive GT',
+                origin: 'ZUFFENHAUSEN — JERMAN',
+                engine: '4.0L Flat-6 Naturally Aspirated',
+                accel: '3.9 Detik (510 HP / 9.000 RPM)',
+                acoustics: '94.0 dB Mechanical Symphony',
+                seating: '2 Carbon Bucket Leather',
+                rate12h: 21000000,
+                notes: 'Disediakan khusus bagi prinsipal yang menginginkan kendali penuh di jalur pesisir Bali Selatan atau sirkuit privat dengan siluet tanpa sayap belakang.',
+                image: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1100&q=85'
+            },
+            {
+                index: '04',
+                chassis: 'L460-SV',
+                name: 'Range Rover SV LWB Serenity',
+                protocol: 'Armored / Diplomatic',
+                origin: 'SOLIHULL — INGGRIS',
+                engine: '4.4L Twin-Turbo V8',
+                accel: '4.6 Detik (606 HP)',
+                acoustics: '55.1 dB @ 100 km/j',
+                seating: 'SV Signature Club Table',
+                rate12h: 18500000,
+                notes: 'Dilengkapi kaca laminasi ketebalan ganda tahan benturan ringan, meja kerja lipat elektrik berlapis kayu marquetry, dan ban run-flat taktis.',
+                image: 'https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?auto=format&fit=crop&w=1100&q=85'
+            },
+            {
+                index: '05',
+                chassis: 'AW10-LM500',
+                name: 'Lexus LM 500h Executive 4-Seater',
+                protocol: 'Chauffeur-Driven',
+                origin: 'TAHARA — JEPANG',
+                engine: '2.4L Turbo Hybrid Direct4',
+                accel: '6.9 Detik (366 HP)',
+                acoustics: '53.5 dB @ 100 km/j',
+                seating: '2 Captain Zero-Gravity + Sekat',
+                rate12h: 13500000,
+                notes: 'Ruang kerja bergerak paling diskrit di Jakarta. Memiliki dinding partisi layar 48-inci untuk konferensi video terenkripsi dan sensor suhu inframerah.',
+                image: 'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=1100&q=85'
+            },
+            {
+                index: '06',
+                chassis: 'F175-V12',
+                name: 'Ferrari Purosangue V12 Four-Door',
+                protocol: 'Self-Drive GT',
+                origin: 'MARANELLO — ITALIA',
+                engine: '6.5L F140IA V12',
+                accel: '3.3 Detik (715 HP)',
+                acoustics: '88.5 dB V12 Timbre',
+                seating: '4 Individual Heated Poltrona Frau',
+                rate12h: 38000000,
+                notes: 'Arsitektur empat pintu dengan bukaan engsel belakang (welcome doors) dan suspensi aktif Multimatic TrueActive Spool Valve.',
+                image: 'https://images.unsplash.com/photo-1583121274602-3e2820c69888?auto=format&fit=crop&w=1100&q=85'
+            }
+        ];
+
+        let activeSpec = atelierFleet[0];
+
+        function formatIDR(val) {
+            return 'IDR ' + val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+        }
+
+        function formatShortIDR(val) {
+            return (val / 1000000).toFixed(1).replace('.0', '') + ' Jt';
+        }
+
+        // Render Ledger Table Rows
+        function renderLedger(protocolFilter = 'ALL') {
+            const container = document.getElementById('ledger-rows-container');
+            container.innerHTML = '';
+
+            const filtered = protocolFilter === 'ALL'
+                ? atelierFleet
+                : atelierFleet.filter(v => v.protocol === protocolFilter);
+
+            filtered.forEach((car, idx) => {
+                const isSelected = car.chassis === activeSpec.chassis;
+                const row = document.createElement('div');
+                row.className = `ledger-row cursor-pointer px-4 sm:px-6 py-5 sm:py-6 grid grid-cols-1 sm:grid-cols-12 items-center gap-2 ${isSelected ? 'active' : ''}`;
+                row.setAttribute('data-chassis', car.chassis);
+
+                // Hover & Click updates the sticky spec panel
+                row.addEventListener('mouseenter', () => selectSpecItem(car.chassis));
+                row.addEventListener('click', () => selectSpecItem(car.chassis));
+
+                row.innerHTML = `
+                    <div class="sm:col-span-2 font-mono text-xs flex items-center gap-2">
+                        <span class="muted-cell text-[var(--text-muted)]">${car.index}</span>
+                        <span>/ ${car.chassis}</span>
+                    </div>
+                    <div class="sm:col-span-5">
+                        <h4 class="font-serif text-xl sm:text-2xl font-normal leading-snug">${car.name}</h4>
+                        <span class="muted-cell font-mono text-[10px] text-[var(--text-muted)] block sm:hidden mt-0.5">${car.protocol} — ${formatIDR(car.rate12h)}</span>
+                    </div>
+                    <div class="hidden sm:block sm:col-span-3">
+                        <span class="accent-badge inline-block px-2.5 py-1 b-all font-mono text-[10px] uppercase tracking-wider">
+                            ${car.protocol}
+                        </span>
+                    </div>
+                    <div class="hidden sm:block sm:col-span-2 text-right font-mono text-xs font-medium">
+                        ${formatShortIDR(car.rate12h)}
+                    </div>
+                `;
+                container.appendChild(row);
+            });
+
+            // If current activeSpec is not in filtered list, select the first filtered item
+            if (filtered.length > 0 && !filtered.some(c => c.chassis === activeSpec.chassis)) {
+                selectSpecItem(filtered[0].chassis);
+            }
+        }
+
+        // Update Sticky Technical Spec Panel
+        function selectSpecItem(chassisCode) {
+            const car = atelierFleet.find(c => c.chassis === chassisCode);
+            if (!car) return;
+            activeSpec = car;
+
+            // Update row active classes
+            document.querySelectorAll('#ledger-rows-container .ledger-row').forEach(row => {
+                if (row.getAttribute('data-chassis') === chassisCode) {
+                    row.classList.add('active');
+                } else {
+                    row.classList.remove('active');
+                }
+            });
+
+            // Populate Blueprint Panel
+            document.getElementById('spec-chassis-code').textContent = `SASIS: ${car.chassis}`;
+            document.getElementById('spec-protocol-badge').textContent = car.protocol.toUpperCase();
+            document.getElementById('spec-title').textContent = car.name;
+            document.getElementById('spec-notes').textContent = car.notes;
+            document.getElementById('spec-image').src = car.image;
+            document.getElementById('spec-origin').textContent = car.origin;
+            document.getElementById('spec-engine').textContent = car.engine;
+            document.getElementById('spec-accel').textContent = car.accel;
+            document.getElementById('spec-acoustics').textContent = car.acoustics;
+            document.getElementById('spec-seating').textContent = car.seating;
+            document.getElementById('spec-price').textContent = formatIDR(car.rate12h);
+        }
+
+        function filterLedger(protocol) {
+            document.querySelectorAll('.protocol-btn').forEach(btn => {
+                if (btn.getAttribute('data-protocol') === protocol) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+            renderLedger(protocol);
+        }
+
+        function loadIntoManifest() {
+            const select = document.getElementById('manifest-car-select');
+            select.value = activeSpec.chassis;
+            updateManifestReceipt();
+            document.getElementById('tariff').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function openDossierFromActiveSpec() {
+            openDossierWithCar(activeSpec.name, activeSpec.chassis, activeSpec.rate12h);
+        }
+
+        // Initialize Manifest Configurator
+        function initManifestConfigurator() {
+            const select = document.getElementById('manifest-car-select');
+            select.innerHTML = '';
+            atelierFleet.forEach(car => {
+                const opt = document.createElement('option');
+                opt.value = car.chassis;
+                opt.textContent = `[${car.chassis}] ${car.name} — ${formatIDR(car.rate12h)} / 12J`;
+                select.appendChild(opt);
+            });
+            updateManifestReceipt();
+        }
+
+        function updateManifestReceipt() {
+            const chassis = document.getElementById('manifest-car-select').value;
+            const car = atelierFleet.find(c => c.chassis === chassis) || atelierFleet[0];
+            const days = parseInt(document.getElementById('manifest-days').value, 10) || 1;
+
+            document.getElementById('manifest-days-indicator').textContent =
+                `${days < 10 ? '0' + days : days} HARI PENUGASAN`;
+
+            // Terminal Radio
+            const selectedTerminal = document.querySelector('input[name="terminal"]:checked');
+            const terminalName = selectedTerminal ? selectedTerminal.value : 'Halim VIP';
+            const terminalFee = selectedTerminal ? parseInt(selectedTerminal.getAttribute('data-fee'), 10) : 0;
+
+            // Security & Cabin Checkboxes
+            let protocolCost = 0;
+            if (document.getElementById('prot-escort').checked) protocolCost += 4200000 * days;
+            if (document.getElementById('prot-protection').checked) protocolCost += 3800000 * days;
+            if (document.getElementById('prot-sommelier').checked) protocolCost += 950000;
+
+            const baseCost = car.rate12h * days;
+
+            // Multi-day retainer discount
+            let discount = 0;
+            let discountLabel = 'Retainer Korporat';
+            if (days >= 7) {
+                discount = Math.round(baseCost * 0.15);
+                discountLabel = 'Retainer Diplomatik (-15%)';
+            } else if (days >= 3) {
+                discount = Math.round(baseCost * 0.08);
+                discountLabel = 'Retainer Multi-Hari (-8%)';
+            }
+
+            const finalTotal = baseCost + terminalFee + protocolCost - discount;
+
+            // Update Receipt DOM
+            document.getElementById('receipt-car-name').textContent = `${car.name} [${car.chassis}]`;
+            document.getElementById('receipt-terminal').textContent = `Titik: ${terminalName}`;
+            document.getElementById('receipt-base-label').textContent = `Alokasi Sasis (${days} Hari)`;
+            document.getElementById('receipt-base-val').textContent = formatIDR(baseCost);
+            document.getElementById('receipt-terminal-val').textContent = formatIDR(terminalFee);
+            document.getElementById('receipt-protocol-val').textContent = formatIDR(protocolCost);
+
+            const discountRow = document.getElementById('receipt-discount-row');
+            if (discount > 0) {
+                discountRow.classList.remove('hidden');
+                document.getElementById('receipt-discount-label').textContent = discountLabel;
+                document.getElementById('receipt-discount-val').textContent = '- ' + formatIDR(discount);
+            } else {
+                discountRow.classList.add('hidden');
+            }
+
+            document.getElementById('receipt-total').textContent = formatIDR(finalTotal);
+        }
+
+        function transferManifestToDossier() {
+            const carText = document.getElementById('receipt-car-name').textContent;
+            const totalText = document.getElementById('receipt-total').textContent;
+            const days = document.getElementById('manifest-days').value;
+            const chassis = document.getElementById('manifest-car-select').value;
+
+            document.getElementById('drawer-chassis-tag').textContent = chassis;
+            document.getElementById('drawer-vehicle-input').value = carText;
+            document.getElementById('drawer-manifest-summary').value = `Manifes ${days} Hari — Total Estimasi: ${totalText}`;
+            openDossierDrawer();
+        }
+
+        // Slide-Over Dossier Drawer Logic
+        function openDossierWithCar(carName, chassisCode, rate) {
+            document.getElementById('drawer-chassis-tag').textContent = chassisCode;
+            document.getElementById('drawer-vehicle-input').value = carName;
+            document.getElementById('drawer-manifest-summary').value = `Alokasi Standar 12 Jam — ${formatIDR(rate)}`;
+            openDossierDrawer();
+        }
+
+        function openDossierDrawer() {
+            const backdrop = document.getElementById('dossier-backdrop');
+            const drawer = document.getElementById('dossier-drawer');
+            document.getElementById('dossier-form').classList.remove('hidden');
+            document.getElementById('dossier-confirmation').classList.add('hidden');
+
+            backdrop.classList.remove('hidden');
+            setTimeout(() => {
+                backdrop.classList.remove('opacity-0');
+                drawer.classList.remove('translate-x-full');
+            }, 15);
+        }
+
+        function closeDossierDrawer() {
+            const backdrop = document.getElementById('dossier-backdrop');
+            const drawer = document.getElementById('dossier-drawer');
+            backdrop.classList.add('opacity-0');
+            drawer.classList.add('translate-x-full');
+            setTimeout(() => {
+                backdrop.classList.add('hidden');
+            }, 400);
+        }
+
+        function submitDossier(e) {
+            e.preventDefault();
+            const client = document.getElementById('drawer-client-name').value;
+            const vehicle = document.getElementById('drawer-vehicle-input').value;
+            const date = document.getElementById('drawer-date').value;
+            const contact = document.getElementById('drawer-contact').value;
+
+            const code = 'AUR-DP-' + Math.floor(1000 + Math.random() * 9000);
+            document.getElementById('dossier-auth-code').textContent = code;
+            document.getElementById('dossier-confirm-text').innerHTML =
+                `Berkas penugasan atas nama <strong>${client}</strong> untuk unit <strong>${vehicle}</strong> pada tanggal <strong>${date}</strong> telah dikunci. Kepala Protokol kami akan menghubungi nomor <strong>${contact}</strong> dalam waktu kurang dari 10 menit.`;
+
+            document.getElementById('dossier-form').classList.add('hidden');
+            document.getElementById('dossier-confirmation').classList.remove('hidden');
+        }
+
+        // Night Chauffeur Mode Toggle
+        function toggleTheme() {
+            const html = document.documentElement;
+            const isDark = html.classList.toggle('dark');
+            const label = document.getElementById('theme-label');
+            const dot = document.getElementById('theme-dot');
+
+            if (isDark) {
+                label.textContent = 'Night Chauffeur';
+                dot.style.transform = 'translateX(8px)';
+            } else {
+                label.textContent = 'Linen Day';
+                dot.style.transform = 'translateX(0px)';
+            }
+        }
+
+        // Live Jakarta (WIB) & Bali (WITA) Telemetry Clocks
+        function updateTelemetryClocks() {
+            const now = new Date();
+            const jktOptions = { timeZone: 'Asia/Jakarta', hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' };
+            const dpsOptions = { timeZone: 'Asia/Makassar', hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' };
+
+            const jktStr = new Intl.DateTimeFormat('id-ID', jktOptions).format(now).replace(/\./g, ':');
+            const dpsStr = new Intl.DateTimeFormat('id-ID', dpsOptions).format(now).replace(/\./g, ':');
+
+            const jktEl = document.getElementById('live-clock-jkt');
+            const dpsEl = document.getElementById('live-clock-dps');
+            if (jktEl) jktEl.textContent = `${jktStr} WIB`;
+            if (dpsEl) dpsEl.textContent = `${dpsStr} WITA`;
+        }
+
+        // Keyboard ESC Listener for Drawer
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeDossierDrawer();
+        });
+
+        // Initialization on Load
+        window.onload = function () {
+            const tomorrow = new Date();
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            document.getElementById('drawer-date').value = tomorrow.toISOString().split('T')[0];
+
+            renderLedger('ALL');
+            initManifestConfigurator();
+            updateTelemetryClocks();
+            setInterval(updateTelemetryClocks, 1000);
+        };
+    </script>
+</body>
+</html>

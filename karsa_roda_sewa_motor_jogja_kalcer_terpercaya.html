@@ -1,0 +1,1203 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KARSA RODA — Sewa Motor Jogja Antar Jemput Gratis | Kalcer & Terawat</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Fraunces (Editorial Heritage), Plus Jakarta Sans (Body), Space Mono (Tag/Harga) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,600;0,9..144,800;0,9..144,900;1,9..144,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        ivory: '#F6F1E7',
+                        sand: '#EAE1CF',
+                        terracotta: '#C84B31',
+                        terracottaDark: '#A3361F',
+                        forest: '#1B3B2B',
+                        forestLight: '#28543E',
+                        mustard: '#E5A93B',
+                        charcoal: '#1A1817'
+                    },
+                    fontFamily: {
+                        display: ['Fraunces', 'serif'],
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        mono: ['Space Mono', 'monospace']
+                    },
+                    boxShadow: {
+                        'brutal': '5px 5px 0px 0px #1A1817',
+                        'brutal-sm': '3px 3px 0px 0px #1A1817',
+                        'brutal-lg': '8px 8px 0px 0px #1A1817',
+                        'brutal-terra': '5px 5px 0px 0px #C84B31',
+                        'brutal-mustard': '5px 5px 0px 0px #E5A93B'
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #F6F1E7;
+            color: #1A1817;
+            background-image: radial-gradient(#1A1817 0.55px, transparent 0.55px);
+            background-size: 24px 24px;
+            background-position: 0 0;
+        }
+        .bg-noise {
+            background-color: #F6F1E7;
+        }
+        /* Custom Marquee Animation */
+        @keyframes marquee {
+            0% { transform: translateX(0%); }
+            100% { transform: translateX(-50%); }
+        }
+        .animate-marquee {
+            display: flex;
+            width: max-content;
+            animation: marquee 28s linear infinite;
+        }
+        .animate-marquee:hover {
+            animation-play-state: paused;
+        }
+        /* Brutal Button Press Effect */
+        .btn-brutal {
+            transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .btn-brutal:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 7px 7px 0px 0px #1A1817;
+        }
+        .btn-brutal:active {
+            transform: translate(3px, 3px);
+            box-shadow: 1px 1px 0px 0px #1A1817;
+        }
+        /* Kawung Subtle Pattern Divider */
+        .kawung-border {
+            background-image: radial-gradient(circle at 10px 10px, #C84B31 3px, transparent 4px);
+            background-size: 20px 20px;
+        }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #F6F1E7;
+            border-left: 2px solid #1A1817;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #C84B31;
+            border: 2px solid #1A1817;
+        }
+    </style>
+</head>
+<body class="font-sans antialiased selection:bg-terracotta selection:text-ivory overflow-x-hidden">
+
+    <!-- TOP RUNNING TEXT / TICKER BAR -->
+    <div class="bg-forest text-ivory border-b-2 border-charcoal py-2 overflow-hidden relative z-40">
+        <div class="animate-marquee font-mono text-xs md:text-sm tracking-wider uppercase flex items-center space-x-8">
+            <span class="flex items-center gap-2"><i class="ph-fill ph-sparkle text-mustard"></i> GRATIS ANTAR-JEMPUT STASIUN TUGU & LEMPUYANGAN</span>
+            <span>•</span>
+            <span class="flex items-center gap-2"><i class="ph-fill ph-shield-check text-mustard"></i> HELM BERSIH WANGI ANTI APEK + 2 JAS HUJAN</span>
+            <span>•</span>
+            <span class="flex items-center gap-2"><i class="ph-fill ph-check-Fat text-mustard"></i> TANPA DEPOSIT UANG RIBET</span>
+            <span>•</span>
+            <span class="flex items-center gap-2"><i class="ph-fill ph-map-pin text-mustard"></i> AREA MALIOBORO, PRAWIROTAMAN, UGM, UNY, SETURAN</span>
+            <span>•</span>
+            <span class="flex items-center gap-2"><i class="ph-fill ph-whatsapp-logo text-mustard"></i> FAST RESPONSE WA: 0877-3920-1982</span>
+            <span>•</span>
+            <!-- Duplicate for seamless loop -->
+            <span class="flex items-center gap-2"><i class="ph-fill ph-sparkle text-mustard"></i> GRATIS ANTAR-JEMPUT STASIUN TUGU & LEMPUYANGAN</span>
+            <span>•</span>
+            <span class="flex items-center gap-2"><i class="ph-fill ph-shield-check text-mustard"></i> HELM BERSIH WANGI ANTI APEK + 2 JAS HUJAN</span>
+            <span>•</span>
+            <span class="flex items-center gap-2"><i class="ph-fill ph-check-Fat text-mustard"></i> TANPA DEPOSIT UANG RIBET</span>
+            <span>•</span>
+            <span class="flex items-center gap-2"><i class="ph-fill ph-map-pin text-mustard"></i> AREA MALIOBORO, PRAWIROTAMAN, UGM, UNY, SETURAN</span>
+            <span>•</span>
+            <span class="flex items-center gap-2"><i class="ph-fill ph-whatsapp-logo text-mustard"></i> FAST RESPONSE WA: 0877-3920-1982</span>
+        </div>
+    </div>
+
+    <!-- NAVBAR -->
+    <header class="sticky top-0 z-40 bg-ivory/95 backdrop-blur-md border-b-2 border-charcoal">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <!-- Brand Logo -->
+            <a href="#" class="flex items-center gap-3 group">
+                <div class="w-11 h-11 rounded-xl bg-terracotta border-2 border-charcoal shadow-brutal-sm flex items-center justify-center text-ivory group-hover:bg-mustard group-hover:text-charcoal transition-colors">
+                    <i class="ph-fill ph-moped-front text-2xl"></i>
+                </div>
+                <div>
+                    <span class="font-display font-black text-xl md:text-2xl tracking-tight block leading-none text-charcoal">KARSA RODA</span>
+                    <span class="font-mono text-[10px] tracking-widest uppercase text-terracotta font-bold block mt-0.5">RENTAL MOTOR JOGJA • YK</span>
+                </div>
+            </a>
+
+            <!-- Desktop Menu -->
+            <nav class="hidden md:flex items-center space-x-8 font-semibold text-sm">
+                <a href="#katalog" class="hover:text-terracotta transition-colors">Armada & Harga</a>
+                <a href="#kalkulator" class="hover:text-terracotta transition-colors">Simulasi Biaya</a>
+                <a href="#rute" class="hover:text-terracotta transition-colors">Rute Kalcer Jogja</a>
+                <a href="#syarat" class="hover:text-terracotta transition-colors">Syarat Sewa</a>
+                <a href="#faq" class="hover:text-terracotta transition-colors">Tanya Jawab</a>
+            </nav>
+
+            <!-- CTA WA Button -->
+            <div class="flex items-center gap-3">
+                <a href="https://wa.me/6287739201982?text=Halo%20Karsa%20Roda%20Jogja!%20Saya%20mau%20tanya%20ketersediaan%20unit%20sewa%20motor%20untuk%20liburan%20di%20Jogja." 
+                   target="_blank" rel="noopener noreferrer"
+                   class="btn-brutal bg-mustard text-charcoal font-bold text-xs sm:text-sm px-4 py-2.5 rounded-xl border-2 border-charcoal shadow-brutal-sm flex items-center gap-2">
+                    <i class="ph-fill ph-whatsapp-logo text-lg text-forest"></i>
+                    <span>Chat Admin WA</span>
+                </a>
+                <!-- Mobile Menu Toggle -->
+                <button id="mobileMenuBtn" class="md:hidden w-10 h-10 rounded-xl bg-sand border-2 border-charcoal flex items-center justify-center">
+                    <i class="ph-bold ph-list text-xl"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Dropdown -->
+        <div id="mobileMenu" class="hidden md:hidden bg-ivory border-b-2 border-charcoal px-4 pt-3 pb-6 space-y-3">
+            <a href="#katalog" class="block py-2 px-3 rounded-lg hover:bg-sand font-bold border border-transparent hover:border-charcoal">🛵 Armada & Harga</a>
+            <a href="#kalkulator" class="block py-2 px-3 rounded-lg hover:bg-sand font-bold border border-transparent hover:border-charcoal">🧮 Simulasi Biaya</a>
+            <a href="#rute" class="block py-2 px-3 rounded-lg hover:bg-sand font-bold border border-transparent hover:border-charcoal">🗺️ Rute Motoran Jogja</a>
+            <a href="#syarat" class="block py-2 px-3 rounded-lg hover:bg-sand font-bold border border-transparent hover:border-charcoal">🪪 Syarat Sewa Mudah</a>
+            <a href="#faq" class="block py-2 px-3 rounded-lg hover:bg-sand font-bold border border-transparent hover:border-charcoal">💬 FAQ</a>
+        </div>
+    </header>
+
+    <!-- HERO SECTION: EDITORIAL BENTO JOGJA -->
+    <section class="relative py-10 md:py-16 lg:py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start">
+            
+            <!-- Left Column: Editorial Headline & Value Props (7 Cols) -->
+            <div class="lg:col-span-7 space-y-6">
+                <!-- Local Stamp Badge -->
+                <div class="inline-flex items-center gap-2 bg-sand border-2 border-charcoal px-3.5 py-1.5 rounded-full shadow-brutal-sm">
+                    <span class="w-2.5 h-2.5 rounded-full bg-terracotta animate-ping"></span>
+                    <span class="font-mono text-xs font-bold uppercase tracking-wider">Turun Kereta Langsung Gas • Tanpa Antre</span>
+                </div>
+
+                <h1 class="font-display font-black text-4xl sm:text-5xl lg:text-6xl leading-[1.08] tracking-tight text-charcoal">
+                    Keliling Jogja Lebih <span class="italic font-normal bg-mustard px-3 py-0.5 rounded-2xl border-2 border-charcoal inline-block -rotate-1">Syahdu</span> Pakai Motor yang Beneran Terawat.
+                </h1>
+
+                <p class="text-base sm:text-lg text-charcoal/85 leading-relaxed max-w-2xl font-medium">
+                    Nggak perlu drama dapet motor tua yang remnya blong waktu nanjak Kaliurang atau helm bau apek. Di <strong>Karsa Roda</strong>, semua unit diservis rutin, wangi, surat lengkap, dan <strong>diantar-jemput gratis</strong> tepat saat kereta kamu berhenti.
+                </p>
+
+                <!-- Free Delivery Pills -->
+                <div class="bg-ivory border-2 border-charcoal rounded-2xl p-4 shadow-brutal">
+                    <div class="flex items-center gap-2 font-mono text-xs font-bold uppercase text-terracotta mb-2.5">
+                        <i class="ph-fill ph-map-pin-line text-base"></i>
+                        <span>Titik Antar-Jemput Gratis (07.00 – 22.00 WIB):</span>
+                    </div>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-3 py-1 bg-sand border border-charcoal rounded-lg text-xs font-bold flex items-center gap-1.5">🚂 Stasiun Tugu</span>
+                        <span class="px-3 py-1 bg-sand border border-charcoal rounded-lg text-xs font-bold flex items-center gap-1.5">🚃 Stasiun Lempuyangan</span>
+                        <span class="px-3 py-1 bg-sand border border-charcoal rounded-lg text-xs font-bold flex items-center gap-1.5">🏮 Area Malioboro</span>
+                        <span class="px-3 py-1 bg-sand border border-charcoal rounded-lg text-xs font-bold flex items-center gap-1.5">☕ Prawirotaman</span>
+                        <span class="px-3 py-1 bg-sand border border-charcoal rounded-lg text-xs font-bold flex items-center gap-1.5">🎓 Kampus UGM / UNY</span>
+                    </div>
+                </div>
+
+                <!-- Asymmetric Editorial Stats Cards -->
+                <div class="grid grid-cols-3 gap-3 sm:gap-4 pt-2">
+                    <div class="bg-forest text-ivory p-4 rounded-2xl border-2 border-charcoal shadow-brutal-sm">
+                        <div class="font-display font-black text-2xl sm:text-3xl text-mustard">60rb<span class="text-xs font-mono text-ivory/80">/hr</span></div>
+                        <p class="text-xs text-ivory/90 mt-1 font-medium">Harga jujur mulai dari 60rb/24 jam</p>
+                    </div>
+                    <div class="bg-terracotta text-ivory p-4 rounded-2xl border-2 border-charcoal shadow-brutal-sm">
+                        <div class="font-display font-black text-2xl sm:text-3xl">100%</div>
+                        <p class="text-xs text-ivory/90 mt-1 font-medium">Helm dicuci & disemprot disinfektan</p>
+                    </div>
+                    <div class="bg-sand text-charcoal p-4 rounded-2xl border-2 border-charcoal shadow-brutal-sm">
+                        <div class="font-display font-black text-2xl sm:text-3xl">Rp 0</div>
+                        <p class="text-xs text-charcoal/90 mt-1 font-medium">Tanpa deposit uang tunai yang ribet</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column: Quick WA Booking Card Widget (5 Cols) -->
+            <div class="lg:col-span-5">
+                <div class="bg-ivory border-2 border-charcoal rounded-3xl p-6 sm:p-7 shadow-brutal-lg relative">
+                    <!-- Decorative Stamp -->
+                    <div class="absolute -top-4 -right-3 bg-terracotta text-ivory font-mono text-xs font-bold px-3 py-1.5 rounded-xl border-2 border-charcoal shadow-brutal-sm rotate-3">
+                        ⚡ LANGSUNG KE WA ADMIN
+                    </div>
+
+                    <div class="border-b-2 border-dashed border-charcoal/30 pb-4 mb-5">
+                        <span class="font-mono text-xs uppercase tracking-widest text-terracotta font-bold">FORM RESERVASI INSTAN</span>
+                        <h2 class="font-display font-extrabold text-2xl text-charcoal mt-0.5">Cek Unit & Booking Cepat</h2>
+                        <p class="text-xs text-charcoal/70 mt-1">Isi detail rencana sewa kamu, pesan otomatis akan langsung terkirim ke WhatsApp kami.</p>
+                    </div>
+
+                    <form id="heroBookingForm" class="space-y-4">
+                        <!-- Nama Penyewa -->
+                        <div>
+                            <label class="block font-mono text-xs font-bold uppercase mb-1.5">Nama Panggilan Kamu</label>
+                            <div class="relative">
+                                <i class="ph-bold ph-user absolute left-3.5 top-1/2 -translate-y-1/2 text-charcoal/60"></i>
+                                <input type="text" id="heroName" placeholder="Contoh: Mas Dimas / Mbak Rara" required
+                                       class="w-full pl-10 pr-4 py-2.5 bg-sand/60 border-2 border-charcoal rounded-xl font-medium text-sm focus:outline-none focus:bg-mustard/20">
+                            </div>
+                        </div>
+
+                        <!-- Pilih Motor -->
+                        <div>
+                            <label class="block font-mono text-xs font-bold uppercase mb-1.5">Pilih Unit Motor Favorit</label>
+                            <div class="relative">
+                                <i class="ph-bold ph-moped absolute left-3.5 top-1/2 -translate-y-1/2 text-charcoal/60"></i>
+                                <select id="heroMotor" class="w-full pl-10 pr-8 py-2.5 bg-sand/60 border-2 border-charcoal rounded-xl font-bold text-sm focus:outline-none focus:bg-mustard/20 appearance-none">
+                                    <option value="Honda Beat Deluxe (Rp 70.000/hari)">Honda Beat Deluxe — Rp 70.000/hari</option>
+                                    <option value="Honda Scoopy Prestige (Rp 85.000/hari)" selected>Honda Scoopy Prestige — Rp 85.000/hari</option>
+                                    <option value="Yamaha Fazzio / Filano Hybrid (Rp 95.000/hari)">Yamaha Fazzio / Filano Kalcer — Rp 95.000/hari</option>
+                                    <option value="Honda Vario 125 / 160 CBS-ISS (Rp 95.000/hari)">Honda Vario 125 / 160 — Rp 95.000/hari</option>
+                                    <option value="Yamaha NMAX 155 / PCX 160 (Rp 135.000/hari)">Yamaha NMAX 155 / PCX 160 — Rp 135.000/hari</option>
+                                    <option value="Kawasaki W175 / Vespa Sprint (Rp 185.000/hari)">Kawasaki W175 / Vespa Sprint — Rp 185.000/hari</option>
+                                </select>
+                                <i class="ph-bold ph-caret-down absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none"></i>
+                            </div>
+                        </div>
+
+                        <!-- Tanggal Mulai & Durasi -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            <div>
+                                <label class="block font-mono text-xs font-bold uppercase mb-1.5">Tanggal Mulai</label>
+                                <input type="date" id="heroDate" required
+                                       class="w-full px-3.5 py-2.5 bg-sand/60 border-2 border-charcoal rounded-xl font-bold text-sm focus:outline-none focus:bg-mustard/20">
+                            </div>
+                            <div>
+                                <label class="block font-mono text-xs font-bold uppercase mb-1.5">Durasi Sewa</label>
+                                <select id="heroDuration" class="w-full px-3.5 py-2.5 bg-sand/60 border-2 border-charcoal rounded-xl font-bold text-sm focus:outline-none focus:bg-mustard/20">
+                                    <option value="1 Hari (24 Jam)">1 Hari (24 Jam)</option>
+                                    <option value="2 Hari" selected>2 Hari (Weekend)</option>
+                                    <option value="3 Hari">3 Hari</option>
+                                    <option value="4 Hari">4 Hari</option>
+                                    <option value="5 Hari">5 Hari</option>
+                                    <option value="Paket 1 Minggu (Diskon)">Paket 1 Minggu (Hemat)</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Lokasi Antar -->
+                        <div>
+                            <label class="block font-mono text-xs font-bold uppercase mb-1.5">Lokasi Antar Motor</label>
+                            <div class="relative">
+                                <i class="ph-bold ph-map-pin absolute left-3.5 top-1/2 -translate-y-1/2 text-charcoal/60"></i>
+                                <select id="heroLocation" class="w-full pl-10 pr-8 py-2.5 bg-sand/60 border-2 border-charcoal rounded-xl font-bold text-sm focus:outline-none focus:bg-mustard/20 appearance-none">
+                                    <option value="Stasiun Tugu Yogyakarta (Gratis)">Stasiun Tugu Yogyakarta (Gratis Antar)</option>
+                                    <option value="Stasiun Lempuyangan (Gratis)">Stasiun Lempuyangan (Gratis Antar)</option>
+                                    <option value="Hotel Area Malioboro / Sosrowijayan (Gratis)">Hotel Area Malioboro / Sosrowijayan</option>
+                                    <option value="Penginapan Area Prawirotaman (Gratis)">Penginapan Area Prawirotaman</option>
+                                    <option value="Area Kampus UGM / UNY / Seturan">Area Kampus UGM / UNY / Seturan</option>
+                                    <option value="Ambil Sendiri di Garasi Karsa Roda">Ambil Sendiri di Garasi Karsa Roda</option>
+                                </select>
+                                <i class="ph-bold ph-caret-down absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none"></i>
+                            </div>
+                        </div>
+
+                        <!-- Submit WA Button -->
+                        <button type="submit" class="btn-brutal w-full bg-forest hover:bg-forestLight text-ivory font-bold py-3.5 px-6 rounded-2xl border-2 border-charcoal shadow-brutal flex items-center justify-center gap-2.5 text-base mt-2">
+                            <i class="ph-fill ph-whatsapp-logo text-2xl text-mustard"></i>
+                            <span>Cek Ketersediaan via WhatsApp</span>
+                        </button>
+
+                        <p class="text-[11px] font-mono text-center text-charcoal/70">
+                            🔒 Langsung terhubung ke Admin Karsa Roda (<strong>0877-3920-1982</strong>)
+                        </p>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- HERITAGE PATTERN DIVIDER -->
+    <div class="w-full h-5 border-y-2 border-charcoal kawung-border"></div>
+
+    <!-- SECTION 2: KATALOG ARMADA MOTOR JOGJA -->
+    <section id="katalog" class="py-16 md:py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        <!-- Section Header -->
+        <div class="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-6">
+            <div>
+                <div class="inline-block bg-terracotta text-ivory font-mono text-xs font-bold uppercase px-3 py-1 rounded-lg border-2 border-charcoal mb-3">
+                    GARASI KAMI • UNIT TAHUN MUDA
+                </div>
+                <h2 class="font-display font-black text-3xl sm:text-4xl lg:text-5xl text-charcoal">
+                    Pilih Kawan Jalanmu di Jogja
+                </h2>
+                <p class="text-charcoal/80 mt-2 max-w-xl font-medium">
+                    Semua armada sudah termasuk <strong>2 Helm SNI Wangi</strong>, <strong>2 Jas Hujan Tebal</strong>, <strong>Phone Holder Kokoh</strong>, dan <strong>BBM Awal</strong> siap jalan.
+                </p>
+            </div>
+
+            <!-- Filter Category Buttons -->
+            <div class="flex flex-wrap gap-2" id="fleetFilters">
+                <button data-filter="all" class="filter-btn active px-4 py-2 rounded-xl font-mono text-xs font-bold uppercase border-2 border-charcoal bg-charcoal text-ivory shadow-brutal-sm transition-all">
+                    Semua Unit (6)
+                </button>
+                <button data-filter="irit" class="filter-btn px-4 py-2 rounded-xl font-mono text-xs font-bold uppercase border-2 border-charcoal bg-ivory text-charcoal hover:bg-sand shadow-brutal-sm transition-all">
+                    ⚡ Matic Irit & Lincah
+                </button>
+                <button data-filter="kalcer" class="filter-btn px-4 py-2 rounded-xl font-mono text-xs font-bold uppercase border-2 border-charcoal bg-ivory text-charcoal hover:bg-sand shadow-brutal-sm transition-all">
+                    ☕ Kalcer & Retro
+                </button>
+                <button data-filter="bongsor" class="filter-btn px-4 py-2 rounded-xl font-mono text-xs font-bold uppercase border-2 border-charcoal bg-ivory text-charcoal hover:bg-sand shadow-brutal-sm transition-all">
+                    ⛰️ Tangguh Nanjak & Pantai
+                </button>
+            </div>
+        </div>
+
+        <!-- Fleet Grid (Injected by JS for clean data management & filtering) -->
+        <div id="fleetGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7">
+            <!-- Populated via JavaScript -->
+        </div>
+    </section>
+
+    <!-- SECTION 3: KALKULATOR SIMULASI BIAYA SEWA & PAKET -->
+    <section id="kalkulator" class="py-16 md:py-24 bg-forest text-ivory border-y-2 border-charcoal relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+                
+                <!-- Left Copy -->
+                <div class="lg:col-span-5 space-y-5">
+                    <span class="inline-block bg-mustard text-charcoal font-mono text-xs font-bold uppercase px-3 py-1 rounded-lg border-2 border-charcoal">
+                        TRANSPARAN TANPA BIAYA TERSEMBUNYI
+                    </span>
+                    <h2 class="font-display font-black text-3xl sm:text-4xl lg:text-5xl leading-tight text-ivory">
+                        Hitung Sendiri Budget Motoran Kamu.
+                    </h2>
+                    <p class="text-ivory/85 text-base leading-relaxed">
+                        Mau sewa harian, mingguan, atau pakai tarif khusus mahasiswa/pelajar? Coba hitung simulasi harganya di sini. Nggak ada biaya tambahan siluman waktu pengembalian motor.
+                    </p>
+
+                    <div class="bg-forestLight border-2 border-ivory/30 rounded-2xl p-5 space-y-3">
+                        <div class="flex items-start gap-3">
+                            <i class="ph-fill ph-SealCheck text-mustard text-2xl shrink-0 mt-0.5"></i>
+                            <div>
+                                <h4 class="font-bold text-sm text-mustard">Diskon Sewa Mingguan (7 Hari)</h4>
+                                <p class="text-xs text-ivory/80">Otomatis potong harga hingga 15% untuk pemakaian 7 hari atau lebih.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <i class="ph-fill ph-student text-mustard text-2xl shrink-0 mt-0.5"></i>
+                            <div>
+                                <h4 class="font-bold text-sm text-mustard">Tarif Mahasiswa (KTM Aktif)</h4>
+                                <p class="text-xs text-ivory/80">Tunjukkan Kartu Mahasiswa aktif (kampus mana saja) untuk potongan Rp 10.000/hari.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Interactive Calculator Box -->
+                <div class="lg:col-span-7">
+                    <div class="bg-ivory text-charcoal border-2 border-charcoal rounded-3xl p-6 sm:p-8 shadow-brutal-mustard">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                            
+                            <!-- Calculator Controls -->
+                            <div class="space-y-4">
+                                <div>
+                                    <label class="block font-mono text-xs font-bold uppercase mb-1.5">1. Pilih Tipe Motor</label>
+                                    <select id="calcMotor" class="w-full px-3.5 py-2.5 bg-sand border-2 border-charcoal rounded-xl font-bold text-sm">
+                                        <option value="70000" data-name="Honda Beat Deluxe">Honda Beat Deluxe (Rp 70rb/hr)</option>
+                                        <option value="85000" data-name="Honda Scoopy Prestige" selected>Honda Scoopy Prestige (Rp 85rb/hr)</option>
+                                        <option value="95000" data-name="Yamaha Fazzio / Grand Filano">Yamaha Fazzio / Filano (Rp 95rb/hr)</option>
+                                        <option value="95000" data-name="Honda Vario 125 / 160">Honda Vario 125 / 160 (Rp 95rb/hr)</option>
+                                        <option value="135000" data-name="Yamaha NMAX / Honda PCX">Yamaha NMAX / PCX 160 (Rp 135rb/hr)</option>
+                                        <option value="185000" data-name="Kawasaki W175 / Vespa Sprint">Kawasaki W175 / Vespa (Rp 185rb/hr)</option>
+                                    </select>
+                                </div>
+
+                                <div>
+                                    <div class="flex justify-between items-center mb-1.5">
+                                        <label class="font-mono text-xs font-bold uppercase">2. Durasi Sewa</label>
+                                        <span id="calcDaysLabel" class="font-mono text-xs font-bold bg-terracotta text-ivory px-2.5 py-0.5 rounded-md border border-charcoal">2 Hari</span>
+                                    </div>
+                                    <input type="range" id="calcDays" min="1" max="14" value="2" 
+                                           class="w-full accent-terracotta cursor-pointer h-2 bg-sand rounded-lg border border-charcoal">
+                                    <div class="flex justify-between text-[10px] font-mono text-charcoal/60 mt-1">
+                                        <span>1 Hari</span>
+                                        <span>7 Hari (Mingguan)</span>
+                                        <span>14 Hari</span>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label class="block font-mono text-xs font-bold uppercase mb-1.5">3. Kategori Penyewa</label>
+                                    <div class="grid grid-cols-2 gap-2">
+                                        <label class="cursor-pointer">
+                                            <input type="radio" name="calcRateType" value="umum" checked class="peer sr-only">
+                                            <div class="p-2.5 text-center rounded-xl border-2 border-charcoal bg-sand/50 peer-checked:bg-mustard font-bold text-xs transition-all">
+                                                Wisatawan / Umum
+                                            </div>
+                                        </label>
+                                        <label class="cursor-pointer">
+                                            <input type="radio" name="calcRateType" value="mahasiswa" class="peer sr-only">
+                                            <div class="p-2.5 text-center rounded-xl border-2 border-charcoal bg-sand/50 peer-checked:bg-mustard font-bold text-xs transition-all">
+                                                🎓 Mahasiswa (-10rb/hr)
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label class="block font-mono text-xs font-bold uppercase mb-1.5">4. Tambahan Opsional</label>
+                                    <label class="flex items-center gap-2.5 p-2.5 bg-sand/50 border-2 border-charcoal rounded-xl cursor-pointer text-xs font-bold">
+                                        <input type="checkbox" id="calcActionCam" class="w-4 h-4 accent-terracotta">
+                                        <span>Tambah Helm Bogo Retro Kalcer (Gratis!)</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!-- Receipt / Output Card -->
+                            <div class="bg-sand border-2 border-charcoal rounded-2xl p-5 flex flex-col justify-between relative">
+                                <div>
+                                    <div class="flex items-center justify-between border-b-2 border-dashed border-charcoal/40 pb-3 mb-3">
+                                        <span class="font-mono text-xs font-bold uppercase">ESTIMASI NOTA SEWA</span>
+                                        <i class="ph-bold ph-receipt text-xl text-terracotta"></i>
+                                    </div>
+
+                                    <div class="space-y-2 text-xs font-medium">
+                                        <div class="flex justify-between">
+                                            <span class="text-charcoal/70">Unit Motor:</span>
+                                            <span id="receiptMotor" class="font-bold text-right">Honda Scoopy Prestige</span>
+                                        </div>
+                                        <div class="flex justify-between">
+                                            <span class="text-charcoal/70">Durasi:</span>
+                                            <span id="receiptDuration" class="font-bold">2 Hari (48 Jam)</span>
+                                        </div>
+                                        <div class="flex justify-between">
+                                            <span class="text-charcoal/70">Fasilitas Termasuk:</span>
+                                            <span class="font-bold text-forest">2 Helm + 2 Jas Hujan + Holder</span>
+                                        </div>
+                                        <div class="flex justify-between">
+                                            <span class="text-charcoal/70">Biaya Antar Stasiun/Hotel:</span>
+                                            <span class="font-bold text-terracotta">GRATIS (Rp 0)</span>
+                                        </div>
+                                        <div id="receiptDiscountRow" class="hidden flex justify-between text-forest font-bold">
+                                            <span>Potongan Hemat:</span>
+                                            <span id="receiptDiscount">-Rp 20.000</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="mt-6 pt-4 border-t-2 border-charcoal">
+                                    <span class="block font-mono text-[11px] uppercase text-charcoal/70">Total Estimasi Biaya:</span>
+                                    <div id="receiptTotal" class="font-display font-black text-3xl text-terracotta my-1">
+                                        Rp 170.000
+                                    </div>
+                                    <button id="calcSendWaBtn" type="button" class="btn-brutal w-full mt-3 bg-terracotta hover:bg-terracottaDark text-ivory font-bold py-3 px-4 rounded-xl border-2 border-charcoal shadow-brutal-sm flex items-center justify-center gap-2 text-xs sm:text-sm">
+                                        <i class="ph-fill ph-whatsapp-logo text-lg"></i>
+                                        <span>Kirim Hitungan Ini ke WA</span>
+                                    </button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 4: REKOMENDASI RUTE MOTORAN JOGJA -->
+    <section id="rute" class="py-16 md:py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        <div class="text-center max-w-3xl mx-auto mb-12">
+            <span class="inline-block bg-sand text-charcoal font-mono text-xs font-bold uppercase px-3 py-1 rounded-lg border-2 border-charcoal mb-3">
+                PANDUAN LOKAL KARSA RODA
+            </span>
+            <h2 class="font-display font-black text-3xl sm:text-4xl lg:text-5xl text-charcoal">
+                Bingung Mau Motoran ke Mana?
+            </h2>
+            <p class="text-charcoal/80 mt-2 font-medium">
+                Beda tujuan, beda juga motor yang paling pas. Ini 3 rute favorit anak lokal Jogja beserta rekomendasi unit yang paling nyaman buat kamu bawa.
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-7">
+            <!-- Rute 1: Kalcer Heritage -->
+            <div class="bg-ivory border-2 border-charcoal rounded-3xl p-6 shadow-brutal flex flex-col justify-between">
+                <div>
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="bg-mustard text-charcoal font-mono text-xs font-bold px-3 py-1 rounded-lg border border-charcoal">RUTE SANTAI & KOPI</span>
+                        <span class="font-mono text-xs font-bold text-charcoal/70">± 25 KM</span>
+                    </div>
+                    <h3 class="font-display font-black text-2xl text-charcoal mb-2">Jalur Heritage: Kotagede – Prawirotaman – Kasongan</h3>
+                    <p class="text-sm text-charcoal/80 leading-relaxed mb-4">
+                        Menyusuri gang sempit bersejarah di Kotagede, lanjut makan siang & gelato di Prawirotaman, lalu sorenya berburu keramik estetik di Kasongan.
+                    </p>
+                    <div class="bg-sand/70 border border-charcoal rounded-2xl p-3.5 mb-5">
+                        <span class="font-mono text-[11px] font-bold uppercase text-terracotta block">Motor Paling Pas:</span>
+                        <p class="font-bold text-sm mt-0.5">🛵 Scoopy Prestige / Yamaha Fazzio / Vespa</p>
+                        <p class="text-xs text-charcoal/70 mt-0.5">Lincah masuk gang sempit & fotogenik buat foto depan bangunan lawas.</p>
+                    </div>
+                </div>
+                <a href="https://wa.me/6287739201982?text=Halo%20Karsa%20Roda!%20Saya%20tertarik%20sewa%20motor%20(Scoopy/Fazzio)%20untuk%20Jalur%20Heritage%20Kotagede%20-%20Prawirotaman.%20Boleh%20info%20unit%20yang%20ready?"
+                   target="_blank" rel="noopener noreferrer"
+                   class="btn-brutal w-full bg-sand hover:bg-mustard text-charcoal font-bold py-3 px-4 rounded-xl border-2 border-charcoal shadow-brutal-sm flex items-center justify-center gap-2 text-sm">
+                    <i class="ph-fill ph-whatsapp-logo text-lg text-forest"></i>
+                    <span>Booking Motor Rute Heritage</span>
+                </a>
+            </div>
+
+            <!-- Rute 2: Dingin Kaliurang & Merapi -->
+            <div class="bg-ivory border-2 border-charcoal rounded-3xl p-6 shadow-brutal flex flex-col justify-between">
+                <div>
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="bg-terracotta text-ivory font-mono text-xs font-bold px-3 py-1 rounded-lg border border-charcoal">RUTE TANJAKAN SEJUK</span>
+                        <span class="font-mono text-xs font-bold text-charcoal/70">± 45 KM</span>
+                    </div>
+                    <h3 class="font-display font-black text-2xl text-charcoal mb-2">Jalur Utara: Kopi Klotok – Kaliurang – Tebing Breksi</h3>
+                    <p class="text-sm text-charcoal/80 leading-relaxed mb-4">
+                        Berangkat pagi sarapan pisang goreng di Pakem, nanjak ke udara dingin Kaliurang, lalu turun menikmati senja dari ketinggian Candi Ijo & Breksi.
+                    </p>
+                    <div class="bg-sand/70 border border-charcoal rounded-2xl p-3.5 mb-5">
+                        <span class="font-mono text-[11px] font-bold uppercase text-terracotta block">Motor Paling Pas:</span>
+                        <p class="font-bold text-sm mt-0.5">🛵 Honda Vario 125/160 / Yamaha NMAX</p>
+                        <p class="text-xs text-charcoal/70 mt-0.5">Tenaga mesin 125cc-160cc responsif buat boncengan nanjak tanpa ngos-ngosan.</p>
+                    </div>
+                </div>
+                <a href="https://wa.me/6287739201982?text=Halo%20Karsa%20Roda!%20Saya%20mau%20sewa%20motor%20yang%20kuat%20nanjak%20(Vario%20125/160%20atau%20NMAX)%20buat%20ke%20Kaliurang%20%26%20Breksi.%20Apakah%20ready?"
+                   target="_blank" rel="noopener noreferrer"
+                   class="btn-brutal w-full bg-sand hover:bg-mustard text-charcoal font-bold py-3 px-4 rounded-xl border-2 border-charcoal shadow-brutal-sm flex items-center justify-center gap-2 text-sm">
+                    <i class="ph-fill ph-whatsapp-logo text-lg text-forest"></i>
+                    <span>Booking Motor Rute Kaliurang</span>
+                </a>
+            </div>
+
+            <!-- Rute 3: Pantai Gunungkidul / Kulon Progo -->
+            <div class="bg-ivory border-2 border-charcoal rounded-3xl p-6 shadow-brutal flex flex-col justify-between">
+                <div>
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="bg-forest text-ivory font-mono text-xs font-bold px-3 py-1 rounded-lg border border-charcoal">RUTE TOURING PANTAI</span>
+                        <span class="font-mono text-xs font-bold text-charcoal/70">± 80 KM</span>
+                    </div>
+                    <h3 class="font-display font-black text-2xl text-charcoal mb-2">Jalur Selatan: HeHa Ocean View & Pantai Gunungkidul</h3>
+                    <p class="text-sm text-charcoal/80 leading-relaxed mb-4">
+                        Perjalanan menyusuri jalan berkelok Bukit Bintang menuju deretan pantai pasir putih Gunungkidul atau perbukitan Menoreh Kulon Progo.
+                    </p>
+                    <div class="bg-sand/70 border border-charcoal rounded-2xl p-3.5 mb-5">
+                        <span class="font-mono text-[11px] font-bold uppercase text-terracotta block">Motor Paling Pas:</span>
+                        <p class="font-bold text-sm mt-0.5">🛵 Yamaha NMAX 155 / Honda PCX 160</p>
+                        <p class="text-xs text-charcoal/70 mt-0.5">Jok lebar empuk, pijakan kaki selonjoran, bagasi muat banyak baju ganti pantai.</p>
+                    </div>
+                </div>
+                <a href="https://wa.me/6287739201982?text=Halo%20Karsa%20Roda!%20Saya%20mau%20sewa%20NMAX%20/%20PCX%20160%20untuk%20jalan%20jauh%20ke%20Pantai%20Gunungkidul.%20Boleh%20cek%20ketersediaan?"
+                   target="_blank" rel="noopener noreferrer"
+                   class="btn-brutal w-full bg-sand hover:bg-mustard text-charcoal font-bold py-3 px-4 rounded-xl border-2 border-charcoal shadow-brutal-sm flex items-center justify-center gap-2 text-sm">
+                    <i class="ph-fill ph-whatsapp-logo text-lg text-forest"></i>
+                    <span>Booking Motor Rute Pantai</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 5: SYARAT SEWA & KEUNGGULAN (BENTO GRID) -->
+    <section id="syarat" class="py-16 md:py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        <div class="bg-sand border-2 border-charcoal rounded-3xl p-6 sm:p-10 lg:p-12 shadow-brutal-lg">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                
+                <!-- Syarat Sewa (6 Cols) -->
+                <div class="lg:col-span-6 space-y-5">
+                    <span class="inline-block bg-terracotta text-ivory font-mono text-xs font-bold uppercase px-3 py-1 rounded-lg border border-charcoal">
+                        ANTI RIBET • PROSES 3 MENIT
+                    </span>
+                    <h2 class="font-display font-black text-3xl sm:text-4xl text-charcoal">
+                        Syarat Sewa Super Simpel, Tanpa Deposit Uang.
+                    </h2>
+                    <p class="text-charcoal/80 text-sm sm:text-base font-medium">
+                        Kami percaya liburan ke Jogja harusnya bikin senang, bukan pusing urusan administrasi. Cukup siapkan syarat mudah berikut saat serah terima unit:
+                    </p>
+
+                    <ul class="space-y-3.5">
+                        <li class="flex items-start gap-3 bg-ivory p-4 rounded-2xl border-2 border-charcoal">
+                            <div class="w-8 h-8 rounded-lg bg-mustard border border-charcoal flex items-center justify-center font-mono font-bold shrink-0">1</div>
+                            <div>
+                                <h4 class="font-bold text-charcoal text-sm">Jaminkan E-KTP Asli + 1 ID Pendukung</h4>
+                                <p class="text-xs text-charcoal/75 mt-0.5">ID pendukung bebas pilih: SIM A / KTM (Kartu Mahasiswa) / NPWP / BPJS / Karpeg / Paspor. (Bisa digabung dengan identitas teman boncengan).</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-3 bg-ivory p-4 rounded-2xl border-2 border-charcoal">
+                            <div class="w-8 h-8 rounded-lg bg-mustard border border-charcoal flex items-center justify-center font-mono font-bold shrink-0">2</div>
+                            <div>
+                                <h4 class="font-bold text-charcoal text-sm">Memiliki SIM C Aktif & Bukti Tiket/Hotel</h4>
+                                <p class="text-xs text-charcoal/75 mt-0.5">Pengendara wajib punya SIM C dan menunjukkan bukti tiket kereta/pesawat PP atau booking hotel di Jogja.</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-3 bg-ivory p-4 rounded-2xl border-2 border-charcoal">
+                            <div class="w-8 h-8 rounded-lg bg-mustard border border-charcoal flex items-center justify-center font-mono font-bold shrink-0">3</div>
+                            <div>
+                                <h4 class="font-bold text-charcoal text-sm">Bayar Saat Motor Diterima (COD)</h4>
+                                <p class="text-xs text-charcoal/75 mt-0.5">Pembayaran lunas via QRIS, Transfer Bank, atau Tunai waktu unit motor sudah kamu cek langsung di lokasi.</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Fasilitas Standar Karsa Roda (6 Cols) -->
+                <div class="lg:col-span-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div class="bg-ivory p-5 rounded-2xl border-2 border-charcoal shadow-brutal-sm">
+                        <div class="w-12 h-12 rounded-xl bg-terracotta text-ivory border-2 border-charcoal flex items-center justify-center text-2xl mb-3">
+                            <i class="ph-fill ph-helmet"></i>
+                        </div>
+                        <h3 class="font-display font-bold text-lg text-charcoal">2 Helm SNI Wangi</h3>
+                        <p class="text-xs text-charcoal/75 mt-1 leading-relaxed">Bukan helm proyek tipis. Kami sediakan 2 helm dewasa yang dicuci rutin dan diberi parfum antibakteri.</p>
+                    </div>
+
+                    <div class="bg-ivory p-5 rounded-2xl border-2 border-charcoal shadow-brutal-sm">
+                        <div class="w-12 h-12 rounded-xl bg-forest text-ivory border-2 border-charcoal flex items-center justify-center text-2xl mb-3">
+                            <i class="ph-fill ph-cloud-rain"></i>
+                        </div>
+                        <h3 class="font-display font-bold text-lg text-charcoal">2 Jas Hujan Siap Pakai</h3>
+                        <p class="text-xs text-charcoal/75 mt-1 leading-relaxed">Cuaca Kaliurang atau kota kadang susah ditebak. Di bagasi selalu siap 2 jas hujan bersih dan rapat.</p>
+                    </div>
+
+                    <div class="bg-ivory p-5 rounded-2xl border-2 border-charcoal shadow-brutal-sm">
+                        <div class="w-12 h-12 rounded-xl bg-mustard text-charcoal border-2 border-charcoal flex items-center justify-center text-2xl mb-3">
+                            <i class="ph-fill ph-device-mobile-camera"></i>
+                        </div>
+                        <h3 class="font-display font-bold text-lg text-charcoal">Holder HP Anti-Goyang</h3>
+                        <p class="text-xs text-charcoal/75 mt-1 leading-relaxed">Buka Google Maps ke pantai atau hidden gem jadi aman tanpa perlu pegang HP satu tangan.</p>
+                    </div>
+
+                    <div class="bg-ivory p-5 rounded-2xl border-2 border-charcoal shadow-brutal-sm">
+                        <div class="w-12 h-12 rounded-xl bg-charcoal text-mustard border-2 border-charcoal flex items-center justify-center text-2xl mb-3">
+                            <i class="ph-fill ph-wrench"></i>
+                        </div>
+                        <h3 class="font-display font-bold text-lg text-charcoal">Garansi Ganti Unit</h3>
+                        <p class="text-xs text-charcoal/75 mt-1 leading-relaxed">Ada kendala teknis atau ban bocor di jalan? Tim mekanik lapangan kami siap bantu atau tukar unit baru.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 6: FAQ INTERAKTIF -->
+    <section id="faq" class="py-12 md:py-20 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">
+        <div class="text-center mb-10">
+            <span class="font-mono text-xs uppercase font-bold text-terracotta tracking-widest">TANYA JAWAB SEPUTAR SEWA</span>
+            <h2 class="font-display font-black text-3xl sm:text-4xl text-charcoal mt-1">Yang Sering Ditanyakan Teman Jalan</h2>
+        </div>
+
+        <div class="space-y-4">
+            <!-- FAQ Item 1 -->
+            <div class="faq-item bg-ivory border-2 border-charcoal rounded-2xl shadow-brutal-sm overflow-hidden">
+                <button class="faq-btn w-full p-5 text-left font-bold text-base flex items-center justify-between gap-4 hover:bg-sand/50 transition-colors">
+                    <span>1. Apakah benar-benar gratis antar-jemput ke Stasiun Tugu & Lempuyangan?</span>
+                    <i class="ph-bold ph-plus text-xl shrink-0 transition-transform duration-200"></i>
+                </button>
+                <div class="faq-content hidden px-5 pb-5 text-sm text-charcoal/80 border-t border-dashed border-charcoal/30 pt-3 leading-relaxed">
+                    <strong>Betul 100% Gratis!</strong> Tim kami akan standby di pintu keluar Stasiun Tugu maupun Stasiun Lempuyangan sesuai jadwal kedatangan kereta kamu. Begitu juga untuk penginapan/hotel di area Malioboro, Prawirotaman, dan sekitar UGM/UNY.
+                </div>
+            </div>
+
+            <!-- FAQ Item 2 -->
+            <div class="faq-item bg-ivory border-2 border-charcoal rounded-2xl shadow-brutal-sm overflow-hidden">
+                <button class="faq-btn w-full p-5 text-left font-bold text-base flex items-center justify-between gap-4 hover:bg-sand/50 transition-colors">
+                    <span>2. Bagaimana perhitungan durasi sewa 1 hari?</span>
+                    <i class="ph-bold ph-plus text-xl shrink-0 transition-transform duration-200"></i>
+                </button>
+                <div class="faq-content hidden px-5 pb-5 text-sm text-charcoal/80 border-t border-dashed border-charcoal/30 pt-3 leading-relaxed">
+                    Perhitungan sewa kami adalah <strong>24 Jam penuh</strong>. Misalnya kamu ambil motor di Stasiun Tugu jam 09.00 pagi hari Sabtu, maka batas pengembalian 1 hari adalah jam 09.00 pagi hari Minggu. Jika jadwal keretamu sore/malam, tersedia opsi *overtime* hemat per jam.
+                </div>
+            </div>
+
+            <!-- FAQ Item 3 -->
+            <div class="faq-item bg-ivory border-2 border-charcoal rounded-2xl shadow-brutal-sm overflow-hidden">
+                <button class="faq-btn w-full p-5 text-left font-bold text-base flex items-center justify-between gap-4 hover:bg-sand/50 transition-colors">
+                    <span>3. Bagaimana kalau KTP dan SIM C saya cuma satu-satunya?</span>
+                    <i class="ph-bold ph-plus text-xl shrink-0 transition-transform duration-200"></i>
+                </button>
+                <div class="faq-content hidden px-5 pb-5 text-sm text-charcoal/80 border-t border-dashed border-charcoal/30 pt-3 leading-relaxed">
+                    SIM C <strong>tidak kami tahan</strong> (karena wajib kamu bawa berkendara di jalan). Yang dijaminkan cukup E-KTP ditambah 1 kartu identitas lain seperti Kartu Mahasiswa (KTM), NPWP, Kartu Pegawai, atau bisa digabung dengan E-KTP teman satu rombonganmu.
+                </div>
+            </div>
+
+            <!-- FAQ Item 4 -->
+            <div class="faq-item bg-ivory border-2 border-charcoal rounded-2xl shadow-brutal-sm overflow-hidden">
+                <button class="faq-btn w-full p-5 text-left font-bold text-base flex items-center justify-between gap-4 hover:bg-sand/50 transition-colors">
+                    <span>4. Apakah motor aman dibawa ke Pantai Gunungkidul atau Kaliurang?</span>
+                    <i class="ph-bold ph-plus text-xl shrink-0 transition-transform duration-200"></i>
+                </button>
+                <div class="faq-content hidden px-5 pb-5 text-sm text-charcoal/80 border-t border-dashed border-charcoal/30 pt-3 leading-relaxed">
+                    Sangat aman! Seluruh motor Karsa Roda boleh dibawa berkeliling wilayah DIY (Kota Jogja, Sleman, Bantul, Kulon Progo, Gunungkidul) hingga Candi Borobudur/Prambanan. Pastikan pilih unit minimal 125cc–160cc (Vario/NMAX/PCX) jika berboncengan ke rute tanjakan curam.
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FINAL CTA BANNER -->
+    <section class="py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto mb-12">
+        <div class="bg-terracotta text-ivory border-2 border-charcoal rounded-3xl p-8 sm:p-12 shadow-brutal-lg relative overflow-hidden">
+            <div class="max-w-3xl space-y-5 relative z-10">
+                <span class="inline-block bg-mustard text-charcoal font-mono text-xs font-bold uppercase px-3 py-1 rounded-lg border-2 border-charcoal">
+                    JANGAN SAMPAI KEHABISAN UNIT WEEKEND!
+                </span>
+                <h2 class="font-display font-black text-3xl sm:text-5xl leading-tight">
+                    Sudah Punya Tiket ke Jogja? Amankan Motormu Sekarang.
+                </h2>
+                <p class="text-ivory/90 text-base sm:text-lg max-w-2xl">
+                    Booking jauh-jauh hari tanpa biaya DP berisiko. Konsultasikan jadwal turun kereta dan motor incaranmu langsung dengan Admin lokal kami.
+                </p>
+                <div class="pt-2 flex flex-wrap items-center gap-4">
+                    <a href="https://wa.me/6287739201982?text=Halo%20Admin%20Karsa%20Roda%20Jogja!%20Saya%20mau%20booking%20sewa%20motor.%20Boleh%20minta%20info%20unit%20yang%20tersedia?"
+                       target="_blank" rel="noopener noreferrer"
+                       class="btn-brutal bg-mustard text-charcoal font-extrabold text-base px-7 py-4 rounded-2xl border-2 border-charcoal shadow-brutal inline-flex items-center gap-3">
+                        <i class="ph-fill ph-whatsapp-logo text-2xl text-forest"></i>
+                        <span>Hubungi WhatsApp: 0877-3920-1982</span>
+                    </a>
+                    <span class="font-mono text-xs text-ivory/90 flex items-center gap-1.5">
+                        <i class="ph-fill ph-clock text-mustard text-base"></i> Fast Response Setiap Hari (06.30 - 23.00 WIB)
+                    </span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-charcoal text-ivory border-t-2 border-charcoal py-12 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-8 pb-8 border-b border-ivory/20">
+            <div class="md:col-span-5 space-y-3">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-terracotta border-2 border-ivory flex items-center justify-center text-ivory">
+                        <i class="ph-fill ph-moped-front text-xl"></i>
+                    </div>
+                    <span class="font-display font-black text-2xl tracking-tight text-ivory">KARSA RODA JOGJA</span>
+                </div>
+                <p class="text-sm text-ivory/70 max-w-sm leading-relaxed">
+                    Sahabat sewa motor harian & mingguan di Daerah Istimewa Yogyakarta. Unit terawat, helm wangi, dan layanan antar-jemput stasiun paling tepat waktu.
+                </p>
+                <p class="font-mono text-xs text-mustard pt-1">
+                    📍 Garasi Utama: Dekat Stasiun Lempuyangan & Malioboro, Kota Yogyakarta, DIY
+                </p>
+            </div>
+
+            <div class="md:col-span-3 space-y-2">
+                <h4 class="font-mono text-xs uppercase tracking-wider text-mustard font-bold">Layanan Antar Gratis</h4>
+                <ul class="text-sm text-ivory/80 space-y-1.5">
+                    <li>• Stasiun Tugu Yogyakarta</li>
+                    <li>• Stasiun Lempuyangan</li>
+                    <li>• Hotel Area Malioboro & Tugu</li>
+                    <li>• Prawirotaman & Tamansari</li>
+                    <li>• Area Kampus UGM & UNY</li>
+                </ul>
+            </div>
+
+            <div class="md:col-span-4 space-y-3">
+                <h4 class="font-mono text-xs uppercase tracking-wider text-mustard font-bold">Reservasi & Bantuan 24 Jam</h4>
+                <p class="text-sm text-ivory/80">Klik nomor di bawah untuk langsung chat tanpa perlu simpan kontak:</p>
+                <a href="https://wa.me/6287739201982?text=Halo%20Karsa%20Roda%20Jogja!%20Saya%20ingin%20konsultasi%20sewa%20motor."
+                   target="_blank" rel="noopener noreferrer"
+                   class="inline-flex items-center gap-2.5 bg-forest text-ivory px-4 py-2.5 rounded-xl border border-ivory/40 font-mono text-sm font-bold hover:bg-terracotta transition-colors">
+                    <i class="ph-fill ph-whatsapp-logo text-xl text-mustard"></i>
+                    <span>+62 877-3920-1982</span>
+                </a>
+            </div>
+        </div>
+        <div class="max-w-7xl mx-auto pt-6 flex flex-col sm:flex-row items-center justify-between text-xs text-ivory/60 font-mono gap-4">
+            <p>© 2026 KARSA RODA YOGYAKARTA. Dibuat dengan hangat dari Jogja Istimewa.</p>
+            <p>Sugeng Rawuh wonten Ngayogyakarta Hadiningrat ✨</p>
+        </div>
+    </footer>
+
+    <!-- FLOATING WHATSAPP BUTTON -->
+    <a href="https://wa.me/6287739201982?text=Halo%20Karsa%20Roda%20Jogja!%20Saya%20mau%20tanya%20sewa%20motor%20di%20Yogyakarta."
+       target="_blank" rel="noopener noreferrer"
+       aria-label="Chat WhatsApp Karsa Roda"
+       class="fixed bottom-5 right-5 z-50 btn-brutal bg-[#25D366] text-charcoal font-extrabold px-4 py-3 rounded-2xl border-2 border-charcoal shadow-brutal flex items-center gap-2.5 group">
+        <div class="w-8 h-8 rounded-xl bg-charcoal text-[#25D366] flex items-center justify-center">
+            <i class="ph-fill ph-whatsapp-logo text-xl"></i>
+        </div>
+        <div class="pr-1">
+            <span class="block font-mono text-[10px] uppercase leading-none text-charcoal/80">Fast Response</span>
+            <span class="text-xs sm:text-sm font-extrabold">Booking WA Sekarang</span>
+        </div>
+    </a>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        const WA_NUMBER = "6287739201982";
+
+        // Data Katalog Armada Motor Jogja
+        const fleetData = [
+            {
+                id: "scoopy",
+                name: "Honda Scoopy Prestige",
+                category: "kalcer",
+                badge: "🔥 PALING LARIS DI JOGJA",
+                badgeBg: "bg-terracotta text-ivory",
+                tagline: "Idola buat ngopi sore & muter Prawirotaman - Malioboro",
+                dailyPrice: 85000,
+                weeklyPrice: 520000,
+                studentPrice: 75000,
+                cc: "110cc eSP • Keyless",
+                colorAccent: "#C84B31",
+                features: ["2 Helm Bogo/SNI Wangi", "2 Jas Hujan Setelan", "Holder HP + USB Charger", "BBM Awal Siap Jalan"],
+                svgType: "retro"
+            },
+            {
+                id: "fazzio",
+                name: "Yamaha Fazzio / Filano Hybrid",
+                category: "kalcer",
+                badge: "✨ SKENA KALCER JOGJA",
+                badgeBg: "bg-mustard text-charcoal",
+                tagline: "Desain classy retro modern, super estetik buat foto di Kotagede",
+                dailyPrice: 95000,
+                weeklyPrice: 590000,
+                studentPrice: 85000,
+                cc: "125cc BlueCore Hybrid",
+                colorAccent: "#E5A93B",
+                features: ["2 Helm Retro Kalcer Wangi", "2 Jas Hujan Tebal", "Bagasi Luas + Holder HP", "BBM Awal Siap Jalan"],
+                svgType: "retro"
+            },
+            {
+                id: "vario",
+                name: "Honda Vario 125 / 160 CBS-ISS",
+                category: "bongsor",
+                badge: "⛰️ KUAT NANJAK KALIURANG",
+                badgeBg: "bg-forest text-ivory",
+                tagline: "Mesin bertenaga & stabil, aman buat boncengan nanjak HeHa / Breksi",
+                dailyPrice: 95000,
+                weeklyPrice: 595000,
+                studentPrice: 85000,
+                cc: "125cc / 160cc eSP+",
+                colorAccent: "#1B3B2B",
+                features: ["2 Helm SNI Bersih Wangi", "2 Jas Hujan Tebal", "Holder HP + Rem Pakem", "BBM Awal Siap Jalan"],
+                svgType: "sport"
+            },
+            {
+                id: "nmax",
+                name: "Yamaha NMAX 155 / PCX 160",
+                category: "bongsor",
+                badge: "🏖️ RAJA TOURING PANTAI",
+                badgeBg: "bg-forest text-ivory",
+                tagline: "Jok super lebar & kaki selonjoran, anti pegal ke Pantai Gunungkidul",
+                dailyPrice: 135000,
+                weeklyPrice: 840000,
+                studentPrice: 125000,
+                cc: "155cc VVA / 160cc",
+                colorAccent: "#1B3B2B",
+                features: ["2 Helm Touring SNI Wangi", "2 Jas Hujan Ponco/Setelan", "Bagasi Super Besar + Holder", "BBM Awal Siap Jalan"],
+                svgType: "maxi"
+            },
+            {
+                id: "beat",
+                name: "Honda New Beat Deluxe",
+                category: "irit",
+                badge: "💸 PALING IRIT & LINCAH",
+                badgeBg: "bg-sand text-charcoal",
+                tagline: "Ramping, enteng, dan super hemat BBM buat selap-selip tengah kota",
+                dailyPrice: 70000,
+                weeklyPrice: 430000,
+                studentPrice: 60000,
+                cc: "110cc eSP Irit BBM",
+                colorAccent: "#C84B31",
+                features: ["2 Helm SNI Bersih Wangi", "2 Jas Hujan", "Holder HP Kokoh", "BBM Awal Siap Jalan"],
+                svgType: "compact"
+            },
+            {
+                id: "vespa",
+                name: "Vespa Sprint / Kawasaki W175",
+                category: "kalcer",
+                badge: "💎 KOLEKSI SPESIAL ESTETIK",
+                badgeBg: "bg-terracotta text-ivory",
+                tagline: "Sensasi berkendara klasik & premium buat momen spesial di Jogja",
+                dailyPrice: 185000,
+                weeklyPrice: 1150000,
+                studentPrice: 170000,
+                cc: "150cc i-Get / 175cc",
+                colorAccent: "#E5A93B",
+                features: ["2 Helm Cargloss Retro", "2 Jas Hujan Premium", "Holder HP + Unit Kinclong", "BBM Awal Siap Jalan"],
+                svgType: "classic"
+            }
+        ];
+
+        // Custom Hand-crafted SVG Scooter Illustrations to match Warm Editorial Jogja Vibe
+        function getMotorSvg(type, accent) {
+            if (type === "maxi") {
+                return `
+                <svg viewBox="0 0 280 150" class="w-full h-36 mx-auto drop-shadow-sm" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <line x1="15" y1="132" x2="265" y2="132" stroke="#1A1817" stroke-width="3" stroke-linecap="round" stroke-dasharray="8 6"/>
+                    <circle cx="65" cy="105" r="25" fill="#1A1817"/>
+                    <circle cx="65" cy="105" r="13" fill="#F6F1E7" stroke="#1A1817" stroke-width="3"/>
+                    <circle cx="212" cy="105" r="25" fill="#1A1817"/>
+                    <circle cx="212" cy="105" r="13" fill="#F6F1E7" stroke="#1A1817" stroke-width="3"/>
+                    <path d="M50 100 C50 70, 95 65, 135 88 L185 88 L205 50 L230 98 Z" fill="${accent}" stroke="#1A1817" stroke-width="3" stroke-linejoin="round"/>
+                    <path d="M60 66 L142 66 C150 66, 152 78, 140 78 L65 78 C55 78, 55 66, 60 66 Z" fill="#1A1817"/>
+                    <path d="M192 32 L218 58 L202 64 L182 38 Z" fill="#1B3B2B" stroke="#1A1817" stroke-width="2.5"/>
+                    <circle cx="225" cy="72" r="8" fill="#E5A93B" stroke="#1A1817" stroke-width="2.5"/>
+                </svg>`;
+            }
+            if (type === "retro" || type === "classic") {
+                return `
+                <svg viewBox="0 0 280 150" class="w-full h-36 mx-auto drop-shadow-sm" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <line x1="20" y1="132" x2="260" y2="132" stroke="#1A1817" stroke-width="3" stroke-linecap="round" stroke-dasharray="8 6"/>
+                    <circle cx="70" cy="106" r="23" fill="#1A1817"/>
+                    <circle cx="70" cy="106" r="12" fill="#EAE1CF" stroke="#1A1817" stroke-width="3"/>
+                    <circle cx="205" cy="106" r="23" fill="#1A1817"/>
+                    <circle cx="205" cy="106" r="12" fill="#EAE1CF" stroke="#1A1817" stroke-width="3"/>
+                    <path d="M45 102 C42 68, 110 65, 118 102 Z" fill="${accent}" stroke="#1A1817" stroke-width="3"/>
+                    <path d="M115 102 L182 102 L198 46 L212 52 L202 104" fill="${accent}" stroke="#1A1817" stroke-width="3" stroke-linejoin="round"/>
+                    <rect x="58" y="56" width="62" height="14" rx="7" fill="#1A1817"/>
+                    <circle cx="209" cy="52" r="9" fill="#E5A93B" stroke="#1A1817" stroke-width="3"/>
+                    <path d="M178 36 L198 36" stroke="#1A1817" stroke-width="4" stroke-linecap="round"/>
+                </svg>`;
+            }
+            return `
+            <svg viewBox="0 0 280 150" class="w-full h-36 mx-auto drop-shadow-sm" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <line x1="20" y1="132" x2="260" y2="132" stroke="#1A1817" stroke-width="3" stroke-linecap="round" stroke-dasharray="8 6"/>
+                <circle cx="68" cy="105" r="24" fill="#1A1817"/>
+                <circle cx="68" cy="105" r="12" fill="#F6F1E7" stroke="#1A1817" stroke-width="3"/>
+                <circle cx="208" cy="105" r="24" fill="#1A1817"/>
+                <circle cx="208" cy="105" r="12" fill="#F6F1E7" stroke="#1A1817" stroke-width="3"/>
+                <path d="M52 94 L125 72 L165 95 L198 48 L222 86 L195 102 L65 102 Z" fill="${accent}" stroke="#1A1817" stroke-width="3" stroke-linejoin="round"/>
+                <path d="M68 62 L135 65 L130 76 L64 73 Z" fill="#1A1817"/>
+                <circle cx="215" cy="68" r="7" fill="#E5A93B" stroke="#1A1817" stroke-width="2.5"/>
+            </svg>`;
+        }
+
+        function formatRupiah(num) {
+            return "Rp " + num.toLocaleString("id-ID");
+        }
+
+        // Render Fleet Cards
+        const fleetGrid = document.getElementById("fleetGrid");
+
+        function renderFleet(filter = "all") {
+            fleetGrid.innerHTML = "";
+            const filtered = filter === "all" ? fleetData : fleetData.filter(item => item.category === filter);
+
+            filtered.forEach(motor => {
+                const waText = encodeURIComponent(
+                    `Halo Admin Karsa Roda Jogja! 🛵\n\nSaya tertarik sewa unit *${motor.name}* (Tarif ${formatRupiah(motor.dailyPrice)}/hari).\nBoleh info ketersediaan untuk tanggal rencana saya di Jogja? Terima kasih!`
+                );
+                const waLink = `https://wa.me/${WA_NUMBER}?text=${waText}`;
+
+                const card = document.createElement("div");
+                card.className = "bg-ivory border-2 border-charcoal rounded-3xl overflow-hidden shadow-brutal flex flex-col justify-between transition-transform hover:-translate-y-1";
+                card.innerHTML = `
+                    <div>
+                        <!-- Top Image / Illustration Area -->
+                        <div class="bg-sand/80 border-b-2 border-charcoal p-5 relative">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="${motor.badgeBg} font-mono text-[10px] font-bold px-2.5 py-1 rounded-md border border-charcoal uppercase">
+                                    ${motor.badge}
+                                </span>
+                                <span class="font-mono text-xs font-bold bg-ivory px-2.5 py-1 rounded-md border border-charcoal">
+                                    ${motor.cc}
+                                </span>
+                            </div>
+                            ${getMotorSvg(motor.svgType, motor.colorAccent)}
+                        </div>
+
+                        <!-- Card Content -->
+                        <div class="p-6">
+                            <h3 class="font-display font-black text-2xl text-charcoal">${motor.name}</h3>
+                            <p class="text-xs text-charcoal/75 mt-1 font-medium">${motor.tagline}</p>
+
+                            <!-- Price Tiers Table -->
+                            <div class="grid grid-cols-3 gap-2 my-4 bg-sand/60 p-3 rounded-2xl border-2 border-charcoal text-center">
+                                <div class="border-r border-charcoal/20 pr-1">
+                                    <span class="block font-mono text-[10px] uppercase text-charcoal/70">Harian (24J)</span>
+                                    <span class="font-display font-black text-sm sm:text-base text-terracotta">${formatRupiah(motor.dailyPrice)}</span>
+                                </div>
+                                <div class="border-r border-charcoal/20 px-1">
+                                    <span class="block font-mono text-[10px] uppercase text-charcoal/70">Mahasiswa</span>
+                                    <span class="font-display font-black text-sm sm:text-base text-forest">${formatRupiah(motor.studentPrice)}</span>
+                                </div>
+                                <div class="pl-1">
+                                    <span class="block font-mono text-[10px] uppercase text-charcoal/70">Mingguan</span>
+                                    <span class="font-display font-black text-sm sm:text-base text-charcoal">${formatRupiah(motor.weeklyPrice)}</span>
+                                </div>
+                            </div>
+
+                            <!-- Included Facilities -->
+                            <ul class="space-y-1.5 text-xs font-semibold text-charcoal/85 mb-5">
+                                ${motor.features.map(f => `
+                                    <li class="flex items-center gap-2">
+                                        <i class="ph-fill ph-check-circle text-forest text-base"></i>
+                                        <span>${f}</span>
+                                    </li>
+                                `).join("")}
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="px-6 pb-6">
+                        <a href="${waLink}" target="_blank" rel="noopener noreferrer"
+                           class="btn-brutal w-full bg-mustard hover:bg-terracotta hover:text-ivory text-charcoal font-extrabold py-3 px-4 rounded-xl border-2 border-charcoal shadow-brutal-sm flex items-center justify-center gap-2 text-sm">
+                            <i class="ph-fill ph-whatsapp-logo text-lg"></i>
+                            <span>Pesan Motor Ini via WA</span>
+                        </a>
+                    </div>
+                `;
+                fleetGrid.appendChild(card);
+            });
+        }
+
+        // Filter Button Events
+        const filterBtns = document.querySelectorAll(".filter-btn");
+        filterBtns.forEach(btn => {
+            btn.addEventListener("click", () => {
+                filterBtns.forEach(b => {
+                    b.classList.remove("bg-charcoal", "text-ivory");
+                    b.classList.add("bg-ivory", "text-charcoal");
+                });
+                btn.classList.remove("bg-ivory", "text-charcoal");
+                btn.classList.add("bg-charcoal", "text-ivory");
+                renderFleet(btn.getAttribute("data-filter"));
+            });
+        });
+
+        // Set Default Date Input to Tomorrow
+        const heroDateInput = document.getElementById("heroDate");
+        const tomorrow = new Date();
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        heroDateInput.value = tomorrow.toISOString().split("T")[0];
+
+        // Hero Booking Form Submit -> Direct WA
+        document.getElementById("heroBookingForm").addEventListener("submit", function(e) {
+            e.preventDefault();
+            const name = document.getElementById("heroName").value.trim() || "Teman Jalan";
+            const motor = document.getElementById("heroMotor").value;
+            const date = document.getElementById("heroDate").value;
+            const duration = document.getElementById("heroDuration").value;
+            const location = document.getElementById("heroLocation").value;
+
+            const message = 
+`Halo Admin Karsa Roda Jogja! 👋
+Saya mau cek ketersediaan & booking sewa motor:
+
+• *Nama:* ${name}
+• *Unit Motor:* ${motor}
+• *Tanggal Mulai:* ${date}
+• *Durasi Sewa:* ${duration}
+• *Lokasi Antar:* ${location}
+
+Apakah unit tersebut masih tersedia? Terima kasih!`;
+
+            const url = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(message)}`;
+            window.open(url, "_blank");
+        });
+
+        // Interactive Calculator Logic
+        const calcMotor = document.getElementById("calcMotor");
+        const calcDays = document.getElementById("calcDays");
+        const calcDaysLabel = document.getElementById("calcDaysLabel");
+        const calcRateRadios = document.querySelectorAll('input[name="calcRateType"]');
+        const calcActionCam = document.getElementById("calcActionCam");
+
+        const receiptMotor = document.getElementById("receiptMotor");
+        const receiptDuration = document.getElementById("receiptDuration");
+        const receiptDiscountRow = document.getElementById("receiptDiscountRow");
+        const receiptDiscount = document.getElementById("receiptDiscount");
+        const receiptTotal = document.getElementById("receiptTotal");
+        const calcSendWaBtn = document.getElementById("calcSendWaBtn");
+
+        let currentCalcSummary = {};
+
+        function updateCalculator() {
+            const selectedOption = calcMotor.options[calcMotor.selectedIndex];
+            const motorName = selectedOption.getAttribute("data-name");
+            const basePrice = parseInt(selectedOption.value, 10);
+            const days = parseInt(calcDays.value, 10);
+            const rateType = document.querySelector('input[name="calcRateType"]:checked').value;
+            const bogoHelm = calcActionCam.checked;
+
+            calcDaysLabel.textContent = `${days} Hari`;
+            receiptMotor.textContent = motorName;
+            receiptDuration.textContent = `${days} Hari (${days * 24} Jam)`;
+
+            let subtotal = basePrice * days;
+            let discount = 0;
+
+            if (rateType === "mahasiswa") {
+                discount += 10000 * days;
+            }
+            if (days >= 7) {
+                discount += Math.round(subtotal * 0.12);
+            }
+
+            const finalTotal = subtotal - discount;
+
+            if (discount > 0) {
+                receiptDiscountRow.classList.remove("hidden");
+                receiptDiscount.textContent = `- ${formatRupiah(discount)}`;
+            } else {
+                receiptDiscountRow.classList.add("hidden");
+            }
+
+            receiptTotal.textContent = formatRupiah(finalTotal);
+
+            currentCalcSummary = {
+                motorName,
+                days,
+                rateType: rateType === "mahasiswa" ? "Tarif Mahasiswa (KTM)" : "Tarif Wisatawan/Umum",
+                bogoHelm: bogoHelm ? "Ya (Request Helm Bogo Kalcer)" : "Standar SNI Wangi",
+                finalTotal: formatRupiah(finalTotal)
+            };
+        }
+
+        calcMotor.addEventListener("change", updateCalculator);
+        calcDays.addEventListener("input", updateCalculator);
+        calcRateRadios.forEach(r => r.addEventListener("change", updateCalculator));
+        calcActionCam.addEventListener("change", updateCalculator);
+
+        calcSendWaBtn.addEventListener("click", () => {
+            const msg = 
+`Halo Admin Karsa Roda Jogja! 🧮🛵
+Saya sudah hitung simulasi biaya sewa motor di website:
+
+• *Unit Motor:* ${currentCalcSummary.motorName}
+• *Durasi Sewa:* ${currentCalcSummary.days} Hari (${currentCalcSummary.days * 24} Jam)
+• *Kategori:* ${currentCalcSummary.rateType}
+• *Request Helm:* ${currentCalcSummary.bogoHelm}
+• *Estimasi Total:* ${currentCalcSummary.finalTotal} (Termasuk 2 Helm, 2 Jas Hujan, Holder HP & Gratis Antar Stasiun/Hotel)
+
+Boleh info apakah unit ini tersedia untuk jadwal saya?`;
+
+            window.open(`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`, "_blank");
+        });
+
+        // FAQ Accordion Logic
+        document.querySelectorAll(".faq-btn").forEach(btn => {
+            btn.addEventListener("click", () => {
+                const content = btn.nextElementSibling;
+                const icon = btn.querySelector("i");
+                const isOpen = !content.classList.contains("hidden");
+
+                document.querySelectorAll(".faq-content").forEach(c => c.classList.add("hidden"));
+                document.querySelectorAll(".faq-btn i").forEach(i => i.classList.remove("rotate-45"));
+
+                if (!isOpen) {
+                    content.classList.remove("hidden");
+                    icon.classList.add("rotate-45");
+                }
+            });
+        });
+
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.getElementById("mobileMenuBtn");
+        const mobileMenu = document.getElementById("mobileMenu");
+        mobileMenuBtn.addEventListener("click", () => {
+            mobileMenu.classList.toggle("hidden");
+        });
+
+        // Initialize Page
+        renderFleet("all");
+        updateCalculator();
+    </script>
+</body>
+</html>

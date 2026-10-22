@@ -1,0 +1,1923 @@
+<!DOCTYPE html>
+<html lang="id" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lepidoptera 3D - Ensiklopedia Interaktif Kupu-Kupu</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Plus Jakarta Sans & Playfair Display -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Three.js & OrbitControls -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                    },
+                    colors: {
+                        glass: 'rgba(15, 23, 42, 0.72)',
+                        glassLight: 'rgba(255, 255, 255, 0.78)',
+                        accent: '#f59e0b',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        * {
+            user-select: none;
+            -webkit-user-select: none;
+        }
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: #090d16;
+        }
+        #canvas-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+        .glass-panel {
+            background: rgba(15, 23, 42, 0.68);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+        }
+        .light-mode .glass-panel {
+            background: rgba(255, 255, 255, 0.75);
+            border: 1px solid rgba(15, 23, 42, 0.1);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            color: #0f172a;
+        }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 5px;
+            height: 5px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(245, 158, 11, 0.5);
+            border-radius: 8px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(245, 158, 11, 0.8);
+        }
+        /* 3D Hotspot Markers */
+        .hotspot {
+            position: absolute;
+            width: 28px;
+            height: 28px;
+            margin-left: -14px;
+            margin-top: -14px;
+            border-radius: 50%;
+            background: rgba(245, 158, 11, 0.9);
+            border: 2px solid #ffffff;
+            color: #fff;
+            font-size: 12px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 10;
+            transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.2s;
+            box-shadow: 0 0 15px rgba(245, 158, 11, 0.8);
+            pointer-events: auto;
+        }
+        .hotspot:hover, .hotspot.active {
+            transform: scale(1.35);
+            background: #10b981;
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.9);
+        }
+        .hotspot::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 2px solid rgba(245, 158, 11, 0.8);
+            animation: ping 1.8s cubic-bezier(0, 0, 0.2, 1) infinite;
+        }
+        .hotspot-label {
+            position: absolute;
+            left: 34px;
+            white-space: nowrap;
+            background: rgba(15, 23, 42, 0.9);
+            color: #fff;
+            padding: 3px 10px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 600;
+            border: 1px solid rgba(255,255,255,0.15);
+            pointer-events: none;
+            opacity: 0;
+            transform: translateX(-5px);
+            transition: all 0.2s ease;
+        }
+        .hotspot:hover .hotspot-label, .hotspot.active .hotspot-label {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        @keyframes ping {
+            75%, 100% {
+                transform: scale(2.1);
+                opacity: 0;
+            }
+        }
+        .tab-btn.active {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            color: #fff;
+            border-color: transparent;
+            box-shadow: 0 4px 15px rgba(245, 158, 11, 0.4);
+        }
+        .species-card.active {
+            border-color: #f59e0b;
+            background: rgba(245, 158, 11, 0.15);
+        }
+    </style>
+</head>
+<body class="text-slate-100 antialiased selection:bg-amber-500 selection:text-white">
+
+    <!-- 3D Canvas Container -->
+    <div id="canvas-container"></div>
+
+    <!-- 3D Interactive Hotspots Overlay -->
+    <div id="hotspots-container" class="absolute inset-0 pointer-events-none z-10 overflow-hidden hidden"></div>
+
+    <!-- Top Navigation Bar -->
+    <header class="relative z-20 flex flex-wrap items-center justify-between gap-3 px-4 py-3 md:px-6 md:py-4 pointer-events-none">
+        <!-- Brand Title -->
+        <div class="glass-panel px-4 py-2.5 rounded-2xl flex items-center gap-3 pointer-events-auto">
+            <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-400 to-orange-600 flex items-center justify-center shadow-lg shadow-amber-500/30">
+                <i class="fa-solid fa-bugs text-white text-lg"></i>
+            </div>
+            <div>
+                <div class="flex items-center gap-2">
+                    <h1 class="font-serif font-bold text-lg md:text-xl tracking-wide bg-gradient-to-r from-amber-300 via-amber-100 to-orange-300 bg-clip-text text-transparent">LEPIDOPTERA 3D</h1>
+                    <span class="text-[10px] font-semibold uppercase tracking-widest px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30">EduLab</span>
+                </div>
+                <p class="text-[11px] text-slate-400 hidden sm:block">Ensiklopedia Interaktif Anatomi, Spesies & Metamorfosis Kupu-Kupu</p>
+            </div>
+        </div>
+
+        <!-- Mode Navigation Tabs -->
+        <nav class="glass-panel p-1.5 rounded-2xl flex items-center gap-1 pointer-events-auto overflow-x-auto max-w-full">
+            <button onclick="switchMode('spesies')" id="tab-spesies" class="tab-btn active px-3.5 py-2 rounded-xl text-xs md:text-sm font-semibold transition-all flex items-center gap-2 whitespace-nowrap">
+                <i class="fa-solid fa-palette"></i>
+                <span>Spesies</span>
+            </button>
+            <button onclick="switchMode('anatomi')" id="tab-anatomi" class="tab-btn px-3.5 py-2 rounded-xl text-xs md:text-sm font-semibold text-slate-300 hover:text-white transition-all flex items-center gap-2 whitespace-nowrap">
+                <i class="fa-solid fa-microscope"></i>
+                <span>Anatomi 3D</span>
+            </button>
+            <button onclick="switchMode('siklus')" id="tab-siklus" class="tab-btn px-3.5 py-2 rounded-xl text-xs md:text-sm font-semibold text-slate-300 hover:text-white transition-all flex items-center gap-2 whitespace-nowrap">
+                <i class="fa-solid fa-arrows-spin"></i>
+                <span>Metamorfosis</span>
+            </button>
+            <button onclick="switchMode('ekologi')" id="tab-ekologi" class="tab-btn px-3.5 py-2 rounded-xl text-xs md:text-sm font-semibold text-slate-300 hover:text-white transition-all flex items-center gap-2 whitespace-nowrap">
+                <i class="fa-solid fa-seedling"></i>
+                <span>Ekologi & Fakta</span>
+            </button>
+        </nav>
+
+        <!-- Environment & Camera Controls -->
+        <div class="glass-panel px-3 py-2 rounded-2xl flex items-center gap-2 pointer-events-auto">
+            <button onclick="toggleDayNight()" id="btn-daynight" class="w-9 h-9 rounded-xl bg-slate-800/80 hover:bg-slate-700 text-amber-400 flex items-center justify-center transition" title="Mode Siang / Malam">
+                <i id="icon-daynight" class="fa-solid fa-moon"></i>
+            </button>
+            <button onclick="toggleAutoRotate()" id="btn-autorotate" class="w-9 h-9 rounded-xl bg-slate-800/80 hover:bg-slate-700 text-slate-300 flex items-center justify-center transition" title="Putar Kamera Otomatis">
+                <i class="fa-solid fa-Sync fa-spin-pulse" id="icon-rotate"></i>
+                <i class="fa-solid fa-rotate"></i>
+            </button>
+            <button onclick="resetCameraView()" class="w-9 h-9 rounded-xl bg-slate-800/80 hover:bg-slate-700 text-slate-300 flex items-center justify-center transition" title="Reset Sudut Kamera">
+                <i class="fa-solid fa-compress"></i>
+            </button>
+            <button onclick="toggleUI()" id="btn-hide-ui" class="w-9 h-9 rounded-xl bg-slate-800/80 hover:bg-slate-700 text-slate-300 flex items-center justify-center transition" title="Sembunyikan/Tampilkan Panel">
+                <i class="fa-solid fa-eye"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Interactive Panels Container -->
+    <main id="ui-panels" class="relative z-20 pointer-events-none flex flex-col md:flex-row justify-between h-[calc(100vh-88px)] px-4 pb-4 md:px-6 md:pb-6 gap-4">
+
+        <!-- LEFT PANEL: Context Controls (Species / Anatomy List / Lifecycle Stages) -->
+        <aside class="w-full md:w-80 lg:w-96 flex flex-col justify-between pointer-events-auto max-h-[42vh] md:max-h-full overflow-hidden">
+            
+            <!-- Left Content Box -->
+            <div class="glass-panel rounded-3xl p-4 md:p-5 overflow-y-auto flex-1 flex flex-col gap-4">
+                
+                <!-- 1. PANEL SPESIES -->
+                <div id="left-spesies" class="flex flex-col gap-3">
+                    <div class="flex items-center justify-between border-b border-white/10 pb-2.5">
+                        <div>
+                            <h2 class="text-sm font-bold uppercase tracking-wider text-amber-400">Koleksi Spesies</h2>
+                            <p class="text-xs text-slate-400">Pilih untuk mengubah morfologi & corak 3D</p>
+                        </div>
+                        <span class="text-xs bg-white/10 px-2.5 py-1 rounded-lg font-mono">4 Spesies</span>
+                    </div>
+
+                    <div id="species-list" class="grid grid-cols-1 gap-2.5">
+                        <!-- Dynamically rendered species buttons -->
+                    </div>
+                </div>
+
+                <!-- 2. PANEL ANATOMI -->
+                <div id="left-anatomi" class="hidden flex-col gap-3">
+                    <div class="flex items-center justify-between border-b border-white/10 pb-2.5">
+                        <div>
+                            <h2 class="text-sm font-bold uppercase tracking-wider text-emerald-400">Anatomi Tubuh</h2>
+                            <p class="text-xs text-slate-400">Klik titik di 3D atau pilih bagian di bawah</p>
+                        </div>
+                        <span class="text-xs bg-emerald-500/20 text-emerald-300 px-2.5 py-1 rounded-lg font-semibold">6 Bagian</span>
+                    </div>
+
+                    <div id="anatomy-list" class="grid grid-cols-1 gap-2">
+                        <!-- Dynamically rendered anatomy items -->
+                    </div>
+                </div>
+
+                <!-- 3. PANEL SIKLUS HIDUP (METAMORFOSIS) -->
+                <div id="left-siklus" class="hidden flex-col gap-3">
+                    <div class="flex items-center justify-between border-b border-white/10 pb-2.5">
+                        <div>
+                            <h2 class="text-sm font-bold uppercase tracking-wider text-sky-400">Metamorfosis Sempurna</h2>
+                            <p class="text-xs text-slate-400">Siklus Holometabola (4 Fase Utama)</p>
+                        </div>
+                        <span class="text-xs bg-sky-500/20 text-sky-300 px-2.5 py-1 rounded-lg font-semibold">3D Model</span>
+                    </div>
+
+                    <div id="lifecycle-list" class="flex flex-col gap-2.5">
+                        <!-- Dynamically rendered lifecycle stages -->
+                    </div>
+                </div>
+
+                <!-- 4. PANEL EKOLOGI & FAKTA -->
+                <div id="left-ekologi" class="hidden flex-col gap-3">
+                    <div class="flex items-center justify-between border-b border-white/10 pb-2.5">
+                        <div>
+                            <h2 class="text-sm font-bold uppercase tracking-wider text-purple-400">Ekologi & Konservasi</h2>
+                            <p class="text-xs text-slate-400">Peran penting kupu-kupu bagi bumi</p>
+                        </div>
+                    </div>
+
+                    <div id="ecology-topics" class="flex flex-col gap-2.5">
+                        <!-- Dynamically rendered ecology topics -->
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Simulation Controls Bar (Bottom Left) -->
+            <div class="glass-panel rounded-3xl p-4 mt-3 hidden md:flex flex-col gap-3">
+                <div class="flex items-center justify-between">
+                    <span class="text-xs font-bold uppercase tracking-wider text-slate-300 flex items-center gap-2">
+                        <i class="fa-solid fa-sliders text-amber-400"></i> Kontrol Simulasi Kepakan
+                    </span>
+                    <span id="flap-status-badge" class="text-[11px] px-2 py-0.5 rounded-md bg-amber-500/20 text-amber-300 font-semibold">Normal</span>
+                </div>
+
+                <!-- Mode Buttons -->
+                <div class="grid grid-cols-4 gap-1.5">
+                    <button onclick="setBehavior('perch')" id="beh-perch" class="beh-btn py-2 px-2 rounded-xl text-xs font-medium bg-slate-800/70 hover:bg-slate-700/80 transition flex flex-col items-center gap-1 border border-transparent">
+                        <i class="fa-solid fa-spa text-pink-400"></i>
+                        <span>Hinggap</span>
+                    </button>
+                    <button onclick="setBehavior('glide')" id="beh-glide" class="beh-btn py-2 px-2 rounded-xl text-xs font-medium bg-slate-800/70 hover:bg-slate-700/80 transition flex flex-col items-center gap-1 border border-transparent">
+                        <i class="fa-solid fa-wind text-sky-400"></i>
+                        <span>Melayang</span>
+                    </button>
+                    <button onclick="setBehavior('normal')" id="beh-normal" class="beh-btn py-2 px-2 rounded-xl text-xs font-medium bg-amber-500/20 border border-amber-500/50 text-amber-300 transition flex flex-col items-center gap-1">
+                        <i class="fa-solid fa-feather-pointed text-amber-400"></i>
+                        <span>Normal</span>
+                    </button>
+                    <button onclick="setBehavior('fast')" id="beh-fast" class="beh-btn py-2 px-2 rounded-xl text-xs font-medium bg-slate-800/70 hover:bg-slate-700/80 transition flex flex-col items-center gap-1 border border-transparent">
+                        <i class="fa-solid fa-bolt text-yellow-400"></i>
+                        <span>Cepat</span>
+                    </button>
+                </div>
+
+                <!-- Custom Flap Speed Slider -->
+                <div class="flex items-center gap-3 pt-1">
+                    <span class="text-[11px] text-slate-400 whitespace-nowrap">Frekuensi:</span>
+                    <input type="range" id="flap-slider" min="0" max="18" step="0.5" value="7" oninput="updateFlapSpeed(this.value)" class="w-full accent-amber-500 h-1.5 bg-slate-700 rounded-lg cursor-pointer">
+                    <span id="flap-hz-label" class="text-xs font-mono text-amber-400 w-12 text-right">7.0 Hz</span>
+                </div>
+            </div>
+
+        </aside>
+
+        <!-- CENTER BOTTOM HINT / MOBILE SIMULATION BAR -->
+        <div class="flex flex-col items-center justify-end pointer-events-none flex-1">
+            <!-- Mobile Quick Simulation Bar -->
+            <div class="glass-panel rounded-2xl p-2 mb-2 flex md:hidden items-center gap-1.5 pointer-events-auto">
+                <button onclick="setBehavior('perch')" class="px-2.5 py-1.5 rounded-lg text-xs bg-slate-800/80 text-pink-300 flex items-center gap-1">
+                    <i class="fa-solid fa-spa"></i> Hinggap
+                </button>
+                <button onclick="setBehavior('glide')" class="px-2.5 py-1.5 rounded-lg text-xs bg-slate-800/80 text-sky-300 flex items-center gap-1">
+                    <i class="fa-solid fa-wind"></i> Melayang
+                </button>
+                <button onclick="setBehavior('normal')" class="px-2.5 py-1.5 rounded-lg text-xs bg-slate-800/80 text-amber-300 flex items-center gap-1">
+                    <i class="fa-solid fa-feather"></i> Normal
+                </button>
+                <button onclick="setBehavior('fast')" class="px-2.5 py-1.5 rounded-lg text-xs bg-slate-800/80 text-yellow-300 flex items-center gap-1">
+                    <i class="fa-solid fa-bolt"></i> Cepat
+                </button>
+            </div>
+
+            <!-- Interactive Gesture Hint -->
+            <div class="glass-panel px-4 py-1.5 rounded-full text-[11px] text-slate-300 hidden sm:flex items-center gap-4 pointer-events-auto">
+                <span><i class="fa-solid fa-computer-mouse text-amber-400 mr-1"></i> Klik Kiri + Geser: Putar 3D</span>
+                <span><i class="fa-solid fa-magnifying-glass-plus text-amber-400 mr-1"></i> Scroll: Perbesar</span>
+                <span><i class="fa-solid fa-hand-pointer text-amber-400 mr-1"></i> Klik Kanan: Geser Posisi</span>
+            </div>
+        </div>
+
+        <!-- RIGHT PANEL: Detailed Scientific Information & Live Telemetry -->
+        <aside class="w-full md:w-80 lg:w-96 flex flex-col justify-between pointer-events-auto max-h-[38vh] md:max-h-full overflow-hidden">
+            <div class="glass-panel rounded-3xl p-4 md:p-5 overflow-y-auto flex-1 flex flex-col gap-4">
+                
+                <!-- Dynamic Detail Header -->
+                <div class="border-b border-white/10 pb-3">
+                    <div class="flex items-center justify-between">
+                        <span id="info-badge" class="text-[10px] font-bold uppercase tracking-widest px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30">
+                            Profil Spesies
+                        </span>
+                        <span id="info-conservation" class="text-[11px] text-emerald-400 font-medium flex items-center gap-1">
+                            <i class="fa-solid fa-shield-heart"></i> Risiko Rendah (LC)
+                        </span>
+                    </div>
+                    <h2 id="info-title" class="font-serif text-xl md:text-2xl font-bold text-white mt-1.5">Kupu-Kupu Raja</h2>
+                    <p id="info-subtitle" class="text-xs italic text-amber-300/90 font-serif">Danaus plexippus</p>
+                </div>
+
+                <!-- Key Metrics Grid -->
+                <div id="info-metrics" class="grid grid-cols-2 gap-2.5">
+                    <div class="bg-slate-900/60 border border-white/5 rounded-2xl p-3">
+                        <span class="text-[10px] uppercase tracking-wider text-slate-400 block">Bentang Sayap</span>
+                        <span id="metric-1" class="text-sm font-bold text-white mt-0.5 block">8.9 – 10.2 cm</span>
+                    </div>
+                    <div class="bg-slate-900/60 border border-white/5 rounded-2xl p-3">
+                        <span class="text-[10px] uppercase tracking-wider text-slate-400 block"> Wilayah Asal</span>
+                        <span id="metric-2" class="text-sm font-bold text-white mt-0.5 block">Amerika & Indonesia</span>
+                    </div>
+                    <div class="bg-slate-900/60 border border-white/5 rounded-2xl p-3">
+                        <span class="text-[10px] uppercase tracking-wider text-slate-400 block">Famili</span>
+                        <span id="metric-3" class="text-sm font-bold text-amber-300 mt-0.5 block">Nymphalidae</span>
+                    </div>
+                    <div class="bg-slate-900/60 border border-white/5 rounded-2xl p-3">
+                        <span class="text-[10px] uppercase tracking-wider text-slate-400 block">Kecepatan Terbang</span>
+                        <span id="metric-4" class="text-sm font-bold text-emerald-300 mt-0.5 block">~18 km/jam</span>
+                    </div>
+                </div>
+
+                <!-- Main Description -->
+                <div class="space-y-2.5 text-xs md:text-sm text-slate-200 leading-relaxed">
+                    <p id="info-description">
+                        Kupu-kupu Raja dikenal karena migrasi tahunannya yang luar biasa menempuh jarak hingga 4.800 kilometer. Warna oranye terang dan hitam berfungsi sebagai peringatan aposematik bagi predator bahwa tubuhnya mengandung glikosida jantung beracun dari tanaman milkweed.
+                    </p>
+                </div>
+
+                <!-- Special Highlight Box -->
+                <div class="bg-gradient-to-br from-amber-500/15 to-orange-600/10 border border-amber-500/30 rounded-2xl p-3.5 mt-auto">
+                    <div class="flex items-center gap-2 text-amber-300 font-bold text-xs mb-1">
+                        <i class="fa-solid fa-lightbulb"></i>
+                        <span id="info-highlight-title">Tahukah Kamu?</span>
+                    </div>
+                    <p id="info-highlight-text" class="text-xs text-slate-200 leading-relaxed">
+                        Kupu-kupu mengecap rasa makanan menggunakan reseptor kemoreseptor di telapak kakinya! Saat hinggap di atas daun, mereka langsung tahu apakah daun tersebut cocok dijadikan tempat bertelur.
+                    </p>
+                </div>
+
+                <!-- Scientific Taxonomy Footer -->
+                <div class="pt-2 border-t border-white/10 flex items-center justify-between text-[11px] text-slate-400">
+                    <span>Filum: <strong>Arthropoda</strong></span>
+                    <span>Kelas: <strong>Insecta</strong></span>
+                    <span>Ordo: <strong>Lepidoptera</strong></span>
+                </div>
+            </div>
+        </aside>
+
+    </main>
+
+    <!-- Application & Three.js Logic -->
+    <script>
+        // ==========================================
+        // 1. DATABASE EDUKASI BAHASA INDONESIA
+        // ==========================================
+
+        const SPECIES_DATA = {
+            monarch: {
+                id: 'monarch',
+                name: 'Kupu-Kupu Raja (Monarch)',
+                latin: 'Danaus plexippus',
+                badge: 'Migrasi Terjauh',
+                badgeColor: 'amber',
+                conservation: 'Rentan (Vulnerable)',
+                wingspan: '8.9 – 10.2 cm',
+                habitat: 'Amerika, Australia, Indonesia',
+                family: 'Nymphalidae',
+                speed: '15 – 30 km/jam',
+                scale: 1.0,
+                hasTails: false,
+                metalness: 0.15,
+                roughness: 0.55,
+                colorDot: '#f97316',
+                description: 'Kupu-kupu Raja terkenal dengan corak sayap oranye keemasan yang dibatasi urat-urat hitam tegas dan bintik-bintik putih di tepinya. Spesies ini mampu melakukan migrasi lintas benua sejauh ribuan kilometer menggunakan kompas matahari di antenanya.',
+                factTitle: 'Pertahanan Kimia Aposematik',
+                factText: 'Saat masih menjadi ulat, mereka memakan tanaman Milkweed (Asclepias) yang mengandung racun kardenolida. Racun ini tersimpan di sayap dan tubuh dewasa sehingga terasa sangat pahit bagi burung pemangsa.'
+            },
+            morpho: {
+                id: 'morpho',
+                name: 'Kupu-Kupu Morpho Biru',
+                latin: 'Morpho menelaus',
+                badge: 'Kilau Optik',
+                badgeColor: 'sky',
+                conservation: 'Risiko Rendah (LC)',
+                wingspan: '12.0 – 15.0 cm',
+                habitat: 'Hutan Hujan Tropis Amazon',
+                family: 'Nymphalidae',
+                speed: '20 – 25 km/jam',
+                scale: 1.18,
+                hasTails: false,
+                metalness: 0.65,
+                roughness: 0.22,
+                colorDot: '#0ea5e9',
+                description: 'Morpho Biru adalah salah satu kupu-kupu terbesar dan paling memukau di dunia. Sisi atas sayapnya memancarkan warna biru kobalt metalik yang sangat berkilau, sementara sisi bawahnya berwarna cokelat kusam dengan pola bintik mata (ocelli) untuk kamuflase saat menutup sayap.',
+                factTitle: 'Warna Struktural Tanpa Pigmen!',
+                factText: 'Warna biru menyala pada Morpho Biru bukan berasal dari zat warna (pigmen), melainkan dari struktur mikroskopis sisik sayap berbentuk pohon cemara yang membiaskan dan memantulkan gelombang cahaya biru (interferensi konstruktif).'
+            },
+            birdwing: {
+                id: 'birdwing',
+                name: 'Kupu-Kupu Sayap Burung Surga',
+                latin: 'Ornithoptera paradisea',
+                badge: 'Endemik Papua',
+                badgeColor: 'emerald',
+                conservation: 'Dilindungi (CITES II)',
+                wingspan: '13.5 – 19.0 cm',
+                habitat: 'Hutan Hujan Papua, Indonesia',
+                family: 'Papilionidae',
+                speed: '25 – 35 km/jam',
+                scale: 1.28,
+                hasTails: true,
+                metalness: 0.45,
+                roughness: 0.3,
+                colorDot: '#10b981',
+                description: 'Kebanggaan fauna Nusantara dari tanah Papua! Kupu-kupu Sayap Burung Surga memiliki ukuran raksasa menyerupai burung kecil saat terbang di kanopi hutan. Pejantannya memiliki kombinasi warna hijau zamrud menyala, kuning keemasan, dan hitam beludru dengan ekor ramping.',
+                factTitle: 'Permata Terbang dari Tanah Papua',
+                factText: 'Dinamakan "Sayap Burung" (Birdwing) oleh naturalis Alfred Russel Wallace karena ukuran sayapnya yang luar biasa lebar dan gaya kepakannya yang kuat menyerupai kepakan burung Cenderawasih.'
+            },
+            swallowtail: {
+                id: 'swallowtail',
+                name: 'Kupu-Kupu Ekor Walet',
+                latin: 'Papilio machaon',
+                badge: 'Aerodinamis Cepat',
+                badgeColor: 'yellow',
+                conservation: 'Risiko Rendah (LC)',
+                wingspan: '7.5 – 9.5 cm',
+                habitat: 'Eurasia, Pegunungan & Padang Bunga',
+                family: 'Papilionidae',
+                speed: '22 – 32 km/jam',
+                scale: 0.96,
+                hasTails: true,
+                metalness: 0.15,
+                roughness: 0.5,
+                colorDot: '#eab308',
+                description: 'Kupu-kupu Ekor Walet mudah dikenali dari corak kuning cerah berpadu pita hitam-biru serta sepasang perpanjangan menyerupai ekor burung walet di ujung sayap belakangnya. Di dekat pangkal ekornya terdapat bercak mata merah bata.',
+                factTitle: 'Fungsi Ekor Palsu pada Sayap',
+                factText: 'Perpanjangan "ekor" bersama bintik merah di sayap belakang membingungkan predator seperti burung. Burung akan mengira bagian belakang itu adalah kepala, sehingga kupu-kupu masih bisa lolos meski ujung sayapnya terpatuk!'
+            }
+        };
+
+        const ANATOMY_DATA = [
+            {
+                id: 'wings',
+                name: 'Sayap Bersisik (Lepidoptera)',
+                sub: 'Forewings & Hindwings',
+                icon: 'fa-feather-pointed',
+                position: new THREE.Vector3(2.4, 0.9, -0.5),
+                camPos: new THREE.Vector3(4.5, 4.2, 4.0),
+                camTarget: new THREE.Vector3(1.2, 0.4, 0),
+                metrics: [' ribuan sisik/mm²', 'Kitin Transparan', '4 Lembar Sayap', 'Termoregulasi'],
+                metricLabels: ['Kepadatan Sisik', 'Material Dasar', 'Konfigurasi', 'Fungsi Tambahan'],
+                description: 'Kata "Lepidoptera" berasal dari bahasa Yunani: "lepis" (sisik) dan "pteron" (sayap). Sayap kupu-kupu sebenarnya terbuat dari membran kitin transparan yang dilapisi ribuan sisik mikroskopis yang tersusun rapi seperti genteng atap rumah.',
+                highlight: 'Sisik-sisik pada sayap tidak hanya memberi warna indah, tetapi juga membantu menyerap panas matahari, menolak tetesan air hujan (hidrofobik), dan meredam suara kepakan.'
+            },
+            {
+                id: 'antenna',
+                name: 'Sepasang Antena Berujung Gada',
+                sub: 'Sensor Penciuman & Navigasi',
+                icon: 'fa-satellite-dish',
+                position: new THREE.Vector3(0.55, 1.55, 2.55),
+                camPos: new THREE.Vector3(2.2, 2.2, 4.5),
+                camTarget: new THREE.Vector3(0, 1.0, 2.0),
+                metrics: ['Kemoreseptor', 'Ujung Membulat', 'Kompas Surya', 'Sensor Angin'],
+                metricLabels: ['Tipe Sensor', 'Ciri Khas Kupu-Kupu', 'Navigasi', 'Keseimbangan'],
+                description: 'Berbeda dengan ngengat yang antenanya berbulu seperti sisir, antena kupu-kupu berbentuk lurus dengan ujung membulat (clubbed antennae). Organ ini dipenuhi ribuan reseptor penciuman untuk mendeteksi aroma nektar bunga dan feromon pasangan dari jarak berkilo-kilometer.',
+                highlight: 'Di dalam antena terdapat Organ Johnston yang mendeteksi gravitasi dan kecepatan angin saat terbang, serta jam sirkadian internal untuk menavigasi arah matahari.'
+            },
+            {
+                id: 'proboscis',
+                name: 'Probosis (Belalai Penghisap)',
+                sub: 'Mulut Sifon Melingkar',
+                icon: 'fa-Rotate-right',
+                position: new THREE.Vector3(0, 0.1, 2.15),
+                camPos: new THREE.Vector3(1.8, 0.6, 3.8),
+                camTarget: new THREE.Vector3(0, 0.2, 1.8),
+                metrics: ['Sedotan Ganda', 'Gerak Hidrolik', 'Nektar & Mineral', 'Melingkar Otomatis'],
+                metricLabels: ['Struktur', 'Mekanisme Kerja', 'Diet Cair', 'Posisi Istirahat'],
+                description: 'Kupu-kupu tidak memiliki rahang pengunyah. Sebagai gantinya, mereka memiliki Probosis—tabung panjang fleksibel yang menggulung seperti pegas jam saat tidak digunakan, dan menjulur lurus melalui tekanan cairan hemolimfa saat menghisap nektar di dasar kelopak bunga.',
+                highlight: 'Saat kupu-kupu baru saja keluar dari kepompong, probosisnya terbelah menjadi dua bagian terpisah. Kupu-kupu harus menyatukannya seperti ritsleting agar bisa digunakan minum!'
+            },
+            {
+                id: 'eyes',
+                name: 'Mata Majemuk (Compound Eyes)',
+                sub: 'Penglihatan Spektrum Ultravioet',
+                icon: 'fa-eye',
+                position: new THREE.Vector3(0.32, 0.58, 1.72),
+                camPos: new THREE.Vector3(1.6, 1.3, 3.3),
+                camTarget: new THREE.Vector3(0, 0.5, 1.6),
+                metrics: ['~12.000 Ommatidia', 'Hingga 315°', 'Melihat Sinar UV', 'Sensitif Gerak'],
+                metricLabels: ['Lensa Mikro', 'Sudut Pandang', 'Spektrum Cahaya', 'Keunggulan'],
+                description: 'Kepala kupu-kupu dilengkapi sepasang mata majemuk berbentuk setengah bola yang tersusun atas sekitar 12.000 lensa kecil (ommatidia). Struktur ini memberi pandangan hampir ke segala arah secara bersamaan untuk mendeteksi sergapan burung.',
+                highlight: 'Kupu-kupu memiliki kemampuan melihat cahaya Ultraviolet (UV) yang tidak bisa dilihat manusia. Banyak kelopak bunga memiliki pola UV rahasia yang berfungsi sebagai "landasan pacu" penunjuk letak nektar.'
+            },
+            {
+                id: 'thorax',
+                name: 'Toraks (Dada & Otot Terbang)',
+                sub: 'Pusat Lokomosi & 6 Kaki',
+                icon: 'fa-dumbbell',
+                position: new THREE.Vector3(0, 0.55, 0.35),
+                camPos: new THREE.Vector3(3.0, 2.0, 2.2),
+                camTarget: new THREE.Vector3(0, 0.3, 0.2),
+                metrics: ['3 Segmen Utama', '6 Kaki Berbuku', '27–38°C Optimal', 'Otot Indirek'],
+                metricLabels: ['Struktur Toraks', 'Alat Gerak', 'Suhu Otot Terbang', 'Tipe Kontraksi'],
+                description: 'Toraks adalah ruang mesin kupu-kupu yang terdiri dari tiga segmen (protoraks, mesotoraks, dan metatoraks). Di dalamnya terdapat otot-otot terbang raksasa yang menggerakkan keempat sayap dan enam kaki bersendi.',
+                highlight: 'Di pagi hari yang dingin, kupu-kupu sering berjemur sambil menggetarkan sayapnya agar suhu otot di dalam toraks mencapai minimal 28°C sebelum mereka bisa lepas landas.'
+            },
+            {
+                id: 'abdomen',
+                name: 'Abdomen (Perut Beruas)',
+                sub: 'Pencernaan, Pernapasan & Reproduksi',
+                icon: 'fa-heart-pulse',
+                position: new THREE.Vector3(0, 0.25, -1.65),
+                camPos: new THREE.Vector3(3.2, 1.6, -2.5),
+                camTarget: new THREE.Vector3(0, 0.2, -1.2),
+                metrics: ['10 Segmen Lunak', '9 Pasang Spirakel', 'Jantung Tabung', 'Organ Reproduksi'],
+                metricLabels: ['Ruas Tubuh', 'Lubang Napas', 'Sirkulasi', 'Ujung Abdomen'],
+                description: 'Abdomen kupu-kupu jauh lebih lunak dan fleksibel dibanding toraks, tersusun atas 10 segmen cincin. Di bagian ini terdapat jantung berbentuk tabung panjang, saluran pencernaan nektar, cadangan lemak, serta organ reproduksi.',
+                highlight: 'Kupu-kupu tidak bernapas menggunakan hidung atau paru-paru! Mereka bernapas melalui lubang-lubang ventilasi mikroskopis bernama "Spirakel" yang berderet di sisi kanan dan kiri abdomen.'
+            }
+        ];
+
+        const LIFECYCLE_DATA = [
+            {
+                stage: 1,
+                id: 'egg',
+                name: '1. Fase Telur (Ovum)',
+                latin: 'Tahap Embrionik Awal',
+                duration: '3 – 7 Hari',
+                size: '0.8 – 2.0 mm',
+                location: 'Permukaan Bawah Daun Inang',
+                icon: 'fa-egg',
+                color: '#fef08a',
+                description: 'Siklus hidup dimulai ketika kupu-kupu betina menempelkan telur berukuran mikroskopis di balik daun tanaman inang spesifik menggunakan zat perekat alami yang tahan air hujan. Kulit telur (korion) memiliki tekstur bergaris-garis artistik dan sebuah lubang mikroskopis (mikropil) untuk masuknya oksigen.',
+                highlight: 'Kupu-kupu betina sangat pemilih! Ia hanya mau meletakkan telurnya pada spesies tanaman yang daunnya bisa dimakan oleh ulatnya nanti.'
+            },
+            {
+                stage: 2,
+                id: 'larva',
+                name: '2. Fase Ulat (Larva)',
+                latin: 'Tahap Makan & Pertumbuhan Cepat',
+                duration: '2 – 4 Minggu',
+                size: 'Bertambah 1000x Lipat',
+                location: 'Pucuk & Daun Tanaman Inang',
+                icon: 'fa-worm',
+                color: '#4ade80',
+                description: 'Begitu menetas, makanan pertama ulat adalah cangkang telurnya sendiri yang kaya protein! Ulat adalah "mesin makan" yang bertugas menimbun energi. Karena kulit luarnya tidak elastis, ulat akan berganti kulit (molting) sebanyak 4 hingga 5 kali—setiap tahap pergantian kulit ini disebut Instar.',
+                highlight: 'Dalam waktu kurang dari tiga minggu, bobot tubuh ulat dapat meningkat hingga lebih dari 1.000 kali lipat dari berat saat baru menetas!'
+            },
+            {
+                stage: 3,
+                id: 'pupa',
+                name: '3. Fase Kepompong (Chrysalis / Pupa)',
+                latin: 'Tahap Transformasi Biologis Total',
+                duration: '10 – 14 Hari',
+                size: '2.5 – 4.0 cm',
+                location: 'Menggantung di Ranting (Kremaster)',
+                icon: 'fa-shield-halved',
+                color: '#34d399',
+                description: 'Saat ulat mencapai ukuran maksimal, ia menempelkan diri secara terbalik di ranting menggunakan bantalan sutra dan kait kecil bernama kremaster. Di dalam kepompong (Chrysalis) yang tampak diam, terjadi keajaiban biologi: tubuh ulat mencair menjadi sup sel kaya nutrisi, lalu sel-sel khusus bernama "Imaginal Discs" membentuk sayap, mata majemuk, dan antena.',
+                highlight: 'Beberapa jam sebelum kupu-kupu keluar, dinding kepompong berubah menjadi bening transparan sehingga corak warna sayap kupu-kupu di dalamnya dapat terlihat jelas!'
+            },
+            {
+                stage: 4,
+                id: 'imago',
+                name: '4. Kupu-Kupu Dewasa (Imago)',
+                latin: 'Tahap Terbang, Penyerbukan & Reproduksi',
+                duration: '2 Minggu – 8 Bulan',
+                size: '7.5 – 19.0 cm',
+                location: 'Bunga, Padang Rumput & Kanopi Hutan',
+                icon: 'fa-bugs',
+                color: '#f59e0b',
+                description: 'Ketika keluar dari kepompong (proses eclosion), sayap kupu-kupu masih kusut, basah, dan sangat kecil. Ia harus memompa cairan hemolimfa dari abdomen ke urat-urat sayapnya dan menunggu 1–2 jam hingga sayapnya mengeras sebelum terbang mencari nektar bunga dan pasangan.',
+                highlight: 'Mayoritas kupu-kupu dewasa hidup selama 2 hingga 4 minggu, namun generasi migrasi Kupu-kupu Raja (generasi Methuselah) dapat bertahan hidup hingga 8 bulan!'
+            }
+        ];
+
+        const ECOLOGY_DATA = [
+            {
+                id: 'pollination',
+                title: 'Agen Penyerbukan Alami (Polinator)',
+                subtitle: 'Menjaga Keberlangsungan Ekosistem Bunga',
+                icon: 'fa-Seedling',
+                badge: 'Peran Ekologis',
+                metrics: ['>75% Tanaman', 'Visi Warna Merah/UV', 'Jarak Jauh', 'Mutualisme'],
+                metricLabels: ['Ketergantungan Flora', 'Target Bunga', 'Jangkauan Sebar', 'Hubungan Simbiosis'],
+                description: 'Saat kupu-kupu hinggap dari satu bunga ke bunga lain untuk menghisap nektar, butiran serbuk sari (polen) menempel pada kaki dan tubuhnya. Berbeda dengan lebah yang menetap di sarang, kupu-kupu terbang menjelajah area yang lebih luas, sehingga membantu penyerbukan silang tanaman liar dan pertanian dengan keragaman genetik yang lebih tinggi.',
+                highlight: 'Bunga yang diserbuki kupu-kupu biasanya berkelopak datar sebagai tempat mendarat, berbau harum di siang hari, dan berwarna cerah (merah, kuning, oranye, atau ungu).'
+            },
+            {
+                id: 'bioindicator',
+                title: 'Bioindikator Kesehatan Lingkungan',
+                subtitle: 'Sensor Alami Perubahan Iklim & Polusi',
+                icon: 'fa-earth-asia',
+                badge: 'Indikator Alam',
+                metrics: ['Sangat Sensitif', 'Suhu & Kelembapan', 'Bebas Pestisida', 'Rantai Makanan'],
+                metricLabels: ['Tingkat Respon', 'Parameter Iklim', 'Syarat Habitat', 'Peran Trofik'],
+                description: 'Para ilmuwan dan ahli ekologi memantau populasi kupu-kupu untuk menilai kesehatan suatu hutan atau lingkungan. Karena siklus hidupnya yang pendek dan ketergantungan mutlak pada tanaman spesifik serta udara bersih, penurunan jumlah kupu-kupu adalah tanda peringatan dini terjadinya kerusakan habitat atau pencemaran pestisida.',
+                highlight: 'Indonesia merupakan rumah bagi lebih dari 2.500 spesies kupu-kupu (sekitar 13% dari total spesies dunia), menjadikan Nusantara salah satu pusat megabiodiversitas Lepidoptera terkaya di bumi!'
+            },
+            {
+                id: 'mimicry',
+                title: 'Strategi Mimikri & Kamuflase',
+                subtitle: 'Seni Menyamar dari Burung Pemangsa',
+                icon: 'fa-masks-theater',
+                badge: 'Evolusi Pertahanan',
+                metrics: ['Mimikri Batesian', 'Mimikri Müllerian', 'Bintik Mata (Ocelli)', 'Kamuflase Daun'],
+                metricLabels: ['Meniru yang Beracun', 'Saling Menguatkan', 'Kejutan Visual', 'Sisi Bawah Sayap'],
+                description: 'Tanpa sengat atau gigitan tajam, kupu-kupu mengembangkan pertahanan visual tingkat tinggi. Beberapa spesies tak beracun meniru persis corak spesies beracun (Mimikri Batesian). Banyak spesies juga memiliki sisi bawah sayap yang menyerupai daun kering lengkap dengan tulang daun dan bercak jamur.',
+                highlight: 'Kupu-kupu Daun Mati (Kallima paralekta) asal hutan Indonesia memiliki bentuk sayap tertutup yang 99% identik dengan sehelai daun kering yang layu!'
+            }
+        ];
+
+        // ==========================================
+        // 2. STATE GLOBAL & INISIALISASI THREE.JS
+        // ==========================================
+
+        let scene, camera, renderer, controls, clock;
+        let currentMode = 'spesies'; // 'spesies' | 'anatomi' | 'siklus' | 'ekologi'
+        let currentSpecies = 'monarch';
+        let currentBehavior = 'normal'; // 'perch' | 'glide' | 'normal' | 'fast'
+        let flapFrequency = 7.0;
+        let isNightMode = false;
+        let isUIHidden = false;
+
+        // 3D Groups
+        let butterflyGroup, leftWingPivot, rightWingPivot;
+        let forewingLeftMesh, forewingRightMesh, hindwingLeftMesh, hindwingRightMesh;
+        let tailLeftMesh, tailRightMesh;
+        let proboscisGroup;
+        let flowerGroup, lifecycleGroup;
+        let eggModel, larvaModel, pupaModel;
+        let particlesSystem;
+
+        // Lighting references
+        let ambientLight, sunLight, rimLight, flowerPointLight;
+
+        // Camera tween state
+        let camTweenActive = false;
+        let camTargetPos = new THREE.Vector3(0, 4.0, 9.0);
+        let camLookAtTarget = new THREE.Vector3(0, 0.5, 0);
+
+        // Hotspots DOM references
+        const hotspotElements = [];
+
+        // ==========================================
+        // 3. GENERATOR TEKSTUR SAYAP PROSEDURAL
+        // ==========================================
+
+        function createWingTexture(speciesId, isForewing) {
+            const canvas = document.createElement('canvas');
+            canvas.width = 1024;
+            canvas.height = 1024;
+            const ctx = canvas.getContext('2d');
+
+            ctx.clearRect(0, 0, 1024, 1024);
+
+            // Base palette per species
+            if (speciesId === 'monarch') {
+                const grad = ctx.createRadialGradient(200, 512, 50, 512, 512, 850);
+                grad.addColorStop(0, '#fbbf24');
+                grad.addColorStop(0.55, '#f97316');
+                grad.addColorStop(0.88, '#c2410c');
+                grad.addColorStop(1, '#111827');
+                ctx.fillStyle = grad;
+                ctx.fillRect(0, 0, 1024, 1024);
+            } else if (speciesId === 'morpho') {
+                const grad = ctx.createRadialGradient(180, 512, 40, 512, 512, 820);
+                grad.addColorStop(0, '#7dd3fc');
+                grad.addColorStop(0.35, '#0284c7');
+                grad.addColorStop(0.75, '#1d4ed8');
+                grad.addColorStop(0.92, '#0f172a');
+                grad.addColorStop(1, '#090d16');
+                ctx.fillStyle = grad;
+                ctx.fillRect(0, 0, 1024, 1024);
+            } else if (speciesId === 'birdwing') {
+                const grad = ctx.createLinearGradient(0, 0, 1024, 1024);
+                if (isForewing) {
+                    grad.addColorStop(0, '#064e3b');
+                    grad.addColorStop(0.35, '#10b981');
+                    grad.addColorStop(0.7, '#047857');
+                    grad.addColorStop(0.9, '#111827');
+                } else {
+                    grad.addColorStop(0, '#facc15');
+                    grad.addColorStop(0.5, '#10b981');
+                    grad.addColorStop(0.85, '#065f46');
+                    grad.addColorStop(1, '#090d16');
+                }
+                ctx.fillStyle = grad;
+                ctx.fillRect(0, 0, 1024, 1024);
+            } else if (speciesId === 'swallowtail') {
+                const grad = ctx.createRadialGradient(250, 512, 60, 512, 512, 850);
+                grad.addColorStop(0, '#fef9c3');
+                grad.addColorStop(0.65, '#facc15');
+                grad.addColorStop(0.88, '#ca8a04');
+                grad.addColorStop(1, '#111827');
+                ctx.fillStyle = grad;
+                ctx.fillRect(0, 0, 1024, 1024);
+            }
+
+            // Microscopic Scale Texture Effect
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.04)';
+            for (let i = 0; i < 4000; i++) {
+                const sx = Math.random() * 1024;
+                const sy = Math.random() * 1024;
+                ctx.fillRect(sx, sy, 4, 2);
+            }
+
+            // Draw Biological Wing Veins radiating from wing base (left edge)
+            ctx.strokeStyle = '#0f172a';
+            ctx.lineCap = 'round';
+            const veinAngles = [-0.85, -0.58, -0.32, -0.1, 0.12, 0.35, 0.58, 0.82];
+            veinAngles.forEach((angle, idx) => {
+                ctx.lineWidth = idx === 2 || idx === 4 ? 26 : 18;
+                ctx.beginPath();
+                ctx.moveTo(0, 512);
+                const cpX = 450;
+                const cpY = 512 + Math.sin(angle) * 380;
+                const endX = 1024;
+                const endY = 512 + Math.sin(angle) * 680;
+                ctx.quadraticCurveTo(cpX, cpY, endX, endY);
+                ctx.stroke();
+
+                // Cross-veins (Discal cell)
+                if (idx < veinAngles.length - 1) {
+                    ctx.lineWidth = 12;
+                    ctx.beginPath();
+                    ctx.moveTo(420, 512 + Math.sin(angle) * 260);
+                    ctx.lineTo(440, 512 + Math.sin(veinAngles[idx + 1]) * 260);
+                    ctx.stroke();
+                }
+            });
+
+            // Outer Black Margin Band
+            const marginGrad = ctx.createRadialGradient(120, 512, 580, 120, 512, 920);
+            marginGrad.addColorStop(0, 'rgba(15, 23, 42, 0)');
+            marginGrad.addColorStop(0.75, 'rgba(15, 23, 42, 0.25)');
+            marginGrad.addColorStop(0.86, '#090d16');
+            marginGrad.addColorStop(1, '#090d16');
+            ctx.fillStyle = marginGrad;
+            ctx.fillRect(0, 0, 1024, 1024);
+
+            // Species Specific Submarginal Spots
+            if (speciesId === 'monarch') {
+                // White marginal dots
+                ctx.fillStyle = '#ffffff';
+                for (let a = -1.1; a <= 1.1; a += 0.13) {
+                    const r1 = 835;
+                    const r2 = 885;
+                    ctx.beginPath();
+                    ctx.arc(120 + Math.cos(a) * r1, 512 + Math.sin(a) * r1 * 0.72, 14, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.beginPath();
+                    ctx.arc(120 + Math.cos(a + 0.05) * r2, 512 + Math.sin(a + 0.05) * r2 * 0.72, 9, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            } else if (speciesId === 'morpho') {
+                // White/Sky dots along outer black rim
+                ctx.fillStyle = '#e0f2fe';
+                for (let a = -1.0; a <= 1.0; a += 0.18) {
+                    const r1 = 860;
+                    ctx.beginPath();
+                    ctx.arc(120 + Math.cos(a) * r1, 512 + Math.sin(a) * r1 * 0.7, 11, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            } else if (speciesId === 'birdwing') {
+                // Golden submarginal patches
+                ctx.fillStyle = '#fde047';
+                for (let a = -0.8; a <= 0.8; a += 0.24) {
+                    const r1 = 680;
+                    ctx.beginPath();
+                    ctx.ellipse(120 + Math.cos(a) * r1, 512 + Math.sin(a) * r1 * 0.65, 38, 20, a, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            } else if (speciesId === 'swallowtail') {
+                // Blue eyespots and red tail spot on hindwing
+                for (let a = -0.9; a <= 0.9; a += 0.22) {
+                    const r1 = 790;
+                    ctx.fillStyle = '#38bdf8';
+                    ctx.beginPath();
+                    ctx.arc(120 + Math.cos(a) * r1, 512 + Math.sin(a) * r1 * 0.7, 22, 0, Math.PI * 2);
+                    ctx.fill();
+
+                    ctx.fillStyle = '#fef08a';
+                    ctx.beginPath();
+                    ctx.arc(120 + Math.cos(a) * 870, 512 + Math.sin(a) * 870 * 0.7, 14, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+                if (!isForewing) {
+                    // Red ocellus spot at lower hindwing
+                    ctx.fillStyle = '#ef4444';
+                    ctx.beginPath();
+                    ctx.arc(620, 820, 48, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.lineWidth = 8;
+                    ctx.strokeStyle = '#1e3a8a';
+                    ctx.stroke();
+                }
+            }
+
+            const texture = new THREE.CanvasTexture(canvas);
+            texture.anisotropy = 4;
+            texture.needsUpdate = true;
+            return texture;
+        }
+
+        // Helper to normalize UVs of Extrude/ShapeGeometry to [0, 1]
+        function normalizeGeometryUVs(geometry) {
+            geometry.computeBoundingBox();
+            const max = geometry.boundingBox.max;
+            const min = geometry.boundingBox.min;
+            const offset = new THREE.Vector2(0 - min.x, 0 - min.y);
+            const range = new THREE.Vector2(max.x - min.x, max.y - min.y);
+            const pos = geometry.attributes.position;
+            const uvs = [];
+
+            for (let i = 0; i < pos.count; i++) {
+                const x = pos.getX(i);
+                const y = pos.getY(i);
+                uvs.push((x + offset.x) / range.x, (y + offset.y) / range.y);
+            }
+            geometry.setAttribute('uv', new THREE.Float32BufferAttribute(uvs, 2));
+            geometry.attributes.uv.needsUpdate = true;
+        }
+
+        // ==========================================
+        // 4. PEMBUATAN MODEL 3D KUPU-KUPU & LINGKUNGAN
+        // ==========================================
+
+        function initThreeScene() {
+            const container = document.getElementById('canvas-container');
+
+            scene = new THREE.Scene();
+            scene.fog = new THREE.FogExp2(0x090d16, 0.028);
+
+            camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 150);
+            camera.position.set(0, 4.2, 9.2);
+
+            renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'high-performance' });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            renderer.shadowMap.enabled = true;
+            renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+            renderer.toneMapping = THREE.ACESFilmicToneMapping;
+            renderer.toneMappingExposure = 1.15;
+            container.appendChild(renderer.domElement);
+
+            controls = new THREE.OrbitControls(camera, renderer.domElement);
+            controls.enableDamping = true;
+            controls.dampingFactor = 0.06;
+            controls.minDistance = 2.4;
+            controls.maxDistance = 22.0;
+            controls.maxPolarAngle = Math.PI / 1.85;
+            controls.target.set(0, 0.5, 0);
+
+            // Stop camera tween if user manually interacts with orbit controls
+            controls.addEventListener('start', () => {
+                camTweenActive = false;
+            });
+
+            clock = new THREE.Clock();
+
+            setupLights();
+            buildEnvironmentFlower();
+            buildButterflyModel();
+            buildLifecycleModels();
+            buildParticles();
+            setupHotspotsDOM();
+
+            window.addEventListener('resize', onWindowResize);
+        }
+
+        function setupLights() {
+            ambientLight = new THREE.AmbientLight(0xdbeafe, 0.75);
+            scene.add(ambientLight);
+
+            sunLight = new THREE.DirectionalLight(0xfffbeb, 1.45);
+            sunLight.position.set(7, 14, 8);
+            sunLight.castShadow = true;
+            sunLight.shadow.mapSize.width = 2048;
+            sunLight.shadow.mapSize.height = 2048;
+            sunLight.shadow.bias = -0.001;
+            scene.add(sunLight);
+
+            rimLight = new THREE.DirectionalLight(0x38bdf8, 0.7);
+            rimLight.position.set(-8, 5, -7);
+            scene.add(rimLight);
+
+            flowerPointLight = new THREE.PointLight(0xf59e0b, 0.9, 12);
+            flowerPointLight.position.set(0, -0.5, 0);
+            scene.add(flowerPointLight);
+        }
+
+        function buildButterflyModel() {
+            butterflyGroup = new THREE.Group();
+            butterflyGroup.position.set(0, 0.65, 0);
+            scene.add(butterflyGroup);
+
+            const chitinMat = new THREE.MeshStandardMaterial({
+                color: 0x18181b,
+                roughness: 0.45,
+                metalness: 0.2
+            });
+
+            const velvetMat = new THREE.MeshStandardMaterial({
+                color: 0x0f172a,
+                roughness: 0.8,
+                metalness: 0.1
+            });
+
+            // 1. THORAX (3 Fused Segments)
+            const thoraxMesh = new THREE.Mesh(new THREE.SphereGeometry(0.42, 32, 24), velvetMat);
+            thoraxMesh.scale.set(0.88, 0.95, 1.65);
+            thoraxMesh.position.set(0, 0.25, 0.35);
+            thoraxMesh.castShadow = true;
+            butterflyGroup.add(thoraxMesh);
+
+            // White anatomical spots on thorax (typical of Danaus & Papilio)
+            const dotGeo = new THREE.SphereGeometry(0.045, 12, 12);
+            const whiteDotMat = new THREE.MeshBasicMaterial({ color: 0xffffff });
+            [-0.22, 0.22].forEach(x => {
+                [0.2, 0.55].forEach(z => {
+                    const dot = new THREE.Mesh(dotGeo, whiteDotMat);
+                    dot.position.set(x, 0.52, z);
+                    butterflyGroup.add(dot);
+                });
+            });
+
+            // 2. HEAD & COMPOUND EYES
+            const headGroup = new THREE.Group();
+            headGroup.position.set(0, 0.42, 1.38);
+            butterflyGroup.add(headGroup);
+
+            const headMesh = new THREE.Mesh(new THREE.SphereGeometry(0.28, 24, 24), chitinMat);
+            headMesh.scale.set(1.05, 0.95, 0.9);
+            headGroup.add(headMesh);
+
+            // Compound Eyes with subtle faceted sheen
+            const eyeMat = new THREE.MeshStandardMaterial({
+                color: 0x27120b,
+                roughness: 0.18,
+                metalness: 0.6
+            });
+            const eyeGeo = new THREE.SphereGeometry(0.175, 24, 24);
+            const leftEye = new THREE.Mesh(eyeGeo, eyeMat);
+            leftEye.position.set(0.21, 0.06, 0.1);
+            const rightEye = new THREE.Mesh(eyeGeo, eyeMat);
+            rightEye.position.set(-0.21, 0.06, 0.1);
+            headGroup.add(leftEye, rightEye);
+
+            // 3. CLUBBED ANTENNAE (Sepasang Antena)
+            [-1, 1].forEach(side => {
+                const antCurve = new THREE.CatmullRomCurve3([
+                    new THREE.Vector3(side * 0.1, 0.16, 0.18),
+                    new THREE.Vector3(side * 0.32, 0.65, 0.65),
+                    new THREE.Vector3(side * 0.55, 1.05, 1.12),
+                    new THREE.Vector3(side * 0.65, 1.15, 1.25)
+                ]);
+                const antGeo = new THREE.TubeGeometry(antCurve, 24, 0.018, 8, false);
+                const antMesh = new THREE.Mesh(antGeo, chitinMat);
+                headGroup.add(antMesh);
+
+                // Club tip (ujung gada membulat dengan aksen oranye)
+                const clubMat = new THREE.MeshStandardMaterial({ color: 0xd97706, roughness: 0.4 });
+                const clubMesh = new THREE.Mesh(new THREE.SphereGeometry(0.045, 14, 14), clubMat);
+                clubMesh.scale.set(0.8, 0.8, 1.9);
+                clubMesh.position.set(side * 0.65, 1.15, 1.25);
+                clubMesh.rotation.x = -0.4;
+                headGroup.add(clubMesh);
+            });
+
+            // 4. COILED PROBOSCIS (Belalai Penghisap Melingkar)
+            proboscisGroup = new THREE.Group();
+            proboscisGroup.position.set(0, -0.14, 0.24);
+            headGroup.add(proboscisGroup);
+
+            const probPoints = [];
+            for (let i = 0; i <= 45; i++) {
+                const t = i / 45;
+                const angle = t * Math.PI * 4.5;
+                const radius = (1 - t * 0.72) * 0.22;
+                probPoints.push(new THREE.Vector3(0, -Math.cos(angle) * radius - 0.12, Math.sin(angle) * radius + 0.1));
+            }
+            const probCurve = new THREE.CatmullRomCurve3(probPoints);
+            const probGeo = new THREE.TubeGeometry(probCurve, 45, 0.016, 8, false);
+            const probMesh = new THREE.Mesh(probGeo, chitinMat);
+            proboscisGroup.add(probMesh);
+
+            // 5. SEGMENTED ABDOMEN (10 Segmen Perut)
+            const abdomenGroup = new THREE.Group();
+            abdomenGroup.position.set(0, 0.16, -0.35);
+            butterflyGroup.add(abdomenGroup);
+
+            for (let i = 0; i < 10; i++) {
+                const t = i / 9;
+                const radius = Math.sin(t * Math.PI * 0.85 + 0.25) * 0.26 + 0.05;
+                const segGeo = new THREE.SphereGeometry(radius, 20, 16);
+                segGeo.scale(0.92, 0.88, 1.35);
+                const segMesh = new THREE.Mesh(segGeo, velvetMat);
+                segMesh.position.set(0, -t * 0.12, -i * 0.22);
+                segMesh.castShadow = true;
+                abdomenGroup.add(segMesh);
+            }
+
+            // 6. SIX ARTICULATED LEGS (3 Pasang Kaki Bersendi)
+            const zLegOffsets = [0.65, 0.3, -0.05];
+            zLegOffsets.forEach((zOff, idx) => {
+                [-1, 1].forEach(side => {
+                    const legCurve = new THREE.CatmullRomCurve3([
+                        new THREE.Vector3(side * 0.2, 0.08, zOff),
+                        new THREE.Vector3(side * 0.52, -0.22, zOff + (idx === 0 ? 0.22 : -0.08)),
+                        new THREE.Vector3(side * 0.42, -0.58, zOff + (idx === 0 ? 0.32 : -0.15)),
+                        new THREE.Vector3(side * 0.50, -0.68, zOff + (idx === 0 ? 0.42 : -0.22))
+                    ]);
+                    const legGeo = new THREE.TubeGeometry(legCurve, 14, 0.022, 8, false);
+                    const legMesh = new THREE.Mesh(legGeo, chitinMat);
+                    butterflyGroup.add(legMesh);
+                });
+            });
+
+            // 7. WINGS (Sayap Depan & Sayap Belakang dengan Pivot Halus)
+            leftWingPivot = new THREE.Group();
+            leftWingPivot.position.set(0.22, 0.42, 0.32);
+            butterflyGroup.add(leftWingPivot);
+
+            rightWingPivot = new THREE.Group();
+            rightWingPivot.position.set(-0.22, 0.42, 0.32);
+            butterflyGroup.add(rightWingPivot);
+
+            // Forewing Organic Shape
+            const fwShape = new THREE.Shape();
+            fwShape.moveTo(0, 0);
+            fwShape.bezierCurveTo(0.9, 0.8, 2.5, 2.3, 3.85, 2.05);
+            fwShape.bezierCurveTo(4.25, 1.85, 3.9, 0.45, 3.1, -0.25);
+            fwShape.bezierCurveTo(2.1, -0.65, 0.85, -0.45, 0, 0);
+
+            const fwGeo = new THREE.ShapeGeometry(fwShape, 32);
+            normalizeGeometryUVs(fwGeo);
+            fwGeo.rotateX(-Math.PI / 2);
+
+            // Hindwing Organic Shape
+            const hwShape = new THREE.Shape();
+            hwShape.moveTo(0, 0);
+            hwShape.bezierCurveTo(1.1, 0.15, 2.75, 0.05, 3.05, -0.95);
+            hwShape.bezierCurveTo(3.15, -1.95, 2.05, -2.75, 0.95, -2.55);
+            hwShape.bezierCurveTo(0.28, -2.1, 0.08, -0.95, 0, 0);
+
+            const hwGeo = new THREE.ShapeGeometry(hwShape, 32);
+            normalizeGeometryUVs(hwGeo);
+            hwGeo.rotateX(-Math.PI / 2);
+
+            // Swallowtail / Birdwing Tail Shape
+            const tailShape = new THREE.Shape();
+            tailShape.moveTo(1.85, -2.2);
+            tailShape.quadraticCurveTo(2.25, -3.15, 2.15, -3.55);
+            tailShape.quadraticCurveTo(1.98, -3.6, 1.72, -2.95);
+            tailShape.quadraticCurveTo(1.65, -2.55, 1.85, -2.2);
+            const tailGeo = new THREE.ShapeGeometry(tailShape, 16);
+            tailGeo.rotateX(-Math.PI / 2);
+
+            const tailMat = new THREE.MeshStandardMaterial({
+                color: 0x0f172a,
+                roughness: 0.5,
+                side: THREE.DoubleSide
+            });
+
+            // Create Wing Materials
+            const fwTex = createWingTexture(currentSpecies, true);
+            const hwTex = createWingTexture(currentSpecies, false);
+
+            const fwMat = new THREE.MeshStandardMaterial({
+                map: fwTex,
+                roughness: 0.5,
+                metalness: 0.15,
+                side: THREE.DoubleSide
+            });
+
+            const hwMat = new THREE.MeshStandardMaterial({
+                map: hwTex,
+                roughness: 0.5,
+                metalness: 0.15,
+                side: THREE.DoubleSide
+            });
+
+            // Left Wings
+            forewingLeftMesh = new THREE.Mesh(fwGeo, fwMat);
+            forewingLeftMesh.position.set(0, 0.02, 0.1);
+            forewingLeftMesh.castShadow = true;
+
+            hindwingLeftMesh = new THREE.Mesh(hwGeo, hwMat);
+            hindwingLeftMesh.position.set(0, 0, -0.15);
+            hindwingLeftMesh.castShadow = true;
+
+            tailLeftMesh = new THREE.Mesh(tailGeo, tailMat);
+            tailLeftMesh.position.set(0, -0.01, -0.15);
+            tailLeftMesh.visible = false;
+
+            leftWingPivot.add(forewingLeftMesh, hindwingLeftMesh, tailLeftMesh);
+
+            // Right Wings (Mirrored along X)
+            const rightInnerGroup = new THREE.Group();
+            rightInnerGroup.scale.x = -1;
+
+            forewingRightMesh = new THREE.Mesh(fwGeo, fwMat);
+            forewingRightMesh.position.set(0, 0.02, 0.1);
+            forewingRightMesh.castShadow = true;
+
+            hindwingRightMesh = new THREE.Mesh(hwGeo, hwMat);
+            hindwingRightMesh.position.set(0, 0, -0.15);
+            hindwingRightMesh.castShadow = true;
+
+            tailRightMesh = new THREE.Mesh(tailGeo, tailMat);
+            tailRightMesh.position.set(0, -0.01, -0.15);
+            tailRightMesh.visible = false;
+
+            rightInnerGroup.add(forewingRightMesh, hindwingRightMesh, tailRightMesh);
+            rightWingPivot.add(rightInnerGroup);
+        }
+
+        function buildEnvironmentFlower() {
+            flowerGroup = new THREE.Group();
+            flowerGroup.position.set(0, -0.5, 0);
+            scene.add(flowerGroup);
+
+            // Nectar Core (Disk Florets)
+            const coreGeo = new THREE.CylinderGeometry(1.15, 0.95, 0.45, 32);
+            const coreMat = new THREE.MeshStandardMaterial({
+                color: 0xd97706,
+                roughness: 0.75,
+                metalness: 0.1
+            });
+            const coreMesh = new THREE.Mesh(coreGeo, coreMat);
+            coreMesh.position.y = 0.15;
+            coreMesh.receiveShadow = true;
+            flowerGroup.add(coreMesh);
+
+            // Golden Pollen Ring on top of Flower Center
+            const ringGeo = new THREE.TorusGeometry(0.82, 0.12, 16, 36);
+            ringGeo.rotateX(Math.PI / 2);
+            const ringMat = new THREE.MeshStandardMaterial({
+                color: 0xfacc15,
+                emissive: 0xb45309,
+                emissiveIntensity: 0.25,
+                roughness: 0.5
+            });
+            const ringMesh = new THREE.Mesh(ringGeo, ringMat);
+            ringMesh.position.y = 0.38;
+            flowerGroup.add(ringMesh);
+
+            // 16 Flower Petals around the core
+            const petalShape = new THREE.Shape();
+            petalShape.moveTo(0, 0);
+            petalShape.quadraticCurveTo(0.48, 1.1, 0.35, 2.45);
+            petalShape.quadraticCurveTo(0, 2.85, -0.35, 2.45);
+            petalShape.quadraticCurveTo(-0.48, 1.1, 0, 0);
+
+            const petalGeo = new THREE.ExtrudeGeometry(petalShape, {
+                depth: 0.06,
+                bevelEnabled: true,
+                bevelThickness: 0.03,
+                bevelSize: 0.03,
+                bevelSegments: 3
+            });
+            petalGeo.rotateX(Math.PI / 2 + 0.12);
+
+            const petalMat = new THREE.MeshStandardMaterial({
+                color: 0xec4899,
+                roughness: 0.45,
+                metalness: 0.05
+            });
+
+            for (let i = 0; i < 16; i++) {
+                const angle = (i / 16) * Math.PI * 2;
+                const petalPivot = new THREE.Group();
+                petalPivot.rotation.y = angle;
+                const petal = new THREE.Mesh(petalGeo, petalMat);
+                petal.position.set(0, 0.22, 0.85);
+                petal.receiveShadow = true;
+                petalPivot.add(petal);
+                flowerGroup.add(petalPivot);
+            }
+
+            // Green Stem & Leaf below flower
+            const stemCurve = new THREE.CatmullRomCurve3([
+                new THREE.Vector3(0, 0, 0),
+                new THREE.Vector3(0.15, -2.5, -0.2),
+                new THREE.Vector3(-0.1, -6.0, -0.5)
+            ]);
+            const stemGeo = new THREE.TubeGeometry(stemCurve, 20, 0.28, 12, false);
+            const stemMat = new THREE.MeshStandardMaterial({ color: 0x15803d, roughness: 0.7 });
+            const stemMesh = new THREE.Mesh(stemGeo, stemMat);
+            flowerGroup.add(stemMesh);
+        }
+
+        function buildLifecycleModels() {
+            lifecycleGroup = new THREE.Group();
+            lifecycleGroup.visible = false;
+            scene.add(lifecycleGroup);
+
+            // Leaf Base for Egg & Caterpillar
+            const leafShape = new THREE.Shape();
+            leafShape.moveTo(-3.5, 0);
+            leafShape.quadraticCurveTo(0, 2.2, 3.8, 0);
+            leafShape.quadraticCurveTo(0, -2.2, -3.5, 0);
+            const leafGeo = new THREE.ExtrudeGeometry(leafShape, {
+                depth: 0.08,
+                bevelEnabled: true,
+                bevelThickness: 0.04,
+                bevelSize: 0.04
+            });
+            leafGeo.rotateX(-Math.PI / 2);
+            const leafMat = new THREE.MeshStandardMaterial({ color: 0x16a34a, roughness: 0.55 });
+
+            // 1. EGG MODEL (Ovum Berusuk Halus di Atas Daun)
+            eggModel = new THREE.Group();
+            const eggLeaf = new THREE.Mesh(leafGeo, leafMat);
+            eggLeaf.position.y = -0.35;
+            eggModel.add(eggLeaf);
+
+            const ovumGeo = new THREE.SphereGeometry(0.95, 28, 24);
+            ovumGeo.scale(0.85, 1.32, 0.85);
+            const ovumMat = new THREE.MeshStandardMaterial({
+                color: 0xfef08a,
+                roughness: 0.35,
+                metalness: 0.1,
+                flatShading: true
+            });
+            const ovumMesh = new THREE.Mesh(ovumGeo, ovumMat);
+            ovumMesh.position.y = 0.85;
+            eggModel.add(ovumMesh);
+            lifecycleGroup.add(eggModel);
+
+            // 2. LARVA / CATERPILLAR MODEL (Ulat Belang Monarch)
+            larvaModel = new THREE.Group();
+            larvaModel.visible = false;
+            const larvaLeaf = new THREE.Mesh(leafGeo, leafMat);
+            larvaLeaf.position.y = -0.35;
+            larvaModel.add(larvaLeaf);
+
+            const stripeColors = [0x18181b, 0xfacc15, 0xffffff];
+            for (let i = 0; i < 12; i++) {
+                const segMat = new THREE.MeshStandardMaterial({
+                    color: stripeColors[i % 3],
+                    roughness: 0.45
+                });
+                const radius = i === 0 || i === 11 ? 0.36 : 0.46;
+                const seg = new THREE.Mesh(new THREE.SphereGeometry(radius, 20, 20), segMat);
+                const xPos = (i - 5.5) * 0.42;
+                const yArch = Math.sin((i / 11) * Math.PI) * 0.55 + 0.15;
+                seg.position.set(xPos, yArch, 0);
+                seg.scale.set(0.85, 1.0, 1.0);
+                larvaModel.add(seg);
+            }
+            // Caterpillar sensory tentacles
+            const tentacleMat = new THREE.MeshBasicMaterial({ color: 0x111827 });
+            [-0.22, 0.22].forEach(z => {
+                const tGeo = new THREE.CylinderGeometry(0.015, 0.03, 0.75);
+                const tMesh = new THREE.Mesh(tGeo, tentacleMat);
+                tMesh.position.set(2.45, 0.55, z);
+                tMesh.rotation.z = -0.5;
+                larvaModel.add(tMesh);
+            });
+            lifecycleGroup.add(larvaModel);
+
+            // 3. PUPA / CHRYSALIS MODEL (Kepompong Hijau Giok Berbintik Emas)
+            pupaModel = new THREE.Group();
+            pupaModel.visible = false;
+
+            // Branch above Chrysalis
+            const branchGeo = new THREE.CylinderGeometry(0.18, 0.24, 5.5, 16);
+            branchGeo.rotateZ(Math.PI / 2);
+            const branchMat = new THREE.MeshStandardMaterial({ color: 0x78350f, roughness: 0.85 });
+            const branchMesh = new THREE.Mesh(branchGeo, branchMat);
+            branchMesh.position.y = 2.4;
+            pupaModel.add(branchMesh);
+
+            // Cremaster stem
+            const cremGeo = new THREE.CylinderGeometry(0.05, 0.05, 0.65, 10);
+            const cremMesh = new THREE.Mesh(cremGeo, new THREE.MeshBasicMaterial({ color: 0x111827 }));
+            cremMesh.position.y = 2.0;
+            pupaModel.add(cremMesh);
+
+            // Jade Chrysalis Shell
+            const chrysGeo = new THREE.SphereGeometry(1.05, 32, 28);
+            chrysGeo.scale(0.82, 1.65, 0.82);
+            const chrysMat = new THREE.MeshStandardMaterial({
+                color: 0x10b981,
+                roughness: 0.22,
+                metalness: 0.35
+            });
+            const chrysMesh = new THREE.Mesh(chrysGeo, chrysMat);
+            chrysMesh.position.y = 0.45;
+            pupaModel.add(chrysMesh);
+
+            // Golden metallic crown ring on Chrysalis
+            const goldRingGeo = new THREE.TorusGeometry(0.76, 0.05, 12, 32);
+            goldRingGeo.rotateX(Math.PI / 2);
+            const goldRingMat = new THREE.MeshStandardMaterial({
+                color: 0xfbbf24,
+                metalness: 0.9,
+                roughness: 0.1
+            });
+            const goldRing = new THREE.Mesh(goldRingGeo, goldRingMat);
+            goldRing.position.y = 1.05;
+            pupaModel.add(goldRing);
+
+            lifecycleGroup.add(pupaModel);
+        }
+
+        function buildParticles() {
+            const count = 260;
+            const geo = new THREE.BufferGeometry();
+            const positions = new Float32Array(count * 3);
+
+            for (let i = 0; i < count; i++) {
+                positions[i * 3] = (Math.random() - 0.5) * 28;
+                positions[i * 3 + 1] = (Math.random() - 0.2) * 16;
+                positions[i * 3 + 2] = (Math.random() - 0.5) * 28;
+            }
+            geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+
+            const mat = new THREE.PointsMaterial({
+                color: 0xfde047,
+                size: 0.12,
+                transparent: true,
+                opacity: 0.75
+            });
+
+            particlesSystem = new THREE.Points(geo, mat);
+            scene.add(particlesSystem);
+        }
+
+        // ==========================================
+        // 5. HOTSPOTS 3D ANATOMI & INTERAKSI UI
+        // ==========================================
+
+        function setupHotspotsDOM() {
+            const container = document.getElementById('hotspots-container');
+            container.innerHTML = '';
+
+            ANATOMY_DATA.forEach((item, index) => {
+                const el = document.createElement('div');
+                el.className = 'hotspot';
+                el.id = `hotspot-${item.id}`;
+                el.innerHTML = `
+                    <span>${index + 1}</span>
+                    <div class="hotspot-label">${item.name}</div>
+                `;
+                el.onclick = () => selectAnatomyPart(item.id);
+                container.appendChild(el);
+                hotspotElements.push({ id: item.id, el: el, localPos: item.position.clone() });
+            });
+        }
+
+        function updateHotspotsPosition() {
+            if (currentMode !== 'anatomi' || !butterflyGroup.visible) return;
+
+            hotspotElements.forEach(h => {
+                const worldPos = h.localPos.clone();
+                butterflyGroup.localToWorld(worldPos);
+                worldPos.project(camera);
+
+                // Check if in front of camera
+                if (worldPos.z < 1) {
+                    const x = (worldPos.x * 0.5 + 0.5) * window.innerWidth;
+                    const y = (-(worldPos.y * 0.5) + 0.5) * window.innerHeight;
+                    h.el.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+                    h.el.style.display = 'flex';
+                } else {
+                    h.el.style.display = 'none';
+                }
+            });
+        }
+
+        // ==========================================
+        // 6. PENGATURAN MODE, SPESIES & SIMULASI
+        // ==========================================
+
+        function renderLeftLists() {
+            // 1. Render Species Cards
+            const speciesContainer = document.getElementById('species-list');
+            speciesContainer.innerHTML = Object.values(SPECIES_DATA).map(sp => `
+                <button onclick="selectSpecies('${sp.id}')" id="card-sp-${sp.id}" class="species-card ${sp.id === currentSpecies ? 'active' : ''} text-left p-3 rounded-2xl border border-white/10 bg-slate-900/50 hover:bg-slate-800/70 transition flex items-center justify-between group">
+                    <div class="flex items-center gap-3">
+                        <span class="w-4 h-4 rounded-full shadow-md flex-shrink-0" style="background-color: ${sp.colorDot}"></span>
+                        <div>
+                            <h3 class="text-xs md:text-sm font-bold text-white group-hover:text-amber-300 transition">${sp.name}</h3>
+                            <p class="text-[11px] italic text-slate-400 font-serif">${sp.latin}</p>
+                        </div>
+                    </div>
+                    <span class="text-[10px] px-2 py-0.5 rounded-full bg-white/5 text-slate-300 border border-white/10">${sp.badge}</span>
+                </button>
+            `).join('');
+
+            // 2. Render Anatomy Buttons
+            const anatomyContainer = document.getElementById('anatomy-list');
+            anatomyContainer.innerHTML = ANATOMY_DATA.map((an, idx) => `
+                <button onclick="selectAnatomyPart('${an.id}')" id="btn-an-${an.id}" class="anatomy-btn text-left p-2.5 rounded-2xl border border-white/10 bg-slate-900/50 hover:bg-slate-800/70 transition flex items-center gap-3">
+                    <div class="w-7 h-7 rounded-xl bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 font-bold text-xs flex items-center justify-center flex-shrink-0">
+                        ${idx + 1}
+                    </div>
+                    <div class="overflow-hidden">
+                        <h3 class="text-xs font-bold text-white truncate">${an.name}</h3>
+                        <p class="text-[10px] text-slate-400 truncate">${an.sub}</p>
+                    </div>
+                </button>
+            `).join('');
+
+            // 3. Render Lifecycle Stages
+            const lifecycleContainer = document.getElementById('lifecycle-list');
+            lifecycleContainer.innerHTML = LIFECYCLE_DATA.map(lc => `
+                <button onclick="selectLifecycleStage('${lc.id}')" id="btn-lc-${lc.id}" class="lifecycle-btn text-left p-3 rounded-2xl border border-white/10 bg-slate-900/50 hover:bg-slate-800/70 transition flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <div class="w-8 h-8 rounded-xl bg-sky-500/20 text-sky-300 flex items-center justify-center">
+                            <i class="fa-solid ${lc.icon}"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xs font-bold text-white">${lc.name}</h3>
+                            <p class="text-[10px] text-slate-400">${lc.latin}</p>
+                        </div>
+                    </div>
+                    <span class="text-[10px] font-mono bg-sky-500/15 text-sky-300 px-2 py-0.5 rounded-md">${lc.duration}</span>
+                </button>
+            `).join('');
+
+            // 4. Render Ecology Topics
+            const ecologyContainer = document.getElementById('ecology-topics');
+            ecologyContainer.innerHTML = ECOLOGY_DATA.map(ec => `
+                <button onclick="selectEcologyTopic('${ec.id}')" id="btn-ec-${ec.id}" class="ecology-btn text-left p-3 rounded-2xl border border-white/10 bg-slate-900/50 hover:bg-slate-800/70 transition flex items-center gap-3">
+                    <div class="w-9 h-9 rounded-xl bg-purple-500/20 text-purple-300 flex items-center justify-center flex-shrink-0">
+                        <i class="fa-solid ${ec.icon}"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-xs font-bold text-white">${ec.title}</h3>
+                        <p class="text-[10px] text-slate-400">${ec.subtitle}</p>
+                    </div>
+                </button>
+            `).join('');
+        }
+
+        function switchMode(mode) {
+            currentMode = mode;
+
+            // Update Top Tab Styling
+            ['spesies', 'anatomi', 'siklus', 'ekologi'].forEach(m => {
+                const tab = document.getElementById(`tab-${m}`);
+                const leftSection = document.getElementById(`left-${m}`);
+                if (m === mode) {
+                    tab.classList.add('active');
+                    tab.classList.remove('text-slate-300');
+                    leftSection.classList.remove('hidden');
+                    leftSection.classList.add('flex');
+                } else {
+                    tab.classList.remove('active');
+                    tab.classList.add('text-slate-300');
+                    leftSection.classList.add('hidden');
+                    leftSection.classList.remove('flex');
+                }
+            });
+
+            // Toggle Hotspots Visibility
+            const hotspotsOverlay = document.getElementById('hotspots-container');
+            if (mode === 'anatomi') {
+                hotspotsOverlay.classList.remove('hidden');
+                // Slow down wings for anatomical inspection
+                setBehavior('glide');
+                showButterflyMainModel();
+                selectAnatomyPart('wings');
+            } else {
+                hotspotsOverlay.classList.add('hidden');
+            }
+
+            if (mode === 'spesies') {
+                showButterflyMainModel();
+                selectSpecies(currentSpecies);
+                tweenCameraTo(new THREE.Vector3(0, 4.2, 9.2), new THREE.Vector3(0, 0.5, 0));
+            } else if (mode === 'siklus') {
+                selectLifecycleStage('egg');
+            } else if (mode === 'ekologi') {
+                showButterflyMainModel();
+                setBehavior('normal');
+                selectEcologyTopic('pollination');
+                tweenCameraTo(new THREE.Vector3(4.5, 3.8, 7.5), new THREE.Vector3(0, 0.4, 0));
+            }
+        }
+
+        function showButterflyMainModel() {
+            butterflyGroup.visible = true;
+            flowerGroup.visible = true;
+            lifecycleGroup.visible = false;
+        }
+
+        function selectSpecies(speciesId) {
+            currentSpecies = speciesId;
+            const sp = SPECIES_DATA[speciesId];
+
+            // Highlight active species card
+            document.querySelectorAll('.species-card').forEach(el => el.classList.remove('active'));
+            const activeCard = document.getElementById(`card-sp-${speciesId}`);
+            if (activeCard) activeCard.classList.add('active');
+
+            // Update 3D Butterfly Wing Textures, Scale & Tails
+            const newFwTex = createWingTexture(speciesId, true);
+            const newHwTex = createWingTexture(speciesId, false);
+
+            forewingLeftMesh.material.map = newFwTex;
+            forewingLeftMesh.material.metalness = sp.metalness;
+            forewingLeftMesh.material.roughness = sp.roughness;
+            forewingLeftMesh.material.needsUpdate = true;
+
+            hindwingLeftMesh.material.map = newHwTex;
+            hindwingLeftMesh.material.metalness = sp.metalness;
+            hindwingLeftMesh.material.roughness = sp.roughness;
+            hindwingLeftMesh.material.needsUpdate = true;
+
+            tailLeftMesh.visible = sp.hasTails;
+            tailRightMesh.visible = sp.hasTails;
+
+            butterflyGroup.scale.setScalar(sp.scale);
+
+            // Update Right Information Panel
+            updateInfoPanel({
+                badge: 'Profil Spesies',
+                conservation: sp.conservation,
+                title: sp.name,
+                subtitle: sp.latin,
+                metricLabels: ['Bentang Sayap', 'Wilayah Habitat', 'Famili Biologi', 'Kecepatan Terbang'],
+                metrics: [sp.wingspan, sp.habitat, sp.family, sp.speed],
+                description: sp.description,
+                highlightTitle: sp.factTitle,
+                highlightText: sp.factText
+            });
+        }
+
+        function selectAnatomyPart(partId) {
+            const part = ANATOMY_DATA.find(p => p.id === partId);
+            if (!part) return;
+
+            // Highlight Hotspot & Button
+            document.querySelectorAll('.hotspot').forEach(el => el.classList.remove('active'));
+            const hs = document.getElementById(`hotspot-${partId}`);
+            if (hs) hs.classList.add('active');
+
+            document.querySelectorAll('.anatomy-btn').forEach(el => {
+                el.classList.remove('border-emerald-500', 'bg-emerald-500/15');
+            });
+            const btn = document.getElementById(`btn-an-${partId}`);
+            if (btn) btn.classList.add('border-emerald-500', 'bg-emerald-500/15');
+
+            // Smooth Camera Focus on Anatomy Part
+            tweenCameraTo(part.camPos, part.camTarget);
+
+            // Update Right Info Panel
+            updateInfoPanel({
+                badge: 'Eksplorasi Anatomi',
+                conservation: 'Struktur Morfologi',
+                title: part.name,
+                subtitle: part.sub,
+                metricLabels: part.metricLabels,
+                metrics: part.metrics,
+                description: part.description,
+                highlightTitle: 'Fungsi Biologis Unik',
+                highlightText: part.highlight
+            });
+        }
+
+        function selectLifecycleStage(stageId) {
+            const stage = LIFECYCLE_DATA.find(s => s.id === stageId);
+            if (!stage) return;
+
+            document.querySelectorAll('.lifecycle-btn').forEach(el => {
+                el.classList.remove('border-sky-400', 'bg-sky-500/15');
+            });
+            const btn = document.getElementById(`btn-lc-${stageId}`);
+            if (btn) btn.classList.add('border-sky-400', 'bg-sky-500/15');
+
+            if (stageId === 'imago') {
+                showButterflyMainModel();
+                setBehavior('normal');
+                tweenCameraTo(new THREE.Vector3(0, 4.2, 8.8), new THREE.Vector3(0, 0.5, 0));
+            } else {
+                butterflyGroup.visible = false;
+                flowerGroup.visible = false;
+                lifecycleGroup.visible = true;
+
+                eggModel.visible = stageId === 'egg';
+                larvaModel.visible = stageId === 'larva';
+                pupaModel.visible = stageId === 'pupa';
+
+                tweenCameraTo(new THREE.Vector3(0, 2.2, 6.5), new THREE.Vector3(0, 0.5, 0));
+            }
+
+            updateInfoPanel({
+                badge: `Fase ${stage.stage} dari 4`,
+                conservation: `Durasi: ${stage.duration}`,
+                title: stage.name,
+                subtitle: stage.latin,
+                metricLabels: ['Durasi Tahap', 'Ukuran Rata-rata', 'Lokasi Habitat', 'Urutan Siklus'],
+                metrics: [stage.duration, stage.size, stage.location, `Tahap ke-${stage.stage}`],
+                description: stage.description,
+                highlightTitle: 'Keajaiban Metamorfosis',
+                highlightText: stage.highlight
+            });
+        }
+
+        function selectEcologyTopic(topicId) {
+            const topic = ECOLOGY_DATA.find(t => t.id === topicId);
+            if (!topic) return;
+
+            document.querySelectorAll('.ecology-btn').forEach(el => {
+                el.classList.remove('border-purple-400', 'bg-purple-500/15');
+            });
+            const btn = document.getElementById(`btn-ec-${topicId}`);
+            if (btn) btn.classList.add('border-purple-400', 'bg-purple-500/15');
+
+            updateInfoPanel({
+                badge: topic.badge,
+                conservation: 'Penting bagi Bumi',
+                title: topic.title,
+                subtitle: topic.subtitle,
+                metricLabels: topic.metricLabels,
+                metrics: topic.metrics,
+                description: topic.description,
+                highlightTitle: 'Wawasan Ekologi Nusantara',
+                highlightText: topic.highlight
+            });
+        }
+
+        function updateInfoPanel(data) {
+            document.getElementById('info-badge').textContent = data.badge;
+            document.getElementById('info-conservation').innerHTML = `<i class="fa-solid fa-circle-info mr-1"></i> ${data.conservation}`;
+            document.getElementById('info-title').textContent = data.title;
+            document.getElementById('info-subtitle').textContent = data.subtitle;
+            document.getElementById('info-description').textContent = data.description;
+            document.getElementById('info-highlight-title').textContent = data.highlightTitle;
+            document.getElementById('info-highlight-text').textContent = data.highlightText;
+
+            const metricsContainer = document.getElementById('info-metrics');
+            metricsContainer.innerHTML = data.metrics.map((val, i) => `
+                <div class="bg-slate-900/60 border border-white/5 rounded-2xl p-2.5">
+                    <span class="text-[10px] uppercase tracking-wider text-slate-400 block truncate">${data.metricLabels[i]}</span>
+                    <span class="text-xs md:text-sm font-bold text-white mt-0.5 block truncate">${val}</span>
+                </div>
+            `).join('');
+        }
+
+        // ==========================================
+        // 7. KONTROL KEPAKAN, LINGKUNGAN & KAMERA
+        // ==========================================
+
+        function setBehavior(behavior) {
+            currentBehavior = behavior;
+            const slider = document.getElementById('flap-slider');
+            const badge = document.getElementById('flap-status-badge');
+
+            document.querySelectorAll('.beh-btn').forEach(b => {
+                b.className = 'beh-btn py-2 px-2 rounded-xl text-xs font-medium bg-slate-800/70 hover:bg-slate-700/80 transition flex flex-col items-center gap-1 border border-transparent';
+            });
+
+            const activeBtn = document.getElementById(`beh-${behavior}`);
+            if (activeBtn) {
+                activeBtn.className = 'beh-btn py-2 px-2 rounded-xl text-xs font-medium bg-amber-500/20 border border-amber-500/50 text-amber-300 transition flex flex-col items-center gap-1';
+            }
+
+            if (behavior === 'perch') {
+                flapFrequency = 1.2;
+                badge.textContent = 'Hinggap di Bunga';
+            } else if (behavior === 'glide') {
+                flapFrequency = 2.5;
+                badge.textContent = 'Melayang Halus';
+            } else if (behavior === 'normal') {
+                flapFrequency = 7.0;
+                badge.textContent = 'Terbang Normal';
+            } else if (behavior === 'fast') {
+                flapFrequency = 14.5;
+                badge.textContent = 'Kepakan Cepat';
+            }
+
+            slider.value = flapFrequency;
+            document.getElementById('flap-hz-label').textContent = `${flapFrequency.toFixed(1)} Hz`;
+        }
+
+        function updateFlapSpeed(val) {
+            flapFrequency = parseFloat(val);
+            document.getElementById('flap-hz-label').textContent = `${flapFrequency.toFixed(1)} Hz`;
+            document.getElementById('flap-status-badge').textContent = 'Kustom Manual';
+        }
+
+        function toggleDayNight() {
+            isNightMode = !isNightMode;
+            const icon = document.getElementById('icon-daynight');
+
+            if (isNightMode) {
+                // Enchanted Night / Firefly Mode
+                icon.className = 'fa-solid fa-sun text-yellow-300';
+                scene.fog.color.setHex(0x040711);
+                document.body.style.backgroundColor = '#040711';
+                ambientLight.intensity = 0.28;
+                ambientLight.color.setHex(0x38bdf8);
+                sunLight.intensity = 0.35;
+                sunLight.color.setHex(0x818cf8);
+                flowerPointLight.intensity = 1.8;
+                particlesSystem.material.color.setHex(0x4ade80); // Glowing green fireflies
+                particlesSystem.material.size = 0.17;
+            } else {
+                // Bright Tropical Daylight Mode
+                icon.className = 'fa-solid fa-moon text-amber-400';
+                scene.fog.color.setHex(0x090d16);
+                document.body.style.backgroundColor = '#090d16';
+                ambientLight.intensity = 0.75;
+                ambientLight.color.setHex(0xdbeafe);
+                sunLight.intensity = 1.45;
+                sunLight.color.setHex(0xfffbeb);
+                flowerPointLight.intensity = 0.9;
+                particlesSystem.material.color.setHex(0xfde047); // Golden pollen
+                particlesSystem.material.size = 0.12;
+            }
+        }
+
+        function toggleAutoRotate() {
+            controls.autoRotate = !controls.autoRotate;
+            controls.autoRotateSpeed = 2.0;
+            const btn = document.getElementById('btn-autorotate');
+            if (controls.autoRotate) {
+                btn.classList.add('bg-amber-500/30', 'text-amber-300');
+            } else {
+                btn.classList.remove('bg-amber-500/30', 'text-amber-300');
+            }
+        }
+
+        function resetCameraView() {
+            tweenCameraTo(new THREE.Vector3(0, 4.2, 9.2), new THREE.Vector3(0, 0.5, 0));
+        }
+
+        function toggleUI() {
+            isUIHidden = !isUIHidden;
+            const panels = document.getElementById('ui-panels');
+            const btn = document.getElementById('btn-hide-ui');
+            if (isUIHidden) {
+                panels.classList.add('opacity-0', 'pointer-events-none');
+                btn.innerHTML = '<i class="fa-solid fa-eye-slash text-amber-400"></i>';
+            } else {
+                panels.classList.remove('opacity-0', 'pointer-events-none');
+                btn.innerHTML = '<i class="fa-solid fa-eye"></i>';
+            }
+        }
+
+        function tweenCameraTo(targetPos, lookAtPos) {
+            camTargetPos.copy(targetPos);
+            camLookAtTarget.copy(lookAtPos);
+            camTweenActive = true;
+        }
+
+        function onWindowResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+
+        // ==========================================
+        // 8. LOOP ANIMASI UTAMA (REAL-TIME 60FPS)
+        // ==========================================
+
+        let wingPhase = 0;
+
+        function animate() {
+            requestAnimationFrame(animate);
+
+            const delta = Math.min(clock.getDelta(), 0.1);
+            const elapsed = clock.getElapsedTime();
+
+            // 1. Animate Butterfly Wing Flapping & Body Hovering
+            if (butterflyGroup && butterflyGroup.visible) {
+                wingPhase += delta * flapFrequency;
+
+                let flapAngle = 0;
+                let pitchTilt = 0;
+
+                if (currentBehavior === 'perch') {
+                    // Gently resting on flower with slow breathing wing fold
+                    flapAngle = 0.85 + Math.sin(elapsed * 1.6) * 0.25;
+                    butterflyGroup.position.y = THREE.MathUtils.lerp(butterflyGroup.position.y, 0.45, 0.08);
+                    butterflyGroup.rotation.x = THREE.MathUtils.lerp(butterflyGroup.rotation.x, 0.05, 0.08);
+                } else if (currentBehavior === 'glide') {
+                    // Soaring glide with wings wide open
+                    flapAngle = 0.12 + Math.sin(wingPhase) * 0.18;
+                    butterflyGroup.position.y = 1.2 + Math.sin(elapsed * 2.0) * 0.18;
+                    butterflyGroup.rotation.x = THREE.MathUtils.lerp(butterflyGroup.rotation.x, -0.06, 0.08);
+                } else {
+                    // Realistic figure-8 aerodynamic wing stroke
+                    flapAngle = Math.sin(wingPhase) * 0.92 + 0.15;
+                    pitchTilt = Math.cos(wingPhase) * 0.12;
+                    const hoverLift = -Math.sin(wingPhase) * 0.16;
+                    butterflyGroup.position.y = 1.35 + hoverLift;
+                    butterflyGroup.rotation.x = pitchTilt;
+                }
+
+                leftWingPivot.rotation.z = flapAngle;
+                rightWingPivot.rotation.z = -flapAngle;
+
+                // Subtle phase lag between forewing and hindwing
+                forewingLeftMesh.rotation.x = pitchTilt * 0.6;
+                forewingRightMesh.rotation.x = pitchTilt * 0.6;
+            }
+
+            // 2. Animate Lifecycle 3D Models when active
+            if (lifecycleGroup && lifecycleGroup.visible) {
+                lifecycleGroup.rotation.y = elapsed * 0.35;
+                if (larvaModel.visible) {
+                    // Subtle caterpillar crawling wave
+                    larvaModel.children.forEach((child, idx) => {
+                        if (idx > 0 && idx <= 12) {
+                            child.position.y = Math.sin((idx / 11) * Math.PI) * 0.55 + 0.15 + Math.sin(elapsed * 4 + idx * 0.6) * 0.06;
+                        }
+                    });
+                }
+            }
+
+            // 3. Animate Floating Pollen / Fireflies
+            if (particlesSystem) {
+                const posArr = particlesSystem.geometry.attributes.position.array;
+                for (let i = 0; i < posArr.length; i += 3) {
+                    posArr[i + 1] += Math.sin(elapsed + i) * 0.004;
+                    posArr[i] += Math.cos(elapsed * 0.5 + i) * 0.003;
+                }
+                particlesSystem.geometry.attributes.position.needsUpdate = true;
+            }
+
+            // 4. Smooth Camera Interpolation
+            if (camTweenActive) {
+                camera.position.lerp(camTargetPos, 0.06);
+                controls.target.lerp(camLookAtTarget, 0.08);
+                if (camera.position.distanceTo(camTargetPos) < 0.05) {
+                    camTweenActive = false;
+                }
+            }
+
+            controls.update();
+            updateHotspotsPosition();
+            renderer.render(scene, camera);
+        }
+
+        // Start Application on Window Load
+        window.onload = function () {
+            initThreeScene();
+            renderLeftLists();
+            selectSpecies('monarch');
+            animate();
+        };
+    </script>
+</body>
+</html>

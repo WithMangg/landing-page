@@ -1,0 +1,1522 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UMKM Indonesia Design Showcase — 3 Arsitektur Berbeda</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts for 3 Distinct Architectural Concepts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=JetBrains+Mono:wght@400;500;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700;800&display=swap" rel="stylesheet">
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        // Concept 1: Neo-Brutalist Coffee
+                        grotesk: ['"Space Grotesk"', 'sans-serif'],
+                        mono: ['"JetBrains Mono"', 'monospace'],
+                        // Concept 2: Editorial Wastra
+                        editorial: ['"Cormorant Garamond"', 'serif'],
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                        // Concept 3: Royal Apothecary Jamu
+                        royal: ['"Cinzel"', 'serif'],
+                    },
+                    colors: {
+                        // Concept 1 Palette
+                        pop: {
+                            yellow: '#FFD600',
+                            cobalt: '#1D4ED8',
+                            pink: '#FF3366',
+                            lime: '#A3E635',
+                            black: '#111111',
+                            paper: '#F4F4F0'
+                        },
+                        // Concept 2 Palette
+                        kala: {
+                            navy: '#0F172A',
+                            stone: '#F8FAFC',
+                            alabaster: '#F1F5F9',
+                            silver: '#94A3B8',
+                            crimson: '#9F1239'
+                        },
+                        // Concept 3 Palette
+                        tirta: {
+                            forest: '#061A14',
+                            card: '#0B261E',
+                            gold: '#D4AF37',
+                            goldlight: '#F3E5AB',
+                            jade: '#A7F3D0'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Neo-Brutalist Hard Shadows & Utilities */
+        .brutal-border {
+            border: 2px solid #111111;
+        }
+        .brutal-border-thick {
+            border: 3px solid #111111;
+        }
+        .brutal-shadow {
+            box-shadow: 5px 5px 0px #111111;
+        }
+        .brutal-shadow-sm {
+            box-shadow: 3px 3px 0px #111111;
+        }
+        .brutal-shadow-lg {
+            box-shadow: 8px 8px 0px #111111;
+        }
+        .brutal-btn {
+            border: 2px solid #111111;
+            box-shadow: 4px 4px 0px #111111;
+            transition: all 0.15s ease;
+        }
+        .brutal-btn:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 6px 6px 0px #111111;
+        }
+        .brutal-btn:active {
+            transform: translate(3px, 3px);
+            box-shadow: 1px 1px 0px #111111;
+        }
+
+        /* Marquee Animation for Concept 1 */
+        @keyframes marquee {
+            0% { transform: translateX(0%); }
+            100% { transform: translateX(-50%); }
+        }
+        .animate-marquee {
+            display: flex;
+            width: max-content;
+            animation: marquee 22s linear infinite;
+        }
+        .animate-marquee:hover {
+            animation-play-state: paused;
+        }
+
+        /* Slow Spin for Brutalist Sticker */
+        @keyframes spin-slow {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .spin-sticker {
+            animation: spin-slow 14s linear infinite;
+        }
+
+        /* Concept 3 Royal Arch & Ornate Borders */
+        .royal-arch {
+            border-radius: 9999px 9999px 16px 16px;
+        }
+        .royal-grid-bg {
+            background-image: radial-gradient(rgba(212, 175, 55, 0.14) 1px, transparent 1px);
+            background-size: 28px 28px;
+        }
+        .gold-gradient-text {
+            background: linear-gradient(135deg, #F3E5AB 0%, #D4AF37 50%, #AA820A 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Hide scrollbars on horizontal tabs */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-black selection:text-white overflow-x-hidden">
+
+    <!-- ===================================================================== -->
+    <!-- FLOATING MULTI-CONCEPT DESIGN SWITCHER BAR (TOP PERSISTENT)           -->
+    <!-- ===================================================================== -->
+    <div class="fixed top-3 left-0 right-0 z-50 px-3 sm:px-6 pointer-events-none">
+        <div class="max-w-4xl mx-auto bg-neutral-950/90 backdrop-blur-xl text-white p-2 rounded-2xl border border-white/15 shadow-2xl pointer-events-auto flex flex-col sm:flex-row items-center justify-between gap-2">
+            <div class="flex items-center gap-2.5 px-2.5 py-1">
+                <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                <span class="font-mono text-[11px] uppercase tracking-widest text-neutral-300 font-semibold">Pilih Arsitektur Desain UMKM:</span>
+            </div>
+
+            <div class="grid grid-cols-3 gap-1.5 w-full sm:w-auto">
+                <!-- Switcher Button 1: Neo-Brutalist Coffee -->
+                <button onclick="switchConcept(1)" id="switch-btn-1" class="px-3 py-2 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 bg-[#FFD600] text-black shadow-sm">
+                    <span class="font-mono">01.</span>
+                    <span class="truncate">Kopi Neo-Brutalist</span>
+                </button>
+
+                <!-- Switcher Button 2: Editorial Wastra -->
+                <button onclick="switchConcept(2)" id="switch-btn-2" class="px-3 py-2 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 text-neutral-300 hover:text-white hover:bg-white/10">
+                    <span class="font-editorial italic text-sm">02.</span>
+                    <span class="truncate">Tenun Editorial</span>
+                </button>
+
+                <!-- Switcher Button 3: Royal Apothecary Jamu -->
+                <button onclick="switchConcept(3)" id="switch-btn-3" class="px-3 py-2 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 text-neutral-300 hover:text-white hover:bg-white/10">
+                    <span class="font-royal text-[11px] text-[#D4AF37]">03.</span>
+                    <span class="truncate">Jamu Keraton Dark</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- ===================================================================== -->
+    <!-- KONSEP 1: SANGRAI.LAB — NEO-BRUTALIST & BOLD POP ROASTERY             -->
+    <!-- ===================================================================== -->
+    <div id="concept-1" class="bg-pop-paper text-pop-black font-grotesk min-h-screen pt-20 sm:pt-16">
+        
+        <!-- Marquee Ticker Bar -->
+        <div class="bg-pop-yellow brutal-border-thick border-x-0 overflow-hidden py-2.5 mt-2">
+            <div class="animate-marquee font-mono text-xs sm:text-sm font-extrabold uppercase tracking-wider flex items-center gap-8">
+                <span>⚡ SANGRAI MICRO-ROASTERY BANDUNG</span>
+                <span>•</span>
+                <span>100% DIRECT TRADE PETANI NUSANTARA</span>
+                <span>•</span>
+                <span>FRESH ROAST SETIAP SENIN & KAMIS</span>
+                <span>•</span>
+                <span>GRATIS GILING SESUAI ALAT SEDUH (V60 / ESPRESSO / TUBRUK)</span>
+                <span>•</span>
+                <span>⚡ SANGRAI MICRO-ROASTERY BANDUNG</span>
+                <span>•</span>
+                <span>100% DIRECT TRADE PETANI NUSANTARA</span>
+                <span>•</span>
+                <span>FRESH ROAST SETIAP SENIN & KAMIS</span>
+                <span>•</span>
+                <span>GRATIS GILING SESUAI ALAT SEDUH (V60 / ESPRESSO / TUBRUK)</span>
+            </div>
+        </div>
+
+        <!-- Neo-Brutalist Navbar -->
+        <header class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6">
+            <div class="bg-white brutal-border-thick brutal-shadow flex items-center justify-between px-4 sm:px-6 py-4">
+                <a href="#" class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-pop-cobalt text-white brutal-border flex items-center justify-center font-mono font-extrabold text-lg">
+                        S//L
+                    </div>
+                    <div>
+                        <span class="font-extrabold text-xl sm:text-2xl tracking-tighter block leading-none">SANGRAI.LAB</span>
+                        <span class="font-mono text-[10px] bg-pop-yellow px-1.5 py-0.5 font-bold uppercase border border-black inline-block mt-1">Experimental Coffee UMKM</span>
+                    </div>
+                </a>
+
+                <nav class="hidden md:flex items-center gap-6 font-mono text-xs font-bold uppercase">
+                    <a href="#c1-finder" class="hover:bg-pop-yellow px-2 py-1 border border-transparent hover:border-black transition-all">[01. Brew Finder]</a>
+                    <a href="#c1-catalog" class="hover:bg-pop-yellow px-2 py-1 border border-transparent hover:border-black transition-all">[02. Roastery Release]</a>
+                    <a href="#c1-lab" class="hover:bg-pop-yellow px-2 py-1 border border-transparent hover:border-black transition-all">[03. Lab Spec]</a>
+                </nav>
+
+                <button onclick="openCartDrawer()" class="brutal-btn bg-pop-yellow hover:bg-pop-lime px-4 py-2.5 font-mono text-xs sm:text-sm font-extrabold uppercase flex items-center gap-2">
+                    <i class="ph-bold ph-shopping-Wilayah text-lg"></i>
+                    <span>CART</span>
+                    <span id="c1-cart-count" class="bg-black text-white px-2 py-0.5 text-xs">0</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- Asymmetric Split-Grid Hero Section -->
+        <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+                
+                <!-- Left Brutalist Block (7 cols) -->
+                <div class="lg:col-span-7 bg-white brutal-border-thick brutal-shadow-lg p-6 sm:p-10 flex flex-col justify-between relative overflow-hidden">
+                    <!-- Floating Rotating SVG Sticker -->
+                    <div class="hidden sm:flex absolute top-6 right-6 w-28 h-28 items-center justify-center">
+                        <svg viewBox="0 0 120 120" class="w-full h-full spin-sticker">
+                            <path id="circlePath" d="M 60, 60 m -44, 0 a 44,44 0 1,1 88,0 a 44,44 0 1,1 -88,0" fill="none"/>
+                            <circle cx="60" cy="60" r="56" fill="#FFD600" stroke="#111" stroke-width="3"/>
+                            <text font-family="JetBrains Mono" font-size="9.5" font-weight="800" fill="#111">
+                                <textPath href="#circlePath" startOffset="0%">• ROASTED IN INDONESIA • SMALL BATCH LAB</textPath>
+                            </text>
+                        </svg>
+                        <i class="ph-fill ph-fire text-3xl text-pop-cobalt absolute"></i>
+                    </div>
+
+                    <div class="space-y-6">
+                        <div class="inline-flex items-center gap-2 bg-pop-cobalt text-white brutal-border px-3 py-1 font-mono text-xs font-bold uppercase">
+                            <span>BATCH #042 // PANEN RAYA 2026</span>
+                        </div>
+
+                        <h1 class="text-4xl sm:text-6xl font-extrabold uppercase leading-[0.95] tracking-tight max-w-xl">
+                            KOPI LOKAL.<br>
+                            <span class="bg-pop-yellow px-2 brutal-border inline-block mt-1">TANPA BASA-BASI.</span>
+                        </h1>
+
+                        <p class="font-mono text-xs sm:text-sm text-neutral-700 leading-relaxed max-w-xl">
+                            Kami memangkas jalur tengkulak. Biji kopi spesialti dari petani Gunung Halu, Gayo, hingga Flores disangrai dengan profil presisi tinggi untuk seduhan rumahan maupun kedai kopi Anda.
+                        </p>
+                    </div>
+
+                    <!-- Industrial Spec Table inside Hero -->
+                    <div class="my-8 bg-pop-paper brutal-border p-4 font-mono text-xs">
+                        <div class="flex justify-between border-b-2 border-black pb-2 mb-2 font-extrabold">
+                            <span>PARAMETER LAB SANGRAI</span>
+                            <span class="text-pop-cobalt">STATUS: VERIFIED</span>
+                        </div>
+                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-1">
+                            <div>
+                                <span class="text-[10px] text-neutral-500 block">SKOR CUPPING</span>
+                                <span class="font-extrabold text-sm">86.5+ (Specialty)</span>
+                            </div>
+                            <div>
+                                <span class="text-[10px] text-neutral-500 block">KETINGGIAN</span>
+                                <span class="font-extrabold text-sm">1.400-1.850 MDPL</span>
+                            </div>
+                            <div>
+                                <span class="text-[10px] text-neutral-500 block">PROSES PASCAPANEN</span>
+                                <span class="font-extrabold text-sm">Carbonic & Natural</span>
+                            </div>
+                            <div>
+                                <span class="text-[10px] text-neutral-500 block">GARANSI SEGAR</span>
+                                <span class="font-extrabold text-sm">Maks. 7 Hari Sangrai</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <a href="#c1-finder" class="brutal-btn bg-pop-cobalt text-white px-7 py-4 font-mono text-sm font-extrabold uppercase text-center flex items-center justify-center gap-2">
+                            <span>CARI PROFIL SEDUHANMU</span>
+                            <i class="ph-bold ph-arrow-down-right text-lg"></i>
+                        </a>
+                        <button onclick="openDirectWaConcept(1)" class="brutal-btn bg-white text-black px-6 py-4 font-mono text-sm font-extrabold uppercase text-center flex items-center justify-center gap-2">
+                            <i class="ph-fill ph-whatsapp-logo text-xl text-emerald-600"></i>
+                            <span>GROSIR / SUPPLIER KAFE</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Right Brutalist Visual & Lab Label Card (5 cols) -->
+                <div class="lg:col-span-5 flex flex-col gap-6">
+                    <div class="bg-pop-yellow brutal-border-thick brutal-shadow-lg p-5 flex-1 flex flex-col justify-between relative">
+                        <div class="flex items-center justify-between font-mono text-xs font-extrabold border-b-2 border-black pb-3 mb-4">
+                            <span>FEATURED LOT // HALU PINK HONEY</span>
+                            <span class="bg-black text-white px-2 py-0.5">STOK: 18 POUCH</span>
+                        </div>
+
+                        <div class="relative h-64 sm:h-72 brutal-border overflow-hidden bg-black mb-4">
+                            <img src="https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=800&q=80" 
+                                 onerror="this.src='https://placehold.co/600x500/111111/FFD600?text=SANGRAI+LAB'"
+                                 alt="Roastery Coffee" class="w-full h-full object-cover contrast-125">
+                            <div class="absolute bottom-3 left-3 bg-white brutal-border px-3 py-1 font-mono text-xs font-extrabold">
+                                NOTES: STRAWBERRY JAM, GUAVA, CACAO NIBS
+                            </div>
+                        </div>
+
+                        <div class="flex items-center justify-between gap-4">
+                            <div>
+                                <span class="font-mono text-xs uppercase font-bold block">KEMASAN 200G VALVE</span>
+                                <span class="text-2xl sm:text-3xl font-extrabold font-mono">Rp 89.000</span>
+                            </div>
+                            <button onclick="addToCartConcept(101)" class="brutal-btn bg-pop-pink text-white px-5 py-3 font-mono text-xs font-extrabold uppercase">
+                                + MASUKKAN KERANJANG
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- SPECIAL INTERACTIVE FEATURE: ROAST & BREW FINDER -->
+        <section id="c1-finder" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <div class="bg-pop-cobalt text-white brutal-border-thick brutal-shadow-lg p-6 sm:p-10">
+                <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b-2 border-white/30 pb-6">
+                    <div>
+                        <span class="font-mono text-xs bg-pop-yellow text-black px-2.5 py-1 font-extrabold uppercase brutal-border">Interactive Tool // 01</span>
+                        <h2 class="text-3xl sm:text-4xl font-extrabold uppercase mt-3">ROAST & BREW FINDER</h2>
+                        <p class="font-mono text-xs sm:text-sm text-white/85 mt-1">Pilih cara ngopi favoritmu di rumah, sistem kami akan menyorot biji kopi dengan ekstraksi paling optimal:</p>
+                    </div>
+
+                    <!-- Brew Method Selector Buttons -->
+                    <div class="flex flex-wrap gap-2.5" id="c1-brew-buttons">
+                        <button onclick="filterCoffeeByBrew('all')" data-brew="all" class="brew-btn brutal-btn bg-pop-yellow text-black px-4 py-2.5 font-mono text-xs font-extrabold uppercase">
+                            [*] SEMUA METODE
+                        </button>
+                        <button onclick="filterCoffeeByBrew('v60')" data-brew="v60" class="brew-btn brutal-btn bg-white text-black px-4 py-2.5 font-mono text-xs font-extrabold uppercase">
+                            [A] MANUAL BREW / V60
+                        </button>
+                        <button onclick="filterCoffeeByBrew('espresso')" data-brew="espresso" class="brew-btn brutal-btn bg-white text-black px-4 py-2.5 font-mono text-xs font-extrabold uppercase">
+                            [B] ESPRESSO / MOKA POT
+                        </button>
+                        <button onclick="filterCoffeeByBrew('kopisusu')" data-brew="kopisusu" class="brew-btn brutal-btn bg-white text-black px-4 py-2.5 font-mono text-xs font-extrabold uppercase">
+                            [C] ES KOPI SUSU GULA AREN
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Dynamic Recommendation Banner -->
+                <div id="c1-brew-advice" class="mt-5 bg-black/40 border-2 border-white/40 p-4 font-mono text-xs sm:text-sm flex items-center justify-between flex-wrap gap-3">
+                    <span>💡 <strong>REKOMENDASI ROASTER:</strong> Menampilkan seluruh lini produk single origin, experimental lot, dan house blend.</span>
+                    <span class="bg-pop-lime text-black px-2.5 py-1 font-extrabold">RASIO IDEAL: 1:15 — SUHU 91°C</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- INDUSTRIAL SPEC CATALOG GRID -->
+        <section id="c1-catalog" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="text-2xl sm:text-4xl font-extrabold uppercase tracking-tight">KATALOG RILISAN ROASTERY</h2>
+                <span class="font-mono text-xs font-bold bg-white brutal-border px-3 py-1.5">TOTAL: 6 SKU AKTIF</span>
+            </div>
+
+            <div id="c1-product-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Populated by JS -->
+            </div>
+        </section>
+
+        <!-- TRANSPARENCY & LAB SPEC STRIP -->
+        <section id="c1-lab" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-pop-lime brutal-border-thick brutal-shadow p-6">
+                    <div class="font-mono text-xs font-extrabold uppercase mb-2">[STEP 01 // FARM GATE]</div>
+                    <h3 class="text-2xl font-extrabold uppercase mb-2">BELI PUTUS HARGA TINGGI DARI PETANI</h3>
+                    <p class="font-mono text-xs leading-relaxed">Kami membayar 25% di atas harga pasar komoditas kepada koperasi petani di Jawa Barat, Aceh, dan NTT demi menjaga kualitas petik merah.</p>
+                </div>
+                <div class="bg-white brutal-border-thick brutal-shadow p-6">
+                    <div class="font-mono text-xs font-extrabold uppercase mb-2">[STEP 02 // CUSTOM GRIND]</div>
+                    <h3 class="text-2xl font-extrabold uppercase mb-2">GILING PRESISI TANPA BIAYA TAMBAHAN</h3>
+                    <p class="font-mono text-xs leading-relaxed">Belum punya grinder di rumah? Tulis di catatan checkout: Biji Utuh, Giling Kasar (Cold Brew), Sedang (V60), atau Halus (Espresso/Tubruk).</p>
+                </div>
+                <div class="bg-pop-yellow brutal-border-thick brutal-shadow p-6">
+                    <div class="font-mono text-xs font-extrabold uppercase mb-2">[STEP 03 // FAST DISPATCH]</div>
+                    <h3 class="text-2xl font-extrabold uppercase mb-2">GARANSI TUKAR BARU JIKA TIDAK FRESH</h3>
+                    <p class="font-mono text-xs leading-relaxed">Setiap kemasan dilengkapi one-way degassing valve dan tanggal sangrai yang dicap manual. Tidak puas? Kami kirim batch baru gratis.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Neo-Brutalist Footer -->
+        <footer class="bg-pop-black text-white border-t-4 border-black mt-12 py-12">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 font-mono text-xs">
+                <div>
+                    <div class="text-xl font-extrabold text-pop-yellow font-grotesk">SANGRAI.LAB // ROASTERY UMKM</div>
+                    <p class="text-neutral-400 mt-1">Jl. Gudang Selatan No. 22, Bandung — Jawa Barat</p>
+                </div>
+                <div class="flex flex-wrap gap-3">
+                    <button onclick="openDirectWaConcept(1)" class="brutal-btn bg-pop-yellow text-black px-4 py-2 font-extrabold">WHATSAPP ADMIN</button>
+                    <button onclick="switchConcept(2)" class="brutal-btn bg-white text-black px-4 py-2 font-extrabold">LIHAT KONSEP 2 (TENUN) →</button>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+
+    <!-- ===================================================================== -->
+    <!-- KONSEP 2: TENUN KALA — EDITORIAL MAGAZINE & LUXURY WASTRA             -->
+    <!-- ===================================================================== -->
+    <div id="concept-2" class="hidden bg-kala-stone text-kala-navy font-sans min-h-screen pt-20 sm:pt-16">
+        
+        <!-- Minimalist Magazine Top Header -->
+        <header class="border-b border-slate-300 bg-kala-stone/95 backdrop-blur-md sticky top-16 z-30">
+            <div class="max-w-7xl mx-auto px-4 sm:px-8 h-20 flex items-center justify-between">
+                <div class="hidden sm:flex items-center gap-8 text-xs tracking-[0.2em] uppercase text-slate-600 font-medium">
+                    <a href="#c2-lookbook" class="hover:text-kala-crimson transition-colors">Arsip Koleksi</a>
+                    <a href="#c2-transparency" class="hover:text-kala-crimson transition-colors">Jejak Pengrajin</a>
+                    <a href="#c2-bespoke" class="hover:text-kala-crimson transition-colors">Ukur Badan</a>
+                </div>
+
+                <a href="#" class="text-center mx-auto sm:mx-0">
+                    <span class="font-editorial text-3xl sm:text-4xl tracking-[0.18em] font-semibold uppercase block leading-none">TENUN KALA</span>
+                    <span class="text-[10px] tracking-[0.3em] uppercase text-slate-500 block mt-1">ATBM Artisanal Wastra • Jepara & Sumba</span>
+                </a>
+
+                <div class="flex items-center gap-6">
+                    <button onclick="openDirectWaConcept(2)" class="hidden md:inline-block text-xs tracking-[0.2em] uppercase text-slate-600 hover:text-kala-crimson transition-colors">
+                        Konsultasi Stylist
+                    </button>
+                    <button onclick="openCartDrawer()" class="flex items-center gap-2 text-xs tracking-[0.2em] uppercase border border-kala-navy px-4 py-2.5 hover:bg-kala-navy hover:text-white transition-colors">
+                        <span>Tas Belanja</span>
+                        <span class="font-editorial italic text-base">(<span id="c2-cart-count">0</span>)</span>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Editorial Magazine Hero Section -->
+        <section class="max-w-7xl mx-auto px-4 sm:px-8 pt-10 pb-20 border-b border-slate-300">
+            <!-- Issue Number & Editorial Meta -->
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between text-xs tracking-[0.22em] uppercase text-slate-500 border-b border-slate-300 pb-4 mb-10 gap-2">
+                <span>EDISI MUSIM HUJAN NO. 04 — "SERAT & INGATAN"</span>
+                <span>100% ALAT TENUN BUKAN MESIN (ATBM) • PEWARNA ALAM TARUM & SECANG</span>
+            </div>
+
+            <!-- Giant Overlapping Editorial Headline + Asymmetric Visuals -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start relative">
+                <div class="lg:col-span-7 space-y-8">
+                    <h1 class="font-editorial text-5xl sm:text-7xl lg:text-[82px] leading-[0.96] font-normal tracking-tight text-kala-navy">
+                        Ketika Helai Benang <br>
+                        <span class="italic font-light text-kala-crimson">Menyimpan Waktu</span> <br>
+                        Ratusan Jam.
+                    </h1>
+
+                    <p class="text-slate-600 text-base sm:text-lg leading-relaxed max-w-xl font-normal">
+                        Setiap potong busana Tenun Kala lahir dari tangan penenun perempuan di Desa Troso dan Sumba Timur. Ditenun perlahan tanpa mesin, menghasilkan tekstur bernapas yang anggun untuk keseharian modern.
+                    </p>
+
+                    <div class="flex flex-wrap items-center gap-6 pt-2">
+                        <a href="#c2-lookbook" class="bg-kala-navy text-white px-8 py-4 text-xs tracking-[0.25em] uppercase hover:bg-kala-crimson transition-colors">
+                            Eksplorasi Lookbook 04
+                        </a>
+                        <a href="#c2-transparency" class="text-xs tracking-[0.22em] uppercase border-b border-kala-navy pb-1.5 hover:text-kala-crimson hover:border-kala-crimson transition-colors">
+                            Baca Transparansi Jam Kerja →
+                        </a>
+                    </div>
+
+                    <!-- Footnote Index inside Hero -->
+                    <div class="pt-10 grid grid-cols-3 gap-6 border-t border-slate-300 text-xs">
+                        <div>
+                            <span class="text-slate-400 uppercase tracking-widest block mb-1">No. 01 / Material</span>
+                            <span class="font-editorial text-xl italic text-kala-navy">Katun Mercerized & Sutra Eri</span>
+                        </div>
+                        <div>
+                            <span class="text-slate-400 uppercase tracking-widest block mb-1">No. 02 / Pewarnaan</span>
+                            <span class="font-editorial text-xl italic text-kala-navy">Indigofera & Akar Mengkudu</span>
+                        </div>
+                        <div>
+                            <span class="text-slate-400 uppercase tracking-widest block mb-1">No. 03 / Produksi</span>
+                            <span class="font-editorial text-xl italic text-kala-navy">Edisi Terbatas 15 Potong/Motif</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Editorial Portrait Frame (3:4 Ratio) -->
+                <div class="lg:col-span-5 relative">
+                    <div class="aspect-[3/4] bg-slate-200 overflow-hidden border border-slate-300">
+                        <img src="https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=900&q=80" 
+                             onerror="this.src='https://placehold.co/600x800/0F172A/F8FAFC?text=TENUN+KALA+LOOK+01'"
+                             alt="Editorial Wastra Fashion" class="w-full h-full object-cover grayscale-[20%] hover:grayscale-0 transition-all duration-700">
+                    </div>
+                    <div class="mt-3 flex justify-between text-[11px] tracking-[0.15em] uppercase text-slate-500">
+                        <span>FIG 01. OUTERWEAR IKAT LONTAR — INDIGO</span>
+                        <span>TENUN TANGAN 48 JAM</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- LOOKBOOK STORY & ARTISAN TRANSPARENCY TABLE (1PX HAIRLINE ARCHITECTURE) -->
+        <section id="c2-transparency" class="max-w-7xl mx-auto px-4 sm:px-8 py-20 border-b border-slate-300">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+                <div class="lg:col-span-4">
+                    <span class="text-xs tracking-[0.25em] uppercase text-kala-crimson block mb-3">Transparansi Kriya</span>
+                    <h2 class="font-editorial text-4xl sm:text-5xl font-normal leading-tight">Anatomi Sebatang Kain Tenun</h2>
+                    <p class="text-sm text-slate-600 mt-4 leading-relaxed">
+                        Kami percaya kemewahan sejati terletak pada kejujuran asal-usul. Setiap pakaian dilengkapi label bernomor seri dan nama penenun yang mengerjakannya.
+                    </p>
+                </div>
+
+                <!-- 1px Editorial Specification Table -->
+                <div class="lg:col-span-8 border-t border-slate-300">
+                    <div class="grid grid-cols-1 sm:grid-cols-12 py-5 border-b border-slate-300 items-baseline gap-2">
+                        <div class="sm:col-span-3 text-xs uppercase tracking-[0.2em] text-slate-400">01 / Pengikatan Motif</div>
+                        <div class="sm:col-span-6 font-editorial text-2xl italic text-kala-navy">Teknik Ikat Lungsi & Pakan Tradisional</div>
+                        <div class="sm:col-span-3 text-xs text-slate-600 sm:text-right">Durasi: 14 – 21 Hari Kerja</div>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-12 py-5 border-b border-slate-300 items-baseline gap-2">
+                        <div class="sm:col-span-3 text-xs uppercase tracking-[0.2em] text-slate-400">02 / Celup Warna Alam</div>
+                        <div class="sm:col-span-6 font-editorial text-2xl italic text-kala-navy">Fermentasi Daun Tarum (Indigo) & Kulit Mahoni</div>
+                        <div class="sm:col-span-3 text-xs text-slate-600 sm:text-right">8x Pencelupan Bertahap</div>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-12 py-5 border-b border-slate-300 items-baseline gap-2">
+                        <div class="sm:col-span-3 text-xs uppercase tracking-[0.2em] text-slate-400">03 / Penjahitan Butik</div>
+                        <div class="sm:col-span-6 font-editorial text-2xl italic text-kala-navy">Potongan Zero-Waste dengan Furing Katun Jepang</div>
+                        <div class="sm:col-span-3 text-xs text-slate-600 sm:text-right">Jahit Halus Butik (Bukan Konveksi)</div>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-12 py-5 border-b border-slate-300 items-baseline gap-2">
+                        <div class="sm:col-span-3 text-xs uppercase tracking-[0.2em] text-slate-400">04 / Bagi Hasil Adil</div>
+                        <div class="sm:col-span-6 font-editorial text-2xl italic text-kala-navy">40% Nilai Kain Langsung ke Rekening Penenun</div>
+                        <div class="sm:col-span-3 text-xs text-kala-crimson font-semibold sm:text-right">Mitra 28 Penenun Perempuan</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PORTRAIT 3:4 CATALOG WITH INTERACTIVE SIZE SELECTOR -->
+        <section id="c2-lookbook" class="max-w-7xl mx-auto px-4 sm:px-8 py-20 border-b border-slate-300">
+            <div class="flex flex-col sm:flex-row sm:items-end justify-between mb-12 gap-4">
+                <div>
+                    <span class="text-xs tracking-[0.25em] uppercase text-slate-500">Koleksi Siap Pakai & Pre-Order</span>
+                    <h2 class="font-editorial text-4xl sm:text-5xl font-normal mt-2">Katalog Edisi Musim Hujan</h2>
+                </div>
+                <p class="text-xs tracking-[0.15em] uppercase text-slate-500">Pilih ukuran sebelum menambahkan ke tas belanja (Tersedia S / M / L / Custom Ukur)</p>
+            </div>
+
+            <div id="c2-product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-14">
+                <!-- Populated by JS -->
+            </div>
+        </section>
+
+        <!-- BESPOKE / CUSTOM UKUR BADAN CALLOUT -->
+        <section id="c2-bespoke" class="max-w-5xl mx-auto px-4 sm:px-8 py-20 text-center">
+            <span class="text-xs tracking-[0.28em] uppercase text-kala-crimson">Layanan Personal Tailoring</span>
+            <h3 class="font-editorial text-4xl sm:text-5xl italic font-normal mt-3 mb-4">Ingin Menyesuaikan Lingkar Dada atau Panjang Lengan?</h3>
+            <p class="text-slate-600 text-sm sm:text-base max-w-2xl mx-auto leading-relaxed mb-8">
+                Penjahit in-house kami melayani penyesuaian ukuran (*custom sizing*) tanpa biaya tambahan dalam waktu pengerjaan 4 hari kerja.
+            </p>
+            <button onclick="openDirectWaConcept(2)" class="border border-kala-navy bg-transparent hover:bg-kala-navy hover:text-white px-9 py-4 text-xs tracking-[0.25em] uppercase transition-colors">
+                Konsultasi Ukuran via WhatsApp
+            </button>
+        </section>
+
+        <!-- Editorial Footer -->
+        <footer class="border-t border-slate-300 py-12 bg-kala-alabaster">
+            <div class="max-w-7xl mx-auto px-4 sm:px-8 flex flex-col sm:flex-row items-center justify-between gap-6 text-xs tracking-[0.18em] uppercase text-slate-500">
+                <div>© 2026 TENUN KALA STUDIO — SEMARANG & JEPARA</div>
+                <div class="flex gap-6">
+                    <button onclick="switchConcept(3)" class="text-kala-navy font-semibold hover:text-kala-crimson">LIHAT KONSEP 3 (JAMU KERATON) →</button>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+
+    <!-- ===================================================================== -->
+    <!-- KONSEP 3: TIRTAWARSA — DARK ROYAL APOTHECARY & BOTANICAL WELLNESS     -->
+    <!-- ===================================================================== -->
+    <div id="concept-3" class="hidden bg-tirta-forest text-tirta-goldlight font-sans min-h-screen pt-20 sm:pt-16 royal-grid-bg">
+        
+        <!-- Ornate Top Navigation -->
+        <header class="border-b border-tirta-gold/25 bg-tirta-forest/90 backdrop-blur-md sticky top-16 z-30">
+            <div class="max-w-7xl mx-auto px-4 sm:px-8 h-20 flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full border border-tirta-gold flex items-center justify-center text-tirta-gold">
+                        <i class="ph-fill ph-flower-lotus text-xl"></i>
+                    </div>
+                    <div>
+                        <span class="font-royal text-xl sm:text-2xl tracking-[0.2em] font-bold gold-gradient-text block leading-none">TIRTAWARSA</span>
+                        <span class="text-[10px] tracking-[0.25em] uppercase text-tirta-jade/70">Botanical Jamu & Royal Apothecary • Solo</span>
+                    </div>
+                </div>
+
+                <nav class="hidden md:flex items-center gap-8 text-xs tracking-[0.2em] uppercase text-tirta-goldlight/80">
+                    <a href="#c3-alchemist" class="hover:text-tirta-gold transition-colors">Peracik Ramuan</a>
+                    <a href="#c3-elixirs" class="hover:text-tirta-gold transition-colors">Koleksi Botol Kaca</a>
+                    <a href="#c3-ritual" class="hover:text-tirta-gold transition-colors">Warisan Resep</a>
+                </nav>
+
+                <button onclick="openCartDrawer()" class="border border-tirta-gold/60 bg-tirta-card hover:bg-tirta-gold hover:text-tirta-forest px-5 py-2.5 rounded-full text-xs tracking-[0.18em] uppercase font-semibold transition-all flex items-center gap-2">
+                    <i class="ph-fill ph-flask text-base"></i>
+                    <span>Baki Ramuan</span>
+                    <span id="c3-cart-count" class="bg-tirta-gold text-tirta-forest px-2 py-0.5 rounded-full text-[11px] font-bold">0</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- Dramatic Centered Royal Arch Hero Section -->
+        <section class="max-w-7xl mx-auto px-4 sm:px-8 py-14">
+            <div class="border border-tirta-gold/30 p-6 sm:p-12 lg:p-16 relative bg-gradient-to-b from-tirta-card/90 to-tirta-forest">
+                <!-- Decorative Corner Borders -->
+                <div class="w-4 h-4 border-t-2 border-l-2 border-tirta-gold absolute top-3 left-3"></div>
+                <div class="w-4 h-4 border-t-2 border-r-2 border-tirta-gold absolute top-3 right-3"></div>
+                <div class="w-4 h-4 border-b-2 border-l-2 border-tirta-gold absolute bottom-3 left-3"></div>
+                <div class="w-4 h-4 border-b-2 border-r-2 border-tirta-gold absolute bottom-3 right-3"></div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                    <!-- Left Copy -->
+                    <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+                        <div class="inline-flex items-center gap-2 border border-tirta-gold/40 bg-tirta-forest/80 px-4 py-1.5 rounded-full text-[11px] tracking-[0.25em] uppercase text-tirta-jade">
+                            <span>✦ KITAB SERAT CENTHINI & BOTANI MODERN ✦</span>
+                        </div>
+
+                        <h1 class="font-royal text-4xl sm:text-6xl font-bold leading-[1.12] gold-gradient-text">
+                            Kemurnian Rimpang Keraton dalam Setiap Tetesan.
+                        </h1>
+
+                        <p class="text-tirta-goldlight/80 text-base sm:text-lg leading-relaxed max-w-2xl">
+                            Diekstraksi secara *cold-pressed* dari kunyit hitam organik lereng Merapi, temulawak tua, kapulaga, dan madu hutan liar. Tanpa gula rafinasi, disajikan dalam botol kaca amber farmasi untuk menjaga khasiat bioaktif.
+                        </p>
+
+                        <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-3">
+                            <a href="#c3-alchemist" class="w-full sm:w-auto bg-tirta-gold hover:bg-amber-400 text-tirta-forest font-bold text-xs tracking-[0.22em] uppercase px-8 py-4 rounded-full transition-all text-center shadow-lg shadow-tirta-gold/10">
+                                Racik Sesuai Keluhan Tubuh
+                            </a>
+                            <a href="#c3-elixirs" class="w-full sm:w-auto border border-tirta-gold/50 hover:border-tirta-gold text-tirta-goldlight text-xs tracking-[0.22em] uppercase px-7 py-4 rounded-full transition-all text-center">
+                                Lihat Katalog Eliksir
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Right Royal Arch Apothecary Showcase -->
+                    <div class="lg:col-span-5">
+                        <div class="max-w-sm mx-auto">
+                            <div class="royal-arch border-2 border-tirta-gold/60 overflow-hidden bg-tirta-card p-3 shadow-2xl">
+                                <div class="royal-arch overflow-hidden h-80 sm:h-96 relative">
+                                    <img src="https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=800&q=80" 
+                                         onerror="this.src='https://placehold.co/500x650/061A14/D4AF37?text=TIRTAWARSA+ELIXIR'"
+                                         alt="Botanical Jamu Elixir" class="w-full h-full object-cover brightness-90">
+                                    <div class="absolute inset-0 bg-gradient-to-t from-tirta-forest via-transparent to-transparent"></div>
+                                    <div class="absolute bottom-4 left-4 right-4 text-center">
+                                        <span class="text-[10px] tracking-[0.3em] uppercase text-tirta-jade block">Ramuan Utama Keraton</span>
+                                        <span class="font-royal text-xl text-tirta-gold font-bold">Sapta Rimpang Imunitas</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SPECIAL INTERACTIVE FEATURE: PERACIK RAMUAN / KELUHAN TUBUH -->
+        <section id="c3-alchemist" class="max-w-7xl mx-auto px-4 sm:px-8 py-12">
+            <div class="border border-tirta-gold/40 bg-tirta-card/95 p-6 sm:p-10 rounded-3xl">
+                <div class="text-center max-w-2xl mx-auto mb-8">
+                    <span class="text-xs tracking-[0.28em] uppercase text-tirta-jade">Diagnostik Botani Interaktif</span>
+                    <h2 class="font-royal text-3xl sm:text-4xl font-bold gold-gradient-text mt-2">Pilih Kebutuhan Tubuh Anda Hari Ini</h2>
+                    <p class="text-xs sm:text-sm text-tirta-goldlight/70 mt-2">Klik salah satu kondisi di bawah untuk melihat takaran komposisi rimpang segar beserta rekomendasi paket eliksir:</p>
+                </div>
+
+                <!-- 4 Symptom Selector Pills -->
+                <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-8" id="c3-symptom-tabs">
+                    <button onclick="selectJamuRemedy('imun')" data-remedy="imun" class="remedy-btn border border-tirta-gold bg-tirta-gold text-tirta-forest p-4 rounded-2xl text-left transition-all">
+                        <i class="ph-fill ph-shield-star text-2xl mb-1 block"></i>
+                        <div class="font-royal font-bold text-sm uppercase">01. Imunitas & Cuaca</div>
+                        <div class="text-[11px] opacity-80">Mudah lelah & gejala masuk angin</div>
+                    </button>
+                    <button onclick="selectJamuRemedy('tidur')" data-remedy="tidur" class="remedy-btn border border-tirta-gold/30 bg-tirta-forest/60 text-tirta-goldlight hover:border-tirta-gold p-4 rounded-2xl text-left transition-all">
+                        <i class="ph-fill ph-moon-stars text-2xl text-tirta-gold mb-1 block"></i>
+                        <div class="font-royal font-bold text-sm uppercase">02. Tidur Nyenyak</div>
+                        <div class="text-[11px] opacity-70">Pikiran tegang & sulit terlelap</div>
+                    </button>
+                    <button onclick="selectJamuRemedy('pencernaan')" data-remedy="pencernaan" class="remedy-btn border border-tirta-gold/30 bg-tirta-forest/60 text-tirta-goldlight hover:border-tirta-gold p-4 rounded-2xl text-left transition-all">
+                        <i class="ph-fill ph-leaf text-2xl text-tirta-gold mb-1 block"></i>
+                        <div class="font-royal font-bold text-sm uppercase">03. Detoks & Lambung</div>
+                        <div class="text-[11px] opacity-70">Perut kembung & GERD ringan</div>
+                    </button>
+                    <button onclick="selectJamuRemedy('stamina')" data-remedy="stamina" class="remedy-btn border border-tirta-gold/30 bg-tirta-forest/60 text-tirta-goldlight hover:border-tirta-gold p-4 rounded-2xl text-left transition-all">
+                        <i class="ph-fill ph-fire-simple text-2xl text-tirta-gold mb-1 block"></i>
+                        <div class="font-royal font-bold text-sm uppercase">04. Stamina & Pegal</div>
+                        <div class="text-[11px] opacity-70">Pemulihan otot & vitalitas kerja</div>
+                    </button>
+                </div>
+
+                <!-- Dynamic Prescription Output Box -->
+                <div id="c3-remedy-display" class="border border-tirta-gold/30 bg-tirta-forest p-6 sm:p-8 rounded-2xl grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                    <!-- Populated dynamically via JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- APOTHECARY ARCH CARDS CATALOG -->
+        <section id="c3-elixirs" class="max-w-7xl mx-auto px-4 sm:px-8 py-14">
+            <div class="flex flex-col sm:flex-row sm:items-end justify-between mb-10 gap-4">
+                <div>
+                    <span class="text-xs tracking-[0.28em] uppercase text-tirta-jade">Koleksi Eliksir & Hampers Kaca</span>
+                    <h2 class="font-royal text-3xl sm:text-4xl font-bold gold-gradient-text mt-1">Apotek Botani Tirtawarsa</h2>
+                </div>
+                <span class="text-xs tracking-[0.2em] uppercase text-tirta-gold/80">100% Tanpa Pengawet • Pengiriman Berpendingin</span>
+            </div>
+
+            <div id="c3-product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Populated by JS -->
+            </div>
+        </section>
+
+        <!-- Royal Apothecary Footer -->
+        <footer class="border-t border-tirta-gold/25 py-12 mt-12 bg-black/40">
+            <div class="max-w-7xl mx-auto px-4 sm:px-8 flex flex-col sm:flex-row items-center justify-between gap-6 text-xs tracking-[0.2em] uppercase text-tirta-goldlight/60">
+                <div>✦ TIRTAWARSA APOTHECARY — KAMPUNG LAWEJAN, SURAKARTA ✦</div>
+                <button onclick="switchConcept(1)" class="text-tirta-gold hover:underline">KEMBALI KE KONSEP 1 (KOPI NEO-BRUTALIST) →</button>
+            </div>
+        </footer>
+    </div>
+
+
+    <!-- ===================================================================== -->
+    <!-- ADAPTIVE CART DRAWER & WHATSAPP CHECKOUT SIMULATOR                    -->
+    <!-- ===================================================================== -->
+    <div id="cart-drawer-backdrop" class="fixed inset-0 z-50 hidden">
+        <div onclick="closeCartDrawer()" class="fixed inset-0 bg-black/70 backdrop-blur-sm"></div>
+
+        <div class="fixed inset-y-0 right-0 max-w-full flex pl-10">
+            <div id="cart-drawer-panel" class="w-screen max-w-md flex flex-col justify-between overflow-hidden transition-all">
+                <!-- Drawer Header -->
+                <div id="cart-drawer-header" class="p-5 flex items-center justify-between">
+                    <div>
+                        <span id="cart-brand-tag" class="text-[10px] uppercase tracking-widest block">UMKM CHECKOUT</span>
+                        <h3 id="cart-drawer-title" class="text-xl font-bold">Keranjang Pesanan</h3>
+                    </div>
+                    <button onclick="closeCartDrawer()" class="p-2 text-xl" aria-label="Tutup">
+                        <i class="ph-bold ph-x"></i>
+                    </button>
+                </div>
+
+                <!-- Drawer Items & Form -->
+                <div class="flex-1 overflow-y-auto p-5 space-y-5">
+                    <div id="cart-items-list" class="space-y-3"></div>
+
+                    <div id="cart-form-wrapper" class="pt-4 border-t border-current/15 space-y-3">
+                        <div class="text-xs font-bold uppercase tracking-wider">Data Pengiriman WhatsApp</div>
+                        <input type="text" id="wa-cust-name" placeholder="Nama Lengkap Penerima *" class="w-full px-3.5 py-2.5 text-sm bg-transparent border border-current/30 focus:outline-none">
+                        <input type="text" id="wa-cust-address" placeholder="Alamat Lengkap / Kecamatan & Kota *" class="w-full px-3.5 py-2.5 text-sm bg-transparent border border-current/30 focus:outline-none">
+                        <input type="text" id="wa-cust-note" placeholder="Catatan (Gilingan Kopi / Ukuran / Jam Kirim)" class="w-full px-3.5 py-2.5 text-sm bg-transparent border border-current/30 focus:outline-none">
+                    </div>
+                </div>
+
+                <!-- Drawer Footer -->
+                <div id="cart-drawer-footer" class="p-5 border-t border-current/15 space-y-3">
+                    <div class="flex items-center justify-between text-base font-bold">
+                        <span>Total Estimasi</span>
+                        <span id="cart-total-price">Rp 0</span>
+                    </div>
+                    <button onclick="generateWhatsAppOrder()" id="cart-checkout-btn" class="w-full py-3.5 px-5 font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2">
+                        <i class="ph-fill ph-whatsapp-logo text-lg"></i>
+                        <span>Kirim Pesanan ke WhatsApp</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- WHATSAPP PREVIEW MODAL -->
+    <div id="wa-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4">
+        <div onclick="closeWaModal()" class="fixed inset-0 bg-black/75 backdrop-blur-sm"></div>
+        <div class="relative bg-white text-neutral-900 rounded-2xl max-w-lg w-full p-6 shadow-2xl border-2 border-black z-10 space-y-4">
+            <div class="flex items-center justify-between border-b pb-3">
+                <div class="flex items-center gap-2.5">
+                    <i class="ph-fill ph-whatsapp-logo text-2xl text-emerald-600"></i>
+                    <div>
+                        <h4 class="font-bold text-base">Simulasi Pesan WhatsApp Otomatis</h4>
+                        <p class="text-xs text-neutral-500" id="wa-modal-brand">Siap diteruskan ke Admin UMKM</p>
+                    </div>
+                </div>
+                <button onclick="closeWaModal()" class="p-1.5 hover:bg-neutral-100 rounded-lg">
+                    <i class="ph-bold ph-x"></i>
+                </button>
+            </div>
+
+            <div class="bg-[#e5ddd5] p-3.5 rounded-xl max-h-60 overflow-y-auto">
+                <div id="wa-preview-text" class="bg-[#dcf8c6] text-neutral-900 p-3 rounded-lg text-xs font-mono whitespace-pre-line leading-relaxed shadow-sm"></div>
+            </div>
+
+            <div class="flex gap-3">
+                <button onclick="copyWaText()" class="flex-1 py-3 px-4 bg-neutral-100 hover:bg-neutral-200 font-bold text-xs uppercase rounded-xl flex items-center justify-center gap-1.5">
+                    <i class="ph-bold ph-copy"></i>
+                    <span>Salin Teks</span>
+                </button>
+                <a id="wa-launch-link" href="#" target="_blank" rel="noopener noreferrer" onclick="closeWaModal()" class="flex-1 py-3 px-4 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs uppercase rounded-xl flex items-center justify-center gap-1.5">
+                    <i class="ph-bold ph-paper-plane-right"></i>
+                    <span>Lanjut ke WhatsApp</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST FEEDBACK -->
+    <div id="toast-box" class="fixed bottom-5 right-5 z-50 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none">
+        <div id="toast-inner" class="px-5 py-3.5 shadow-2xl text-xs font-bold uppercase tracking-wider flex items-center gap-2.5">
+            <i class="ph-fill ph-check-circle text-lg"></i>
+            <span id="toast-text">Berhasil ditambahkan</span>
+        </div>
+    </div>
+
+
+    <!-- ===================================================================== -->
+    <!-- COMPLETE INTERACTIVE APPLICATION SCRIPT                               -->
+    <!-- ===================================================================== -->
+    <script>
+        let activeConcept = 1;
+        let activeBrewFilter = 'all';
+        let selectedSizes = {}; // For Concept 2 Wastra sizes
+
+        // Separate Carts per Concept or Unified with Concept Tag
+        const carts = {
+            1: [],
+            2: [],
+            3: []
+        };
+
+        // -------------------------------------------------------------------
+        // DATA KONSEP 1: SANGRAI.LAB (NEO-BRUTALIST COFFEE ROASTERY)
+        // -------------------------------------------------------------------
+        const coffeeProducts = [
+            {
+                id: 101,
+                code: "LOT-01 // HALU",
+                name: "Gunung Halu Pink Honey",
+                roast: "Light to Medium",
+                altitude: "1.650 MDPL",
+                brew: ["v60"],
+                notes: "Strawberry Jam, Guava, Sweet Hibiscus",
+                price: 89000,
+                weight: "200g",
+                image: "https://images.unsplash.com/photo-1559056199-641a0ac8b55e?auto=format&fit=crop&w=600&q=80"
+            },
+            {
+                id: 102,
+                code: "LOT-02 // GAYO",
+                name: "Gayo Pantan Musara Anaerobic",
+                roast: "Omni Roast",
+                altitude: "1.780 MDPL",
+                brew: ["v60", "espresso"],
+                notes: "Ripe Jackfruit, Dark Rum, Caramel",
+                price: 98000,
+                weight: "200g",
+                image: "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=600&q=80"
+            },
+            {
+                id: 103,
+                code: "BLD-03 // DISTORTION",
+                name: "Distortion Espresso House Blend",
+                roast: "Medium Dark",
+                altitude: "1.400 MDPL",
+                brew: ["espresso", "kopisusu"],
+                notes: "Dark Chocolate, Roasted Hazelnut, Bold Body",
+                price: 75000,
+                weight: "250g",
+                image: "https://images.unsplash.com/photo-1587734195503-904fca47e0e9?auto=format&fit=crop&w=600&q=80"
+            },
+            {
+                id: 104,
+                code: "LOT-04 // BAJAWA",
+                name: "Flores Bajawa Ngura Full Wash",
+                roast: "Medium",
+                altitude: "1.550 MDPL",
+                brew: ["v60", "espresso"],
+                notes: "Brown Sugar, Nutmeg, Clean Citrus Finish",
+                price: 82000,
+                weight: "200g",
+                image: "https://images.unsplash.com/photo-1497935586351-b67a49e012bf?auto=format&fit=crop&w=600&q=80"
+            },
+            {
+                id: 105,
+                code: "BLD-05 // SUSU LAB",
+                name: "Konsentrat Kopi Susu Komersial",
+                roast: "Dark Sweet",
+                altitude: "1.250 MDPL",
+                brew: ["kopisusu"],
+                notes: "Palm Sugar Friendly, Creamy Caramel, Low Acid",
+                price: 135000,
+                weight: "500g",
+                image: "https://images.unsplash.com/photo-1461023058943-07fcbe16d735?auto=format&fit=crop&w=600&q=80"
+            },
+            {
+                id: 106,
+                code: "DRP-06 // DRIP BAG",
+                name: "Box Drip Bag Nusantara Taster (8x12g)",
+                roast: "Filter Profile",
+                altitude: "Multi-Origin",
+                brew: ["v60"],
+                notes: "4 Origin Berbeda • Tinggal Seduh Air Panas",
+                price: 79000,
+                weight: "Box 8 Sachet",
+                image: "https://images.unsplash.com/photo-1511920170033-f8396924c348?auto=format&fit=crop&w=600&q=80"
+            }
+        ];
+
+        // -------------------------------------------------------------------
+        // DATA KONSEP 2: TENUN KALA (EDITORIAL LUXURY WASTRA)
+        // -------------------------------------------------------------------
+        const tenunProducts = [
+            {
+                id: 201,
+                serial: "LOOK 01 // TROSO ATBM",
+                name: "Rimba Outerwear Ikat Indigo",
+                weaver: "Ibu Sulastri (48 Jam Tenun)",
+                dye: "Daun Tarum Fermentasi Alami",
+                price: 685000,
+                image: "https://images.unsplash.com/photo-1539109136881-3be0616acf4b?auto=format&fit=crop&w=700&q=80"
+            },
+            {
+                id: 202,
+                serial: "LOOK 02 // SUMBA TIMUR",
+                name: "Kala Asimetris Vest Kayu Secang",
+                weaver: "Mama Yuliana (62 Jam Tenun)",
+                dye: "Akar Mengkudu & Kayu Secang",
+                price: 740000,
+                image: "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=700&q=80"
+            },
+            {
+                id: 203,
+                serial: "LOOK 03 // LURIK KLATEN",
+                name: "Kemeja Oversize Lurik Gerimis",
+                weaver: "Bapak Haryono (36 Jam Tenun)",
+                dye: "Hitam Arang & Katun Mercerized",
+                price: 520000,
+                image: "https://images.unsplash.com/photo-1485230895905-ec40ba36b9bc?auto=format&fit=crop&w=700&q=80"
+            },
+            {
+                id: 204,
+                serial: "LOOK 04 // TENUN Sengkang",
+                name: "Selendang & Obi Sutra Eri Malam",
+                weaver: "Ibu Nurhayati (40 Jam Tenun)",
+                dye: "Kulit Tingi & Indigo Pekat",
+                price: 430000,
+                image: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=700&q=80"
+            },
+            {
+                id: 205,
+                serial: "LOOK 05 // BALI ENDEK",
+                name: "Celana Palazzo Tenun Ikat Abu Batu",
+                weaver: "Komunitas Sidemen (44 Jam Tenun)",
+                dye: "Lumpur Mineral & Daun Mangga",
+                price: 610000,
+                image: "https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=700&q=80"
+            },
+            {
+                id: 206,
+                serial: "LOOK 06 // KOLEKTOR",
+                name: "Kain Lembaran ATBM 240x115cm",
+                weaver: "Ibu Sulastri (70 Jam Tenun)",
+                dye: "100% Warna Alam Tanpa Fiksasi Kimia",
+                price: 590000,
+                image: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=700&q=80"
+            }
+        ];
+
+        // -------------------------------------------------------------------
+        // DATA KONSEP 3: TIRTAWARSA (DARK ROYAL APOTHECARY JAMU)
+        // -------------------------------------------------------------------
+        const jamuRemedies = {
+            imun: {
+                title: "Formula I: Sapta Rimpang Pertahanan Tubuh",
+                sanskrit: "Resep Serat Centhini Bab XIV — Penangkal Angin & Cuaca Ekstrem",
+                ingredients: [
+                    { name: "Jahe Merah Bakar Organik", dose: "45 gram" },
+                    { name: "Kunyit Hitam Lereng Merapi", dose: "20 gram" },
+                    { name: "Sambiloto & Cengkeh Utuh", dose: "15 gram" },
+                    { name: "Madu Hutan Sumbawa Murni", dose: "30 ml" }
+                ],
+                ritual: "Diminum 1 sloki (50ml) hangat setiap pagi sebelum sarapan untuk menjaga suhu inti tubuh dan imunitas seluler.",
+                recommendedProductId: 301
+            },
+            tidur: {
+                title: "Formula II: Tirta Ningrat Penenang Saraf",
+                sanskrit: "Racikan Putri Keraton untuk Lelap Berkualitas & Reduksi Kortisol",
+                ingredients: [
+                    { name: "Bunga Telang & Chamomile Lokal", dose: "25 gram" },
+                    { name: "Biji Pala Tua & Kayu Manis", dose: "18 gram" },
+                    { name: "Daun Pandan Wangi & Serai", dose: "30 gram" },
+                    { name: "Gula Lontar Organik Rendah GI", dose: "15 ml" }
+                ],
+                ritual: "Seduh atau tuang 60ml dengan air hangat 30 menit sebelum tidur. Bebas kafein dan menenangkan detak jantung.",
+                recommendedProductId: 302
+            },
+            pencernaan: {
+                title: "Formula III: Kunir Putih & Temulawak Lambung",
+                sanskrit: "Penyeimbang Asam Lambung, Detoks Hati & Pereda Kembung",
+                ingredients: [
+                    { name: "Induk Kunyit Tua Peras Murni", dose: "60 gram" },
+                    { name: "Temulawak & Kencur Segar", dose: "35 gram" },
+                    { name: "Kapulaga Jawa & Adas Manis", dose: "12 gram" },
+                    { name: "Air Kelapa Hijau Fermentasi", dose: "100 ml" }
+                ],
+                ritual: "Konsumsi dingin atau suhu ruang 15 menit sebelum makan siang untuk melapisi dinding lambung secara alami.",
+                recommendedProductId: 303
+            },
+            stamina: {
+                title: "Formula IV: Beras Kencur & Ginseng Jawa",
+                sanskrit: "Pemulih Tenaga Ksatria, Pereda Pegal Linu & Sirkulasi Darah",
+                ingredients: [
+                    { name: "Kencur Wangi Boyolali", dose: "55 gram" },
+                    { name: "Beras Merah Sangrai Halus", dose: "40 gram" },
+                    { name: "Som Jawa (Ginseng Lokal) & Cabe Jawa", dose: "20 gram" },
+                    { name: "Gula Aren Cetak Asli", dose: "25 gram" }
+                ],
+                ritual: "Kocok perlahan sebelum diminum sore hari sepulang beraktivitas untuk mengurai asam laktat pada otot.",
+                recommendedProductId: 304
+            }
+        };
+
+        const jamuProducts = [
+            {
+                id: 301,
+                name: "Sapta Rimpang Imunitas (Botol Amber 500ml)",
+                subtitle: "Jahe Merah, Kunyit Hitam & Madu Hutan",
+                volume: "500ml (Untuk 10x Sloki)",
+                price: 95000,
+                image: "https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=600&q=80"
+            },
+            {
+                id: 302,
+                name: "Tirta Ningrat Lelap Malam (Botol Amber 500ml)",
+                subtitle: "Biji Pala, Bunga Telang, Kayu Manis & Serai",
+                volume: "500ml (Untuk 10x Sloki)",
+                price: 88000,
+                image: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=600&q=80"
+            },
+            {
+                id: 303,
+                name: "Eliksir Lambung Kunir Temulawak (500ml)",
+                subtitle: "Induk Kunyit, Temulawak, Kapulaga & Adas",
+                volume: "500ml (Ramah GERD)",
+                price: 85000,
+                image: "https://images.unsplash.com/photo-1615485290382-441e4d049cb5?auto=format&fit=crop&w=600&q=80"
+            },
+            {
+                id: 304,
+                name: "Beras Kencur Ginseng Jawa (Botol Kaca 500ml)",
+                subtitle: "Kencur Boyolali, Beras Merah & Cabe Jawa",
+                volume: "500ml (Stamina & Pegal)",
+                price: 82000,
+                image: "https://images.unsplash.com/photo-1505576399279-565b52d4ac71?auto=format&fit=crop&w=600&q=80"
+            },
+            {
+                id: 305,
+                name: "Peti Kayu Hampers 'Empat Penjuru Keraton'",
+                subtitle: "4 Botol Kaca 250ml + 2 Gelas Sloki Kuningan",
+                volume: "Box Kayu Jati Berukir",
+                price: 295000,
+                image: "https://images.unsplash.com/photo-1544787219-7f47ccb76574?auto=format&fit=crop&w=600&q=80"
+            },
+            {
+                id: 306,
+                name: "Rimpang Kering Seduh Apotek (Isi 12 Kantong)",
+                subtitle: "Tisane Rempah Utuh Tanpa Ampas Siap Seduh",
+                volume: "Tabung Kaleng Kedap Udara",
+                price: 76000,
+                image: "https://images.unsplash.com/photo-1597481499750-3e6b22637e12?auto=format&fit=crop&w=600&q=80"
+            }
+        ];
+
+        // Helper Format Rupiah
+        function rupiah(num) {
+            return new Intl.NumberFormat('id-ID', {
+                style: 'currency',
+                currency: 'IDR',
+                minimumFractionDigits: 0
+            }).format(num);
+        }
+
+        // -------------------------------------------------------------------
+        // CONCEPT SWITCHER ARCHITECTURE
+        // -------------------------------------------------------------------
+        function switchConcept(conceptNum) {
+            activeConcept = conceptNum;
+
+            // Toggle DOM sections
+            document.getElementById('concept-1').classList.toggle('hidden', conceptNum !== 1);
+            document.getElementById('concept-2').classList.toggle('hidden', conceptNum !== 2);
+            document.getElementById('concept-3').classList.toggle('hidden', conceptNum !== 3);
+
+            // Style Top Switcher Buttons
+            const b1 = document.getElementById('switch-btn-1');
+            const b2 = document.getElementById('switch-btn-2');
+            const b3 = document.getElementById('switch-btn-3');
+
+            b1.className = conceptNum === 1
+                ? "px-3 py-2 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 bg-[#FFD600] text-black shadow-sm"
+                : "px-3 py-2 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 text-neutral-300 hover:text-white hover:bg-white/10";
+
+            b2.className = conceptNum === 2
+                ? "px-3 py-2 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 bg-[#F8FAFC] text-[#0F172A] shadow-sm"
+                : "px-3 py-2 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 text-neutral-300 hover:text-white hover:bg-white/10";
+
+            b3.className = conceptNum === 3
+                ? "px-3 py-2 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 bg-[#D4AF37] text-[#061A14] shadow-sm"
+                : "px-3 py-2 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 text-neutral-300 hover:text-white hover:bg-white/10";
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            updateCartCounters();
+        }
+
+        // -------------------------------------------------------------------
+        // RENDER KONSEP 1: KOPI NEO-BRUTALIST
+        // -------------------------------------------------------------------
+        function renderConcept1Products() {
+            const grid = document.getElementById('c1-product-grid');
+            grid.innerHTML = coffeeProducts.map(item => {
+                const isRecommended = activeBrewFilter !== 'all' && item.brew.includes(activeBrewFilter);
+                const highlightClass = isRecommended
+                    ? "bg-pop-yellow ring-4 ring-pop-cobalt"
+                    : "bg-white";
+
+                return `
+                    <div class="${highlightClass} brutal-border-thick brutal-shadow flex flex-col justify-between transition-all">
+                        <div>
+                            <div class="border-b-2 border-black px-4 py-2.5 flex items-center justify-between font-mono text-xs font-extrabold ${isRecommended ? 'bg-pop-cobalt text-white' : 'bg-pop-paper'}">
+                                <span>${item.code}</span>
+                                <span>${isRecommended ? '★ COCOK UNTUK SEDUHANMU' : item.altitude}</span>
+                            </div>
+
+                            <div class="h-48 border-b-2 border-black overflow-hidden relative bg-black">
+                                <img src="${item.image}" alt="${item.name}" class="w-full h-full object-cover contrast-125">
+                                <span class="absolute top-3 right-3 bg-white brutal-border px-2 py-0.5 font-mono text-[11px] font-extrabold uppercase">
+                                    ${item.roast}
+                                </span>
+                            </div>
+
+                            <div class="p-5">
+                                <h3 class="text-xl font-extrabold uppercase leading-tight">${item.name}</h3>
+                                <div class="mt-3 bg-pop-paper brutal-border p-2.5 font-mono text-xs">
+                                    <span class="text-[10px] text-neutral-500 block uppercase">Tasting Notes:</span>
+                                    <span class="font-bold">${item.notes}</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="px-5 pb-5 pt-2 flex items-center justify-between gap-3">
+                            <div>
+                                <span class="font-mono text-[11px] font-bold uppercase text-neutral-600 block">${item.weight}</span>
+                                <span class="font-mono text-xl font-extrabold">${rupiah(item.price)}</span>
+                            </div>
+                            <button onclick="addToCartConcept(${item.id})" class="brutal-btn bg-pop-cobalt text-white px-4 py-2.5 font-mono text-xs font-extrabold uppercase">
+                                + CART
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function filterCoffeeByBrew(method) {
+            activeBrewFilter = method;
+            document.querySelectorAll('.brew-btn').forEach(btn => {
+                if (btn.getAttribute('data-brew') === method) {
+                    btn.className = "brew-btn brutal-btn bg-pop-yellow text-black px-4 py-2.5 font-mono text-xs font-extrabold uppercase";
+                } else {
+                    btn.className = "brew-btn brutal-btn bg-white text-black px-4 py-2.5 font-mono text-xs font-extrabold uppercase";
+                }
+            });
+
+            const adviceBox = document.getElementById('c1-brew-advice');
+            const adviceMap = {
+                all: ['Menampilkan seluruh lini produk single origin, experimental lot, dan house blend.', 'RASIO IDEAL: 1:15 — SUHU 91°C'],
+                v60: ['Untuk V60 / Kalita Wave, kami menyorot biji kopi dengan keasaman buah cerah & aftertaste manis bersih.', 'GILINGAN: MEDIUM-FINE // SUHU 92°C'],
+                espresso: ['Untuk Mesin Espresso & Moka Pot, kami menyorot biji Omni/Medium-Dark dengan krema tebal.', 'RASIO ESPRESSO: 1:2 DALAM 28 DETIK'],
+                kopisusu: ['Untuk Es Kopi Susu Gula Aren, pilih blend dengan body tebal yang tidak kalah saat dicampur susu.', 'DOSIS: 18G KOPI + 120ML SUSU + 20G AREN']
+            };
+
+            adviceBox.innerHTML = `
+                <span>💡 <strong>REKOMENDASI ROASTER:</strong> ${adviceMap[method][0]}</span>
+                <span class="bg-pop-lime text-black px-2.5 py-1 font-extrabold">${adviceMap[method][1]}</span>
+            `;
+
+            renderConcept1Products();
+        }
+
+        // -------------------------------------------------------------------
+        // RENDER KONSEP 2: TENUN KALA EDITORIAL
+        // -------------------------------------------------------------------
+        function selectWastraSize(productId, size) {
+            selectedSizes[productId] = size;
+            renderConcept2Products();
+        }
+
+        function renderConcept2Products() {
+            const grid = document.getElementById('c2-product-grid');
+            grid.innerHTML = tenunProducts.map(item => {
+                const currentSize = selectedSizes[item.id] || 'M';
+                const sizes = ['S', 'M', 'L', 'Custom'];
+
+                return `
+                    <div class="group flex flex-col justify-between">
+                        <div>
+                            <div class="aspect-[3/4] bg-slate-200 overflow-hidden border border-slate-300 relative mb-4">
+                                <img src="${item.image}" alt="${item.name}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                                <div class="absolute top-3 left-3 bg-kala-stone/90 px-3 py-1 text-[10px] tracking-[0.2em] uppercase text-kala-navy border border-slate-300">
+                                    ${item.serial}
+                                </div>
+                            </div>
+
+                            <h3 class="font-editorial text-2xl sm:text-3xl font-normal text-kala-navy">${item.name}</h3>
+                            <p class="text-xs text-slate-500 mt-1 tracking-wide">${item.weaver} • ${item.dye}</p>
+
+                            <!-- Size Selector -->
+                            <div class="mt-4 pt-3 border-t border-slate-300 flex items-center justify-between">
+                                <span class="text-[10px] tracking-[0.2em] uppercase text-slate-400">Ukuran:</span>
+                                <div class="flex gap-1.5">
+                                    ${sizes.map(sz => `
+                                        <button onclick="selectWastraSize(${item.id}, '${sz}')" 
+                                                class="px-2.5 py-1 text-[11px] uppercase tracking-wider border transition-colors ${currentSize === sz ? 'border-kala-navy bg-kala-navy text-white' : 'border-slate-300 text-slate-600 hover:border-kala-navy'}">
+                                            ${sz}
+                                        </button>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-5 pt-4 border-t border-slate-300 flex items-center justify-between">
+                            <span class="font-editorial text-2xl italic text-kala-navy">${rupiah(item.price)}</span>
+                            <button onclick="addToCartConcept(${item.id})" class="text-xs tracking-[0.22em] uppercase border border-kala-navy px-5 py-2.5 hover:bg-kala-crimson hover:border-kala-crimson hover:text-white transition-colors">
+                                + Tas Belanja
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // -------------------------------------------------------------------
+        // RENDER KONSEP 3: TIRTAWARSA ROYAL APOTHECARY JAMU
+        // -------------------------------------------------------------------
+        function selectJamuRemedy(key) {
+            // Update active button style
+            document.querySelectorAll('.remedy-btn').forEach(btn => {
+                const isActive = btn.getAttribute('data-remedy') === key;
+                if (isActive) {
+                    btn.className = "remedy-btn border border-tirta-gold bg-tirta-gold text-tirta-forest p-4 rounded-2xl text-left transition-all";
+                } else {
+                    btn.className = "remedy-btn border border-tirta-gold/30 bg-tirta-forest/60 text-tirta-goldlight hover:border-tirta-gold p-4 rounded-2xl text-left transition-all";
+                }
+            });
+
+            const data = jamuRemedies[key];
+            const product = jamuProducts.find(p => p.id === data.recommendedProductId);
+
+            document.getElementById('c3-remedy-display').innerHTML = `
+                <div class="lg:col-span-7 space-y-4">
+                    <span class="text-[11px] tracking-[0.25em] uppercase text-tirta-jade block">${data.sanskrit}</span>
+                    <h3 class="font-royal text-2xl sm:text-3xl font-bold text-tirta-gold">${data.title}</h3>
+                    
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+                        ${data.ingredients.map(ing => `
+                            <div class="border border-tirta-gold/25 bg-tirta-card/80 px-4 py-3 rounded-xl flex items-center justify-between">
+                                <span class="text-xs font-medium text-tirta-goldlight">${ing.name}</span>
+                                <span class="text-xs font-bold text-tirta-gold">${ing.dose}</span>
+                            </div>
+                        `).join('')}
+                    </div>
+
+                    <p class="text-xs sm:text-sm text-tirta-goldlight/80 italic pt-2 border-t border-tirta-gold/20">
+                        "Aturan Minum: ${data.ritual}"
+                    </p>
+                </div>
+
+                <div class="lg:col-span-5 border border-tirta-gold/40 bg-tirta-card p-5 rounded-2xl flex flex-col justify-between gap-4">
+                    <div class="flex items-center gap-4">
+                        <img src="${product.image}" alt="${product.name}" class="w-20 h-24 object-cover royal-arch border border-tirta-gold">
+                        <div>
+                            <span class="text-[10px] tracking-[0.2em] uppercase text-tirta-jade">Rekomendasi Botol Kaca</span>
+                            <h4 class="font-royal font-bold text-base text-tirta-gold mt-0.5">${product.name}</h4>
+                            <div class="text-lg font-bold text-tirta-goldlight mt-1">${rupiah(product.price)}</div>
+                        </div>
+                    </div>
+                    <button onclick="addToCartConcept(${product.id})" class="w-full bg-tirta-gold hover:bg-amber-400 text-tirta-forest font-bold text-xs tracking-[0.2em] uppercase py-3.5 rounded-xl transition-all">
+                        + Masukkan Baki Ramuan
+                    </button>
+                </div>
+            `;
+        }
+
+        function renderConcept3Products() {
+            const grid = document.getElementById('c3-product-grid');
+            grid.innerHTML = jamuProducts.map(item => `
+                <div class="border border-tirta-gold/30 bg-tirta-card/90 p-6 rounded-3xl flex flex-col justify-between hover:border-tirta-gold transition-all group">
+                    <div>
+                        <div class="royal-arch h-60 overflow-hidden border border-tirta-gold/40 mb-5 relative">
+                            <img src="${item.image}" alt="${item.name}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 brightness-90">
+                            <span class="absolute bottom-3 left-1/2 -translate-x-1/2 bg-tirta-forest/90 border border-tirta-gold/40 px-3 py-1 rounded-full text-[10px] tracking-[0.2em] uppercase text-tirta-jade whitespace-nowrap">
+                                ${item.volume}
+                            </span>
+                        </div>
+                        <h3 class="font-royal text-xl font-bold text-tirta-gold text-center">${item.name}</h3>
+                        <p class="text-xs text-tirta-goldlight/70 text-center mt-1.5">${item.subtitle}</p>
+                    </div>
+
+                    <div class="mt-6 pt-4 border-t border-tirta-gold/20 flex items-center justify-between">
+                        <span class="font-royal text-xl font-bold text-tirta-goldlight">${rupiah(item.price)}</span>
+                        <button onclick="addToCartConcept(${item.id})" class="border border-tirta-gold text-tirta-gold hover:bg-tirta-gold hover:text-tirta-forest px-4 py-2.5 rounded-full text-xs tracking-[0.15em] uppercase font-bold transition-all">
+                            + Pesan
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // -------------------------------------------------------------------
+        // UNIFIED MULTI-CONCEPT CART & ADAPTIVE DRAWER THEME
+        // -------------------------------------------------------------------
+        function addToCartConcept(productId) {
+            let product = null;
+            let note = "";
+
+            if (activeConcept === 1) {
+                product = coffeeProducts.find(p => p.id === productId);
+                note = "Biji Utuh / Giling V60";
+            } else if (activeConcept === 2) {
+                product = tenunProducts.find(p => p.id === productId);
+                const sz = selectedSizes[productId] || 'M';
+                note = `Ukuran: ${sz}`;
+            } else {
+                product = jamuProducts.find(p => p.id === productId);
+                note = "Segel Dingin";
+            }
+
+            if (!product) return;
+
+            const currentCart = carts[activeConcept];
+            const existing = currentCart.find(i => i.id === productId && i.note === note);
+            if (existing) {
+                existing.qty += 1;
+            } else {
+                currentCart.push({ ...product, qty: 1, note });
+            }
+
+            updateCartCounters();
+            showConceptToast(`"${product.name}" masuk keranjang!`);
+        }
+
+        function updateCartCounters() {
+            document.getElementById('c1-cart-count').textContent = carts[1].reduce((a, b) => a + b.qty, 0);
+            document.getElementById('c2-cart-count').textContent = carts[2].reduce((a, b) => a + b.qty, 0);
+            document.getElementById('c3-cart-count').textContent = carts[3].reduce((a, b) => a + b.qty, 0);
+        }
+
+        function changeCartQty(idx, delta) {
+            const list = carts[activeConcept];
+            list[idx].qty += delta;
+            if (list[idx].qty <= 0) list.splice(idx, 1);
+            updateCartCounters();
+            renderCartDrawerContent();
+        }
+
+        function openCartDrawer() {
+            renderCartDrawerContent();
+            document.getElementById('cart-drawer-backdrop').classList.remove('hidden');
+        }
+
+        function closeCartDrawer() {
+            document.getElementById('cart-drawer-backdrop').classList.add('hidden');
+        }
+
+        function renderCartDrawerContent() {
+            const panel = document.getElementById('cart-drawer-panel');
+            const header = document.getElementById('cart-drawer-header');
+            const brandTag = document.getElementById('cart-brand-tag');
+            const btn = document.getElementById('cart-checkout-btn');
+            const listEl = document.getElementById('cart-items-list');
+            const totalEl = document.getElementById('cart-total-price');
+
+            // Apply Concept-Specific Styling to Drawer
+            if (activeConcept === 1) {
+                panel.className = "w-screen max-w-md flex flex-col justify-between overflow-hidden bg-pop-paper text-pop-black font-grotesk border-l-4 border-black";
+                header.className = "p-5 flex items-center justify-between bg-pop-yellow border-b-2 border-black";
+                brandTag.textContent = "SANGRAI.LAB // ROASTERY ORDER";
+                btn.className = "w-full py-3.5 px-5 bg-pop-cobalt text-white brutal-btn font-mono font-extrabold text-xs uppercase flex items-center justify-center gap-2";
+            } else if (activeConcept === 2) {
+                panel.className = "w-screen max-w-md flex flex-col justify-between overflow-hidden bg-kala-stone text-kala-navy font-sans border-l border-slate-300";
+                header.className = "p-5 flex items-center justify-between border-b border-slate-300";
+                brandTag.textContent = "TENUN KALA // BUTIK WASTRA";
+                btn.className = "w-full py-4 px-5 bg-kala-navy hover:bg-kala-crimson text-white font-semibold text-xs tracking-[0.2em] uppercase flex items-center justify-center gap-2 transition-colors";
+            } else {
+                panel.className = "w-screen max-w-md flex flex-col justify-between overflow-hidden bg-tirta-forest text-tirta-goldlight font-sans border-l border-tirta-gold/40";
+                header.className = "p-5 flex items-center justify-between bg-tirta-card border-b border-tirta-gold/30";
+                brandTag.textContent = "TIRTAWARSA // ROYAL APOTHECARY";
+                btn.className = "w-full py-3.5 px-5 bg-tirta-gold text-tirta-forest rounded-full font-bold text-xs tracking-[0.2em] uppercase flex items-center justify-center gap-2";
+            }
+
+            const currentCart = carts[activeConcept];
+            const total = currentCart.reduce((acc, item) => acc + item.price * item.qty, 0);
+            totalEl.textContent = rupiah(total);
+
+            if (currentCart.length === 0) {
+                listEl.innerHTML = `<div class="py-12 text-center text-sm opacity-60">Keranjang masih kosong untuk konsep UMKM ini. Silakan pilih produk pada katalog.</div>`;
+                return;
+            }
+
+            listEl.innerHTML = currentCart.map((item, idx) => `
+                <div class="p-3.5 border border-current/20 flex items-center justify-between gap-3">
+                    <div class="min-w-0 flex-1">
+                        <div class="font-bold text-sm truncate">${item.name}</div>
+                        <div class="text-xs opacity-70">${item.note} • ${rupiah(item.price)}</div>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <button onclick="changeCartQty(${idx}, -1)" class="w-7 h-7 border border-current/30 flex items-center justify-center font-bold">-</button>
+                        <span class="text-xs font-bold w-4 text-center">${item.qty}</span>
+                        <button onclick="changeCartQty(${idx}, 1)" class="w-7 h-7 border border-current/30 flex items-center justify-center font-bold">+</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function generateWhatsAppOrder() {
+            const currentCart = carts[activeConcept];
+            if (currentCart.length === 0) {
+                showConceptToast("Pilih minimal 1 produk terlebih dahulu!");
+                return;
+            }
+
+            const name = document.getElementById('wa-cust-name').value.trim() || "Pelanggan UMKM";
+            const address = document.getElementById('wa-cust-address').value.trim() || "Kirim via Kurir";
+            const note = document.getElementById('wa-cust-note').value.trim();
+
+            const brandNames = {
+                1: "SANGRAI.LAB Micro-Roastery",
+                2: "TENUN KALA Artisanal Wastra",
+                3: "TIRTAWARSA Royal Apothecary Jamu"
+            };
+
+            const total = currentCart.reduce((acc, i) => acc + i.price * i.qty, 0);
+            const lines = currentCart.map((i, idx) => `${idx + 1}. ${i.name} [${i.note}] x${i.qty} = ${rupiah(i.price * i.qty)}`).join('\n');
+
+            const text = `Halo Admin *${brandNames[activeConcept]}*,\nSaya ingin memesan produk berikut:\n\n${lines}\n\n*Total Estimasi:* ${rupiah(total)}\n\n*Data Pengiriman:*\n• Nama: ${name}\n• Alamat: ${address}\n` + (note ? `• Catatan: ${note}\n` : '') + `\nMohon info total ongkir & rekening pembayaran. Terima kasih!`;
+
+            document.getElementById('wa-modal-brand').textContent = brandNames[activeConcept];
+            document.getElementById('wa-preview-text').textContent = text;
+            document.getElementById('wa-launch-link').href = `https://wa.me/6281234567890?text=${encodeURIComponent(text)}`;
+
+            closeCartDrawer();
+            document.getElementById('wa-modal').classList.remove('hidden');
+        }
+
+        function openDirectWaConcept(conceptNum) {
+            const msgMap = {
+                1: "Halo Tim Roastery *SANGRAI.LAB*, saya ingin konsultasi pasokan biji kopi untuk kedai / pesanan custom.",
+                2: "Halo Stylist *TENUN KALA*, saya ingin berkonsultasi mengenai ukuran custom (ukur badan) untuk koleksi Tenun ATBM.",
+                3: "Halo Apoteker *TIRTAWARSA*, saya ingin berkonsultasi mengenai racikan jamu rimpang untuk kebutuhan kesehatan saya."
+            };
+            const text = msgMap[conceptNum];
+            document.getElementById('wa-preview-text').textContent = text;
+            document.getElementById('wa-launch-link').href = `https://wa.me/6281234567890?text=${encodeURIComponent(text)}`;
+            document.getElementById('wa-modal').classList.remove('hidden');
+        }
+
+        function closeWaModal() {
+            document.getElementById('wa-modal').classList.add('hidden');
+        }
+
+        function copyWaText() {
+            const txt = document.getElementById('wa-preview-text').textContent;
+            const area = document.createElement('textarea');
+            area.value = txt;
+            document.body.appendChild(area);
+            area.select();
+            document.execCommand('copy');
+            document.body.removeChild(area);
+            showConceptToast("Pesan WhatsApp berhasil disalin!");
+        }
+
+        let toastTimer;
+        function showConceptToast(msg) {
+            const box = document.getElementById('toast-box');
+            const inner = document.getElementById('toast-inner');
+            document.getElementById('toast-text').textContent = msg;
+
+            if (activeConcept === 1) {
+                inner.className = "px-5 py-3.5 bg-pop-yellow text-black brutal-border-thick brutal-shadow font-mono text-xs font-extrabold uppercase flex items-center gap-2.5";
+            } else if (activeConcept === 2) {
+                inner.className = "px-6 py-4 bg-kala-navy text-white text-xs tracking-[0.2em] uppercase flex items-center gap-2.5 shadow-xl";
+            } else {
+                inner.className = "px-6 py-3.5 bg-tirta-gold text-tirta-forest rounded-full font-royal font-bold text-xs tracking-wider uppercase flex items-center gap-2.5 shadow-xl";
+            }
+
+            box.classList.remove('translate-y-20', 'opacity-0');
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => {
+                box.classList.add('translate-y-20', 'opacity-0');
+            }, 2600);
+        }
+
+        // Initialize all 3 Architectural Concepts on Load
+        window.onload = function() {
+            renderConcept1Products();
+            renderConcept2Products();
+            selectJamuRemedy('imun');
+            renderConcept3Products();
+            updateCartCounters();
+        };
+    </script>
+</body>
+</html>

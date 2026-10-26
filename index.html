@@ -10,33 +10,29 @@
     />
     <style>
       :root {
-        --bg: #07111f;
-        --bg-soft: #0d1729;
-        --panel: rgba(14, 23, 38, 0.8);
-        --panel-strong: rgba(18, 29, 49, 0.96);
-        --border: rgba(148, 163, 184, 0.18);
+        --bg: #06111d;
+        --bg-soft: #0c1727;
+        --panel: rgba(12, 19, 31, 0.9);
+        --panel-alt: rgba(17, 25, 38, 0.84);
+        --stroke: rgba(148, 163, 184, 0.18);
         --text: #edf4ff;
-        --muted: #a8b7cc;
-        --accent: #7dd3fc;
-        --accent-2: #8b5cf6;
-        --accent-3: #fbbf24;
-        --success: #34d399;
-        --shadow: 0 24px 60px rgba(2, 6, 23, 0.75);
+        --muted: #a7b7cc;
+        --soft: #dfeafd;
+        --shadow: 0 24px 60px rgba(2, 6, 23, 0.7);
+        --accent: #78d4ff;
       }
 
       * { box-sizing: border-box; }
 
-      html {
-        scroll-behavior: smooth;
-      }
+      html { scroll-behavior: smooth; }
 
       body {
         margin: 0;
         font-family: Inter, "Segoe UI", sans-serif;
         background:
-          radial-gradient(circle at top left, rgba(125, 211, 252, 0.12), transparent 28%),
-          radial-gradient(circle at bottom right, rgba(139, 92, 246, 0.12), transparent 24%),
-          linear-gradient(180deg, #050d18 0%, #0a1220 100%);
+          radial-gradient(circle at top left, rgba(120, 212, 255, 0.12), transparent 18%),
+          radial-gradient(circle at bottom right, rgba(168, 85, 247, 0.12), transparent 22%),
+          linear-gradient(180deg, #041019 0%, #0b1624 100%);
         color: var(--text);
       }
 
@@ -45,7 +41,7 @@
       .page {
         max-width: 1280px;
         margin: 0 auto;
-        padding: 32px 20px 80px;
+        padding: 32px 20px 90px;
       }
 
       .topbar {
@@ -54,11 +50,11 @@
         justify-content: space-between;
         gap: 18px;
         padding: 18px 20px;
-        margin-bottom: 22px;
-        border: 1px solid var(--border);
+        margin-bottom: 24px;
+        border: 1px solid var(--stroke);
         border-radius: 18px;
-        background: rgba(10, 17, 28, 0.8);
-        backdrop-filter: blur(16px);
+        background: rgba(9, 16, 26, 0.72);
+        backdrop-filter: blur(14px);
         box-shadow: var(--shadow);
       }
 
@@ -66,7 +62,6 @@
         display: flex;
         align-items: center;
         gap: 12px;
-        min-width: 0;
       }
 
       .brand-mark {
@@ -75,26 +70,23 @@
         display: grid;
         place-items: center;
         border-radius: 14px;
-        font-size: 1.1rem;
+        background: linear-gradient(135deg, #65d5ff, #8b5cf6 65%, #e879f9);
         font-weight: 800;
-        background: linear-gradient(135deg, #0ea5e9 0%, #8b5cf6 100%);
-        box-shadow: 0 12px 32px rgba(14, 165, 233, 0.38);
-      }
-
-      .brand-copy {
-        min-width: 0;
+        box-shadow: 0 16px 36px rgba(101, 213, 255, 0.26);
       }
 
       .brand-copy strong {
         display: block;
-        font-size: 0.96rem;
+        font-size: 0.95rem;
         letter-spacing: 0.08em;
         text-transform: uppercase;
       }
 
       .brand-copy span {
+        display: block;
+        margin-top: 2px;
         color: var(--muted);
-        font-size: 0.74rem;
+        font-size: 0.72rem;
         letter-spacing: 0.12em;
         text-transform: uppercase;
       }
@@ -108,12 +100,12 @@
 
       .chip,
       .nav-pill {
-        border: 1px solid var(--border);
-        background: rgba(15, 23, 38, 0.7);
+        border: 1px solid var(--stroke);
+        background: rgba(15, 23, 38, 0.76);
         color: var(--muted);
         border-radius: 999px;
         padding: 9px 14px;
-        font-size: 0.72rem;
+        font-size: 0.7rem;
         letter-spacing: 0.12em;
         text-transform: uppercase;
       }
@@ -127,26 +119,31 @@
 
       .nav-pill:hover {
         color: var(--text);
-        border-color: rgba(125, 211, 252, 0.4);
+        border-color: rgba(120, 212, 255, 0.4);
         transform: translateY(-1px);
       }
 
       .hero {
         display: grid;
         grid-template-columns: 1.3fr 0.7fr;
-        gap: 24px;
+        gap: 22px;
         align-items: stretch;
-        margin-bottom: 30px;
+        margin-bottom: 28px;
+      }
+
+      .hero-panel,
+      .preview-window,
+      .project-card {
+        border: 1px solid var(--stroke);
+        border-radius: 28px;
+        background: rgba(11, 17, 26, 0.88);
+        box-shadow: var(--shadow);
       }
 
       .hero-panel {
         position: relative;
         overflow: hidden;
         padding: 32px 28px;
-        border: 1px solid var(--border);
-        border-radius: 28px;
-        background: linear-gradient(135deg, rgba(10, 17, 28, 0.86), rgba(15, 24, 39, 0.95));
-        box-shadow: var(--shadow);
       }
 
       .hero-panel::before,
@@ -154,39 +151,40 @@
         content: "";
         position: absolute;
         border-radius: 50%;
-        filter: blur(30px);
-        opacity: 0.4;
+        filter: blur(32px);
+        opacity: 0.45;
       }
 
       .hero-panel::before {
-        width: 220px;
-        height: 220px;
-        background: rgba(56, 189, 248, 0.18);
-        right: -20px;
-        top: -40px;
+        width: 240px;
+        height: 240px;
+        right: -36px;
+        top: -54px;
+        background: rgba(125, 211, 252, 0.15);
       }
 
       .hero-panel::after {
-        width: 200px;
-        height: 200px;
-        background: rgba(139, 92, 246, 0.16);
-        left: -24px;
-        bottom: -30px;
+        width: 230px;
+        height: 230px;
+        left: -40px;
+        bottom: -50px;
+        background: rgba(168, 85, 247, 0.14);
       }
 
       .eyebrow {
+        position: relative;
+        z-index: 1;
         display: inline-flex;
         align-items: center;
         gap: 8px;
-        padding: 8px 12px;
-        border: 1px solid rgba(125, 211, 252, 0.22);
-        background: rgba(125, 211, 252, 0.08);
+        padding: 9px 12px;
+        border: 1px solid rgba(120, 212, 255, 0.25);
         border-radius: 999px;
-        color: #bfeaff;
+        background: rgba(120, 212, 255, 0.08);
+        color: #d9f6ff;
+        font-size: 0.7rem;
         letter-spacing: 0.12em;
         text-transform: uppercase;
-        font-size: 0.7rem;
-        font-weight: 700;
       }
 
       .eyebrow::before {
@@ -194,11 +192,13 @@
         width: 8px;
         height: 8px;
         border-radius: 50%;
-        background: linear-gradient(135deg, #67e8f9, #8b5cf6);
-        box-shadow: 0 0 0 6px rgba(125, 211, 252, 0.12);
+        background: linear-gradient(135deg, #70e0ff, #8b5cf6);
+        box-shadow: 0 0 0 6px rgba(120, 212, 255, 0.14);
       }
 
       h1 {
+        position: relative;
+        z-index: 1;
         margin: 18px 0 14px;
         font-size: clamp(2.2rem, 4vw, 4.2rem);
         line-height: 0.98;
@@ -206,48 +206,49 @@
       }
 
       .lead {
-        max-width: 680px;
+        position: relative;
+        z-index: 1;
+        max-width: 660px;
         color: var(--muted);
-        font-size: 1.04rem;
-        line-height: 1.75;
+        font-size: 1.03rem;
+        line-height: 1.8;
       }
 
       .metrics {
+        position: relative;
+        z-index: 1;
         display: flex;
         flex-wrap: wrap;
         gap: 12px;
-        margin-top: 24px;
+        margin-top: 22px;
       }
 
       .metric {
         min-width: 120px;
         padding: 14px 16px;
+        border: 1px solid var(--stroke);
         border-radius: 16px;
-        border: 1px solid var(--border);
-        background: rgba(15, 23, 38, 0.72);
+        background: rgba(15, 23, 38, 0.76);
       }
 
       .metric strong {
         display: block;
-        font-size: 1.35rem;
-        margin-bottom: 4px;
+        font-size: 1.28rem;
+        margin-bottom: 5px;
       }
 
       .metric span {
         color: var(--muted);
-        font-size: 0.72rem;
-        letter-spacing: 0.08em;
+        font-size: 0.7rem;
+        letter-spacing: 0.09em;
         text-transform: uppercase;
       }
 
       .preview-window {
         position: relative;
-        min-height: 260px;
-        border: 1px solid var(--border);
-        border-radius: 28px;
-        background: linear-gradient(180deg, rgba(14, 23, 38, 1), rgba(8, 13, 22, 1));
         overflow: hidden;
-        box-shadow: var(--shadow);
+        min-height: 260px;
+        background: linear-gradient(180deg, rgba(10, 15, 23, 1), rgba(8, 14, 20, 1));
       }
 
       .browser-bar {
@@ -256,60 +257,56 @@
         justify-content: space-between;
         gap: 14px;
         padding: 12px 16px;
-        border-bottom: 1px solid var(--border);
+        border-bottom: 1px solid var(--stroke);
         background: rgba(15, 23, 38, 0.9);
       }
 
-      .dots {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-      }
-
+      .dots { display: flex; align-items: center; gap: 8px; }
       .dot {
         width: 10px;
         height: 10px;
         border-radius: 50%;
       }
-
       .dot:nth-child(1) { background: #fb7185; }
       .dot:nth-child(2) { background: #fbbf24; }
       .dot:nth-child(3) { background: #34d399; }
 
       .browser-label {
         color: var(--muted);
-        font-size: 0.7rem;
         letter-spacing: 0.12em;
         text-transform: uppercase;
+        font-size: 0.72rem;
       }
 
       .mini-view {
         position: relative;
         height: calc(100% - 50px);
-        padding: 16px;
+        min-height: 210px;
         background:
-          linear-gradient(120deg, rgba(17,24,39,0.2), rgba(17,24,39,0.9)),
-          linear-gradient(135deg, rgba(14,165,233,0.18), rgba(139,92,246,0.12));
+          linear-gradient(135deg, rgba(8, 15, 24, 0.28), rgba(8, 15, 24, 0.74)),
+          url('https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=1200&q=80') center/cover no-repeat;
       }
 
       .mini-card {
         position: absolute;
         right: 20px;
         bottom: 18px;
-        width: 170px;
-        padding: 14px;
+        width: 180px;
+        padding: 14px 15px;
         border-radius: 18px;
         border: 1px solid rgba(255,255,255,0.08);
-        background: rgba(15, 23, 38, 0.9);
-        backdrop-filter: blur(10px);
-        box-shadow: 0 16px 40px rgba(0,0,0,0.28);
+        background: rgba(13, 19, 31, 0.82);
+        backdrop-filter: blur(8px);
+        box-shadow: 0 18px 40px rgba(0,0,0,0.28);
       }
 
       .mini-card .title {
         display: block;
-        font-size: 0.75rem;
         color: var(--muted);
-        margin-bottom: 8px;
+        font-size: 0.73rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        margin-bottom: 6px;
       }
 
       .mini-card .value {
@@ -320,21 +317,17 @@
       }
 
       .mini-card .bar {
-        margin-top: 12px;
         height: 8px;
+        margin-top: 12px;
         border-radius: 999px;
-        background: linear-gradient(90deg, #7dd3fc, #8b5cf6, #fbbf24);
-      }
-
-      .grid-wrap {
-        margin-top: 24px;
+        background: linear-gradient(90deg, #70e0ff 0%, #8b5cf6 50%, #fbbf24 100%);
       }
 
       .section-head {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        gap: 14px;
+        gap: 12px;
         margin-bottom: 18px;
       }
 
@@ -346,7 +339,7 @@
 
       .section-head span {
         color: var(--muted);
-        font-size: 0.76rem;
+        font-size: 0.74rem;
         letter-spacing: 0.12em;
         text-transform: uppercase;
       }
@@ -362,24 +355,20 @@
         grid-column: span 6;
         min-height: 360px;
         padding: 20px;
-        border-radius: 26px;
-        border: 1px solid var(--border);
-        background: rgba(15, 23, 38, 0.7);
         overflow: hidden;
-        box-shadow: var(--shadow);
         transition: transform 0.2s ease, border-color 0.2s ease;
       }
 
       .project-card:hover {
         transform: translateY(-4px);
-        border-color: rgba(125, 211, 252, 0.3);
+        border-color: rgba(120, 212, 255, 0.38);
       }
 
       .project-card::before {
         content: "";
         position: absolute;
         inset: 0;
-        background: var(--glow, linear-gradient(135deg, rgba(125,211,252,0.18), rgba(139,92,246,0.15)));
+        background: var(--glow, linear-gradient(135deg, rgba(120, 212, 255, 0.13), rgba(168, 85, 247, 0.12)));
       }
 
       .project-card > * {
@@ -401,7 +390,7 @@
         padding: 7px 10px;
         border: 1px solid rgba(255,255,255,0.08);
         border-radius: 999px;
-        background: rgba(15, 23, 38, 0.52);
+        background: rgba(13, 19, 31, 0.52);
         color: var(--muted);
         font-size: 0.68rem;
         letter-spacing: 0.12em;
@@ -413,15 +402,15 @@
         width: 7px;
         height: 7px;
         border-radius: 50%;
-        background: var(--badge-color, #7dd3fc);
-        box-shadow: 0 0 14px var(--badge-color, #7dd3fc);
+        background: var(--badge-color, #78d4ff);
+        box-shadow: 0 0 12px var(--badge-color, #78d4ff);
       }
 
       .project-card h3 {
         margin: 18px 0 10px;
-        font-size: clamp(1.6rem, 2vw, 2.2rem);
-        letter-spacing: -0.05em;
+        font-size: clamp(1.55rem, 2vw, 2.2rem);
         line-height: 1.05;
+        letter-spacing: -0.055em;
       }
 
       .project-card p {
@@ -429,7 +418,6 @@
         color: var(--muted);
         font-size: 0.96rem;
         line-height: 1.7;
-        max-width: 58ch;
       }
 
       .project-meta {
@@ -443,8 +431,8 @@
         padding: 7px 10px;
         border-radius: 999px;
         border: 1px solid rgba(255,255,255,0.08);
-        background: rgba(15, 23, 38, 0.45);
-        color: #dfeafc;
+        background: rgba(13, 19, 31, 0.45);
+        color: #e5f0ff;
         font-size: 0.68rem;
         letter-spacing: 0.08em;
         text-transform: uppercase;
@@ -454,12 +442,14 @@
         position: relative;
         margin-top: 22px;
         width: 100%;
-        height: 132px;
+        height: 138px;
         border-radius: 20px;
         border: 1px solid rgba(255,255,255,0.08);
-        background:
-          linear-gradient(135deg, rgba(15, 23, 38, 0.44), rgba(15, 23, 38, 0.18)),
-          var(--visual-gradient, linear-gradient(135deg, #0f172a, #1e293b));
+        background-image:
+          linear-gradient(180deg, rgba(4, 9, 15, 0.2), rgba(4, 9, 15, 0.58)),
+          var(--visual-bg);
+        background-size: cover;
+        background-position: center;
         overflow: hidden;
       }
 
@@ -473,9 +463,9 @@
       }
 
       .card-visual::before {
-        width: 52%;
-        height: 54%;
-        right: 18px;
+        width: 54%;
+        height: 56%;
+        right: 16px;
         top: 18px;
         transform: skewY(-6deg);
       }
@@ -483,7 +473,7 @@
       .card-visual::after {
         width: 38%;
         height: 32%;
-        left: 18px;
+        left: 16px;
         bottom: 18px;
         transform: skewY(6deg);
       }
@@ -493,7 +483,7 @@
         justify-content: space-between;
         align-items: center;
         gap: 12px;
-        margin-top: 20px;
+        margin-top: 22px;
       }
 
       .open-link {
@@ -501,63 +491,35 @@
         align-items: center;
         justify-content: center;
         gap: 8px;
+        min-width: 136px;
         padding: 12px 16px;
-        min-width: 128px;
         border-radius: 14px;
-        background: linear-gradient(135deg, #0ea5e9 0%, #8b5cf6 100%);
+        background: linear-gradient(135deg, #78d4ff 0%, #8b5cf6 100%);
         color: white;
         font-weight: 700;
         letter-spacing: 0.04em;
-        box-shadow: 0 14px 30px rgba(14, 165, 233, 0.26);
-      }
-
-      .open-link:hover {
-        filter: brightness(1.06);
+        box-shadow: 0 14px 30px rgba(120, 212, 255, 0.24);
       }
 
       .project-index {
-        color: rgba(255,255,255,0.84);
-        font-size: 0.74rem;
+        color: rgba(255,255,255,0.82);
+        font-size: 0.72rem;
         letter-spacing: 0.14em;
         text-transform: uppercase;
       }
 
       @media (max-width: 980px) {
-        .hero {
-          grid-template-columns: 1fr;
-        }
-
-        .project-card {
-          grid-column: span 12;
-        }
+        .hero { grid-template-columns: 1fr; }
+        .project-card { grid-column: span 12; }
       }
 
       @media (max-width: 640px) {
-        .page {
-          padding-left: 14px;
-          padding-right: 14px;
-        }
-
-        .topbar {
-          flex-direction: column;
-          align-items: flex-start;
-        }
-
-        .header-actions {
-          width: 100%;
-        }
-
+        .page { padding-left: 14px; padding-right: 14px; }
+        .topbar { flex-direction: column; align-items: flex-start; }
+        .header-actions { width: 100%; }
         .header-actions .chip,
-        .header-actions .nav-pill {
-          flex: 1;
-          text-align: center;
-        }
-
-        .hero-panel,
-        .preview-window,
-        .project-card {
-          border-radius: 22px;
-        }
+        .header-actions .nav-pill { flex: 1; text-align: center; }
+        .hero-panel, .preview-window, .project-card { border-radius: 22px; }
       }
     </style>
   </head>
@@ -574,7 +536,7 @@
 
         <div class="header-actions">
           <span class="chip">5 Projects</span>
-          <span class="chip">HTML Only</span>
+          <span class="chip">HTML</span>
           <a class="nav-pill" href="#portfolio">Browse</a>
         </div>
       </header>
@@ -584,9 +546,9 @@
           <div class="eyebrow">Collection</div>
           <h1>Creative landing pages, all in one dark showcase.</h1>
           <p class="lead">
-            Sebuah preview gallery yang menampilkan seluruh concept landing page dalam repo ini — mulai dari
-            brand luxury, roastery, rental motor, UMKM, hingga eksperimen edukasi 3D. Semua dibuat dengan gaya
-            modern, bersih, dan fokus pada pengalaman visual yang menarik.
+            Preview gallery dari berbagai concept landing page di repo ini: luxury automotive,
+            roastery coffee, rental motor, UMKM lokal, hingga edukasi interaktif 3D. Semua dirancang dengan
+            pendekatan dark aesthetic yang clean, modern, dan siap dipresentasikan.
           </p>
 
           <div class="metrics">
@@ -600,7 +562,7 @@
             </div>
             <div class="metric">
               <strong>Dark</strong>
-              <span>Theme</span>
+              <span>System</span>
             </div>
           </div>
         </div>
@@ -612,20 +574,20 @@
               <span class="dot"></span>
               <span class="dot"></span>
             </div>
-            <div class="browser-label">Live Preview</div>
+            <div class="browser-label">Featured</div>
           </div>
 
           <div class="mini-view">
             <div class="mini-card">
               <span class="title">Featured</span>
-              <span class="value">Aurelia</span>
+              <span class="value">AURELIA</span>
               <div class="bar"></div>
             </div>
           </div>
         </div>
       </section>
 
-      <div class="grid-wrap" id="portfolio">
+      <div id="portfolio">
         <div class="section-head">
           <h2>Project Showcase</h2>
           <span>Explore all pages</span>
@@ -639,9 +601,9 @@
       const projects = [
         {
           title: 'Aurelia',
-          accent: '#c56a6a',
-          glow: 'linear-gradient(135deg, rgba(122, 42, 48, 0.28), rgba(212, 132, 94, 0.18))',
-          visual: 'linear-gradient(135deg, #1b1a1d, #31251d 42%, #7a3a41 100%)',
+          accent: '#d07a7a',
+          glow: 'linear-gradient(135deg, rgba(116, 42, 48, 0.26), rgba(212, 132, 94, 0.18))',
+          visual: "linear-gradient(135deg, rgba(17, 16, 18, 0.18), rgba(17, 16, 18, 0.52)), url('https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?auto=format&fit=crop&w=1200&q=80')",
           tag: 'Luxury',
           tags: ['Luxury', 'Automotive', 'Editorial'],
           description: 'Landing page premium untuk layanan mobilitas pribadi dengan aesthetic eksklusif, modern, dan penuh karakter mewah.',
@@ -652,18 +614,18 @@
           title: 'Lepidoptera 3D',
           accent: '#fbbf24',
           glow: 'linear-gradient(135deg, rgba(245, 158, 11, 0.2), rgba(59, 130, 246, 0.14))',
-          visual: 'linear-gradient(135deg, #111827, #0f172a 40%, #1d4ed8 100%)',
+          visual: "linear-gradient(135deg, rgba(10, 15, 26, 0.18), rgba(15, 23, 42, 0.54)), url('https://images.unsplash.com/photo-1474511320723-9a56873867b5?auto=format&fit=crop&w=1200&q=80')",
           tag: '3D Edu',
           tags: ['3D', 'Science', 'Interactive'],
-          description: 'Eksplorasi edukasi kupu-kupu interaktif dengan visual 3D, scientific panel, dan dark mode yang sangat nyaman untuk belajar.',
+          description: 'Eksplorasi edukasi kupu-kupu interaktif dengan visual 3D, scientific panel, dan dark mode yang nyaman untuk belajar.',
           index: '02',
           href: 'ensiklopedia_3d_interaktif_kupu_kupu.html'
         },
         {
           title: 'Karsa Roda',
           accent: '#f97316',
-          glow: 'linear-gradient(135deg, rgba(249,115,22,0.2), rgba(22,163,74,0.16))',
-          visual: 'linear-gradient(135deg, #11231b, #163b2b 45%, #d97706 100%)',
+          glow: 'linear-gradient(135deg, rgba(249,115,22,0.18), rgba(22,163,74,0.14))',
+          visual: "linear-gradient(135deg, rgba(12, 27, 24, 0.18), rgba(21, 32, 27, 0.56)), url('https://images.unsplash.com/photo-1558980664-10e7170b5df9?auto=format&fit=crop&w=1200&q=80')",
           tag: 'Travel',
           tags: ['Rental', 'Jogja', 'Booking'],
           description: 'Landing page jasa sewa motor Jogja yang fokus pada transaksi cepat, trust-building, dan promosi value proposition yang jelas.',
@@ -673,8 +635,8 @@
         {
           title: 'UMKM Rasa Karsa Nusantara',
           accent: '#34d399',
-          glow: 'linear-gradient(135deg, rgba(52,211,153,0.22), rgba(251,191,36,0.12))',
-          visual: 'linear-gradient(135deg, #111827, #1f2937 42%, #14532d 100%)',
+          glow: 'linear-gradient(135deg, rgba(52,211,153,0.2), rgba(251,191,36,0.12))',
+          visual: "linear-gradient(135deg, rgba(10, 14, 19, 0.18), rgba(16, 24, 20, 0.56)), url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1200&q=80')",
           tag: 'UMKM',
           tags: ['Branding', 'Food', 'Culture'],
           description: 'Concept showcase untuk produk UMKM lokal dengan pendekatan visual kuat, modern, dan kaya identitas budaya Indonesia.',
@@ -685,7 +647,7 @@
           title: 'Senja & Seduh',
           accent: '#f59e0b',
           glow: 'linear-gradient(135deg, rgba(245,158,11,0.2), rgba(120,53,15,0.18))',
-          visual: 'linear-gradient(135deg, #120d0b, #1f140f 36%, #b45309 100%)',
+          visual: "linear-gradient(135deg, rgba(18, 12, 10, 0.18), rgba(27, 18, 12, 0.58)), url('https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=1200&q=80')",
           tag: 'Coffee',
           tags: ['Coffee', 'Culture', 'Roastery'],
           description: 'Desain brand coffee roastery dengan tema warm dark luxury, cocok untuk produk kopi specialty dan pengalaman premium.',
@@ -701,7 +663,7 @@
         card.className = 'project-card';
         card.style.setProperty('--glow', project.glow);
         card.style.setProperty('--badge-color', project.accent);
-        card.style.setProperty('--visual-gradient', project.visual);
+        card.style.setProperty('--visual-bg', project.visual);
 
         card.innerHTML = `
           <div class="card-top">
@@ -719,9 +681,7 @@
           <div class="card-visual"></div>
 
           <div class="card-actions">
-            <a class="open-link" href="${project.href}" target="_blank" rel="noreferrer">
-              Open demo →
-            </a>
+            <a class="open-link" href="${project.href}" target="_blank" rel="noreferrer">Open demo →</a>
             <span class="project-index">Preview</span>
           </div>
         `;

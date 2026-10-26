@@ -1,0 +1,1639 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mangg Network — Fiber Optic Internet Tanpa FUP & Dedicated ISP</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Plus Jakarta Sans, Space Grotesk, JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                        display: ['"Space Grotesk"', 'sans-serif'],
+                        mono: ['"JetBrains Mono"', 'monospace'],
+                    },
+                    colors: {
+                        mangg: {
+                            dark: '#0A0F14',
+                            slate: '#121A22',
+                            border: '#1F2D3A',
+                            stone: '#F5F5F0',
+                            lime: '#B6FF2E',
+                            emerald: '#10B981',
+                            amber: '#FF6B2B'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Industrial & Editorial Styling */
+        body {
+            background-color: #F5F5F0;
+            color: #0A0F14;
+            overflow-x: hidden;
+        }
+        
+        .bg-grid-pattern {
+            background-size: 32px 32px;
+            background-image: 
+                linear-gradient(to right, rgba(10, 15, 20, 0.05) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(10, 15, 20, 0.05) 1px, transparent 1px);
+        }
+
+        .bg-grid-dark {
+            background-size: 32px 32px;
+            background-image: 
+                linear-gradient(to right, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+        }
+
+        /* Neo-brutalist subtle shadow */
+        .neo-card {
+            border: 1.5px solid #0A0F14;
+            box-shadow: 4px 4px 0px #0A0F14;
+            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .neo-card:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 6px 6px 0px #0A0F14;
+        }
+
+        .neo-btn-lime {
+            background-color: #B6FF2E;
+            color: #0A0F14;
+            border: 1.5px solid #0A0F14;
+            box-shadow: 3px 3px 0px #0A0F14;
+            transition: all 0.15s ease;
+        }
+        .neo-btn-lime:hover {
+            background-color: #c4ff54;
+            transform: translate(-1px, -1px);
+            box-shadow: 5px 5px 0px #0A0F14;
+        }
+        .neo-btn-lime:active {
+            transform: translate(2px, 2px);
+            box-shadow: 1px 1px 0px #0A0F14;
+        }
+
+        /* Custom Range Slider */
+        input[type=range] {
+            -webkit-appearance: none;
+            background: transparent;
+        }
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 8px;
+            cursor: pointer;
+            background: #1F2D3A;
+            border-radius: 999px;
+        }
+        input[type=range]::-webkit-slider-thumb {
+            height: 22px;
+            width: 22px;
+            border-radius: 50%;
+            background: #B6FF2E;
+            border: 3px solid #0A0F14;
+            cursor: pointer;
+            -webkit-appearance: none;
+            margin-top: -7px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+        }
+
+        @keyframes pulse-fast {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+        .animate-pulse-fast {
+            animation: pulse-fast 1.4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-mangg-lime selection:text-mangg-dark">
+
+    <!-- 1. TOP UTILITY BAR -->
+    <div class="bg-mangg-dark text-stone-300 text-xs border-b border-mangg-border">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-10 flex items-center justify-between">
+            <div class="flex items-center space-x-4 overflow-x-auto no-scrollbar whitespace-nowrap py-1">
+                <div class="flex items-center space-x-2 bg-mangg-slate px-2.5 py-1 rounded-full border border-mangg-border">
+                    <span class="w-2 h-2 rounded-full bg-mangg-lime animate-pulse-fast"></span>
+                    <span class="font-mono text-[11px] text-white font-medium">NOC STATUS: NORMAL (99.98% SLA)</span>
+                </div>
+                <span class="hidden md:inline-block text-stone-500">|</span>
+                <span class="hidden md:inline-flex items-center gap-1.5 text-stone-300">
+                    <i class="ph-fill ph-shield-check text-mangg-lime"></i> AS-NUMBER: IDNIC-MANGG-NET
+                </span>
+                <span class="hidden lg:inline-block text-stone-500">|</span>
+                <a href="#coverage" class="hidden lg:inline-flex items-center gap-1 hover:text-mangg-lime transition-colors">
+                    <i class="ph ph-map-pin text-mangg-amber"></i> Cek ODP Area Pantura & Jawa Tengah
+                </a>
+            </div>
+            <div class="flex items-center space-x-4 shrink-0">
+                <a href="javascript:void(0)" onclick="openToast('Menghubungkan ke Hotline NOC 24/7: 0800-1-MANGG')" class="hidden sm:flex items-center gap-1.5 hover:text-white transition-colors font-mono">
+                    <i class="ph-fill ph-headset text-mangg-lime"></i> CS 24/7: (0283) 4512-888
+                </a>
+                <button onclick="toggleClientModal(true)" class="bg-mangg-slate hover:bg-stone-800 text-white px-3 py-1 rounded border border-mangg-border font-medium flex items-center gap-1.5 transition-colors">
+                    <i class="ph ph-user-circle text-mangg-lime text-sm"></i>
+                    <span>Portal Pelanggan</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- STICKY MAIN NAVIGATION -->
+    <header class="sticky top-0 z-40 bg-[#F5F5F0]/90 backdrop-blur-md border-b border-stone-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <!-- Brand Logo -->
+            <a href="#" class="flex items-center gap-3 group">
+                <div class="w-11 h-11 rounded-xl bg-mangg-dark flex items-center justify-center border-2 border-mangg-dark shadow-[2px_2px_0px_#B6FF2E] group-hover:bg-mangg-slate transition-all">
+                    <!-- Custom Geometric Connectivity SVG -->
+                    <svg class="w-6 h-6 text-mangg-lime" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M4 18V6l8 6 8-6v12"/>
+                        <circle cx="4" cy="6" r="1.5" fill="#FF6B2B" stroke="none"/>
+                        <circle cx="20" cy="6" r="1.5" fill="#B6FF2E" stroke="none"/>
+                        <circle cx="12" cy="18" r="1.5" fill="#B6FF2E" stroke="none"/>
+                    </svg>
+                </div>
+                <div>
+                    <div class="flex items-center gap-1">
+                        <span class="font-display font-bold text-xl tracking-tight text-mangg-dark">MANGG</span>
+                        <span class="font-mono text-xs font-bold bg-mangg-dark text-mangg-lime px-1.5 py-0.5 rounded">NET</span>
+                    </div>
+                    <p class="text-[10px] font-mono uppercase tracking-wider text-stone-500 -mt-0.5">Fiber Optic Infrastructure</p>
+                </div>
+            </a>
+
+            <!-- Desktop Nav Links -->
+            <nav class="hidden lg:flex items-center space-x-1">
+                <a href="#coverage" class="px-3.5 py-2 rounded-lg text-sm font-semibold text-stone-700 hover:text-mangg-dark hover:bg-stone-200/60 transition-colors">Cek Jangkauan</a>
+                <a href="#packages" class="px-3.5 py-2 rounded-lg text-sm font-semibold text-stone-700 hover:text-mangg-dark hover:bg-stone-200/60 transition-colors">Paket & Harga</a>
+                <a href="#calculator" class="px-3.5 py-2 rounded-lg text-sm font-semibold text-stone-700 hover:text-mangg-dark hover:bg-stone-200/60 transition-colors">Kalkulator Mbps</a>
+                <a href="#infrastructure" class="px-3.5 py-2 rounded-lg text-sm font-semibold text-stone-700 hover:text-mangg-dark hover:bg-stone-200/60 transition-colors">Teknologi & SLA</a>
+                <a href="#speedtest" class="px-3.5 py-2 rounded-lg text-sm font-semibold text-stone-700 hover:text-mangg-dark hover:bg-stone-200/60 transition-colors">Uji Kecepatan</a>
+                <a href="#faq" class="px-3.5 py-2 rounded-lg text-sm font-semibold text-stone-700 hover:text-mangg-dark hover:bg-stone-200/60 transition-colors">FAQ</a>
+            </nav>
+
+            <!-- Right CTA -->
+            <div class="hidden sm:flex items-center gap-3">
+                <button onclick="openOrderModal('Mangg Velocity 50 Mbps', 235000)" class="neo-btn-lime px-5 py-2.5 rounded-xl font-bold text-sm flex items-center gap-2">
+                    <span>Pasang Sekarang</span>
+                    <i class="ph-bold ph-arrow-up-right"></i>
+                </button>
+            </div>
+
+            <!-- Mobile Hamburger -->
+            <button onclick="toggleMobileMenu()" class="lg:hidden p-2.5 rounded-xl border border-stone-300 bg-white text-mangg-dark">
+                <i id="mobile-menu-icon" class="ph-bold ph-list text-xl"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Menu Dropdown -->
+        <div id="mobile-menu" class="hidden lg:hidden bg-white border-b border-stone-300 px-4 pt-3 pb-6 space-y-3">
+            <a href="#coverage" onclick="toggleMobileMenu()" class="block px-3 py-2 rounded-lg font-semibold text-stone-800 hover:bg-stone-100">Cek Jangkauan ODP</a>
+            <a href="#packages" onclick="toggleMobileMenu()" class="block px-3 py-2 rounded-lg font-semibold text-stone-800 hover:bg-stone-100">Paket Residensial & Bisnis</a>
+            <a href="#calculator" onclick="toggleMobileMenu()" class="block px-3 py-2 rounded-lg font-semibold text-stone-800 hover:bg-stone-100">Kalkulator Bandwidth</a>
+            <a href="#infrastructure" onclick="toggleMobileMenu()" class="block px-3 py-2 rounded-lg font-semibold text-stone-800 hover:bg-stone-100">Infrastruktur & Peering</a>
+            <a href="#speedtest" onclick="toggleMobileMenu()" class="block px-3 py-2 rounded-lg font-semibold text-stone-800 hover:bg-stone-100">Simulator Speedtest</a>
+            <a href="#faq" onclick="toggleMobileMenu()" class="block px-3 py-2 rounded-lg font-semibold text-stone-800 hover:bg-stone-100">Tanya Jawab (FAQ)</a>
+            <div class="pt-2 flex flex-col gap-2">
+                <button onclick="toggleMobileMenu(); openOrderModal('Mangg Velocity 50 Mbps', 235000)" class="neo-btn-lime w-full py-3 rounded-xl font-bold text-center">
+                    Daftar Pemasangan Baru
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- 2. ASYMMETRIC EDITORIAL HERO SECTION -->
+    <section class="relative bg-grid-pattern pt-8 pb-16 lg:pt-14 lg:pb-24 border-b border-stone-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-start">
+                
+                <!-- Left Column: Value Proposition (7 Cols) -->
+                <div class="lg:col-span-7 space-y-6">
+                    <!-- Badge -->
+                    <div class="inline-flex items-center gap-2 bg-white border border-mangg-dark px-3.5 py-1.5 rounded-full shadow-[2px_2px_0px_#0A0F14]">
+                        <span class="bg-mangg-amber text-white text-[11px] font-mono font-bold px-2 py-0.5 rounded-full uppercase">100% TRUE UNLIMITED</span>
+                        <span class="text-xs font-semibold text-mangg-dark">Bebas Kuota FUP • Simetris 1:1 Upload/Download</span>
+                    </div>
+
+                    <!-- Headline -->
+                    <h1 class="font-display font-bold text-4xl sm:text-5xl lg:text-[56px] text-mangg-dark leading-[1.08] tracking-tight">
+                        Internet Fiber Murni. <br>
+                        <span class="inline-block bg-mangg-lime px-3 py-0.5 border-2 border-mangg-dark rounded-xl shadow-[4px_4px_0px_#0A0F14] mt-1">Tanpa Drama</span><br>
+                        Jam Sibuk.
+                    </h1>
+
+                    <p class="text-stone-600 text-base sm:text-lg max-w-2xl leading-relaxed font-normal">
+                        Lupakan internet yang melambat di akhir bulan karena batas FUP. <strong>Mangg Network</strong> menghadirkan jaringan 100% <em>Fiber-To-The-Home</em> (FTTH) dengan rute *direct peering* ke server game & *streaming* Singapura/Jakarta untuk latensi ultra-rendah.
+                    </p>
+
+                    <!-- Quick Coverage Search Bar -->
+                    <div class="bg-white p-2.5 rounded-2xl neo-card max-w-2xl">
+                        <div class="flex flex-col sm:flex-row items-center gap-2">
+                            <div class="relative w-full flex items-center">
+                                <i class="ph-bold ph-map-pin-line text-xl text-mangg-amber absolute left-3.5"></i>
+                                <input id="hero-search-input" type="text" placeholder="Ketik Kecamatan / Kota / Kode Pos (Cth: Adiwerna, Tegal, Slawi...)" 
+                                    class="w-full pl-11 pr-4 py-3 bg-stone-100 rounded-xl text-sm font-medium text-mangg-dark placeholder-stone-400 focus:outline-none focus:ring-2 focus:ring-mangg-dark">
+                            </div>
+                            <button onclick="triggerHeroCoverageSearch()" class="w-full sm:w-auto shrink-0 bg-mangg-dark hover:bg-mangg-slate text-mangg-lime font-bold text-sm px-6 py-3.5 rounded-xl flex items-center justify-center gap-2 transition-colors">
+                                <i class="ph-bold ph-Crosshair"></i>
+                                <span>Cek Tiang ODP</span>
+                            </button>
+                        </div>
+                        <div class="mt-2.5 px-2 flex flex-wrap items-center gap-2 text-xs text-stone-500">
+                            <span class="font-mono font-semibold text-mangg-dark">Populer:</span>
+                            <button onclick="quickFillSearch('Adiwerna')" class="hover:text-mangg-dark underline decoration-dotted">Adiwerna</button> •
+                            <button onclick="quickFillSearch('Slawi')" class="hover:text-mangg-dark underline decoration-dotted">Slawi</button> •
+                            <button onclick="quickFillSearch('Kota Tegal')" class="hover:text-mangg-dark underline decoration-dotted">Kota Tegal</button> •
+                            <button onclick="quickFillSearch('Brebes')" class="hover:text-mangg-dark underline decoration-dotted">Brebes</button> •
+                            <button onclick="quickFillSearch('Pemalang')" class="hover:text-mangg-dark underline decoration-dotted">Pemalang</button> •
+                            <button onclick="quickFillSearch('Pekalongan')" class="hover:text-mangg-dark underline decoration-dotted">Pekalongan</button>
+                        </div>
+                    </div>
+
+                    <!-- Trust Metrics Grid -->
+                    <div class="grid grid-cols-3 gap-3 sm:gap-4 pt-2 max-w-2xl">
+                        <div class="bg-white/80 backdrop-blur border border-stone-300 rounded-xl p-3.5">
+                            <div class="font-display font-bold text-2xl sm:text-3xl text-mangg-dark">18.400+</div>
+                            <div class="text-xs text-stone-600 font-medium mt-0.5">Rumah & Bisnis Terhubung</div>
+                        </div>
+                        <div class="bg-white/80 backdrop-blur border border-stone-300 rounded-xl p-3.5">
+                            <div class="font-display font-bold text-2xl sm:text-3xl text-emerald-600 font-mono">&lt; 4 ms</div>
+                            <div class="text-xs text-stone-600 font-medium mt-0.5">Rata-rata Ping IIX / JKT</div>
+                        </div>
+                        <div class="bg-white/80 backdrop-blur border border-stone-300 rounded-xl p-3.5">
+                            <div class="font-display font-bold text-2xl sm:text-3xl text-mangg-dark">&lt; 3 Jam</div>
+                            <div class="text-xs text-stone-600 font-medium mt-0.5">Respon Teknisi Lapangan</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column: Interactive Live Telemetry & Router Bento Card (5 Cols) -->
+                <div class="lg:col-span-5">
+                    <div class="bg-mangg-dark text-white rounded-2xl neo-card overflow-hidden">
+                        <!-- Telemetry Header -->
+                        <div class="bg-mangg-slate px-5 py-3.5 border-b border-mangg-border flex items-center justify-between">
+                            <div class="flex items-center gap-2">
+                                <span class="w-2.5 h-2.5 rounded-full bg-mangg-lime animate-ping"></span>
+                                <span class="font-mono text-xs font-bold tracking-wider uppercase text-stone-200">LIVE TELEMETRY — CORE NOC TEGAL</span>
+                            </div>
+                            <span id="live-clock" class="font-mono text-xs text-mangg-lime">WIB</span>
+                        </div>
+
+                        <div class="p-5 space-y-5">
+                            <!-- Symmetrical Gauge Row -->
+                            <div class="grid grid-cols-2 gap-3">
+                                <div class="bg-mangg-slate/90 border border-mangg-border rounded-xl p-3.5">
+                                    <div class="flex items-center justify-between text-xs text-stone-400 mb-1">
+                                        <span>DOWNLOAD PEAK</span>
+                                        <i class="ph-bold ph-arrow-down-left text-mangg-lime"></i>
+                                    </div>
+                                    <div class="font-mono font-bold text-2xl text-white flex items-baseline gap-1">
+                                        <span id="telemetry-dl">948.4</span>
+                                        <span class="text-xs text-mangg-lime font-normal">Mbps</span>
+                                    </div>
+                                    <div class="w-full bg-stone-800 h-1.5 rounded-full mt-2 overflow-hidden">
+                                        <div class="bg-mangg-lime h-full rounded-full w-[94%] transition-all duration-500"></div>
+                                    </div>
+                                </div>
+                                <div class="bg-mangg-slate/90 border border-mangg-border rounded-xl p-3.5">
+                                    <div class="flex items-center justify-between text-xs text-stone-400 mb-1">
+                                        <span>UPLOAD SIMETRIS</span>
+                                        <i class="ph-bold ph-arrow-up-right text-mangg-amber"></i>
+                                    </div>
+                                    <div class="font-mono font-bold text-2xl text-white flex items-baseline gap-1">
+                                        <span id="telemetry-ul">942.1</span>
+                                        <span class="text-xs text-mangg-amber font-normal">Mbps</span>
+                                    </div>
+                                    <div class="w-full bg-stone-800 h-1.5 rounded-full mt-2 overflow-hidden">
+                                        <div class="bg-mangg-amber h-full rounded-full w-[93%] transition-all duration-500"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Real-time Direct Peering Ping Table -->
+                            <div class="bg-mangg-slate/60 border border-mangg-border rounded-xl p-3.5">
+                                <div class="flex items-center justify-between mb-2.5">
+                                    <span class="font-mono text-[11px] uppercase tracking-wider text-stone-400">Direct Routing Latency (BGP Peering)</span>
+                                    <span class="text-[11px] font-mono text-emerald-400 bg-emerald-950/80 border border-emerald-800 px-2 py-0.5 rounded">0% Packet Loss</span>
+                                </div>
+                                <div class="space-y-2 font-mono text-xs">
+                                    <div class="flex items-center justify-between py-1 border-b border-stone-800">
+                                        <span class="text-stone-300 flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-mangg-lime"></span> IIX / OpenIXP Jakarta</span>
+                                        <span id="ping-jkt" class="text-mangg-lime font-bold">3 ms</span>
+                                    </div>
+                                    <div class="flex items-center justify-between py-1 border-b border-stone-800">
+                                        <span class="text-stone-300 flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-mangg-lime"></span> Singapore Equinix SG1 (Valve/Riot)</span>
+                                        <span id="ping-sg" class="text-mangg-lime font-bold">11 ms</span>
+                                    </div>
+                                    <div class="flex items-center justify-between py-1 border-b border-stone-800">
+                                        <span class="text-stone-300 flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-mangg-lime"></span> Google Global Cache (YouTube 4K)</span>
+                                        <span id="ping-ggc" class="text-mangg-lime font-bold">2 ms</span>
+                                    </div>
+                                    <div class="flex items-center justify-between py-1">
+                                        <span class="text-stone-300 flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-mangg-lime"></span> Meta / Mobile Legends ID Server</span>
+                                        <span id="ping-ml" class="text-mangg-lime font-bold">4 ms</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Included Hardware Highlight -->
+                            <div class="bg-gradient-to-r from-mangg-slate to-stone-900 border border-stone-700 rounded-xl p-4 flex items-center justify-between gap-4">
+                                <div class="space-y-1">
+                                    <span class="inline-block text-[10px] font-mono uppercase bg-mangg-lime text-mangg-dark font-bold px-2 py-0.5 rounded">DIPINJAMI GRATIS</span>
+                                    <h3 class="font-display font-bold text-sm text-white">ONT Router Dual-Band WiFi 6</h3>
+                                    <p class="text-xs text-stone-400">4 Antena High-Gain • MU-MIMO • 4 Port Gigabit LAN</p>
+                                </div>
+                                <!-- Stylized SVG Router Illustration -->
+                                <div class="shrink-0 w-16 h-16 bg-mangg-dark rounded-xl border border-stone-700 flex items-center justify-center p-2">
+                                    <svg viewBox="0 0 64 64" class="w-full h-full">
+                                        <line x1="16" y1="36" x2="12" y2="12" stroke="#B6FF2E" stroke-width="3" stroke-linecap="round"/>
+                                        <line x1="26" y1="36" x2="26" y2="10" stroke="#B6FF2E" stroke-width="3" stroke-linecap="round"/>
+                                        <line x1="38" y1="36" x2="38" y2="10" stroke="#B6FF2E" stroke-width="3" stroke-linecap="round"/>
+                                        <line x1="48" y1="36" x2="52" y2="12" stroke="#B6FF2E" stroke-width="3" stroke-linecap="round"/>
+                                        <rect x="8" y="36" width="48" height="16" rx="4" fill="#1F2D3A" stroke="#F5F5F0" stroke-width="2"/>
+                                        <circle cx="18" cy="44" r="2" fill="#B6FF2E"/>
+                                        <circle cx="26" cy="44" r="2" fill="#B6FF2E"/>
+                                        <circle cx="34" cy="44" r="2" fill="#B6FF2E"/>
+                                        <circle cx="46" cy="44" r="2" fill="#FF6B2B"/>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. INTERACTIVE COVERAGE CHECKER ("CEK JANGKAUAN AREA & TIANG ODP") -->
+    <section id="coverage" class="py-16 lg:py-24 bg-white border-b border-stone-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col lg:flex-row lg:items-end justify-between mb-10 gap-4">
+                <div>
+                    <div class="inline-flex items-center gap-2 font-mono text-xs uppercase font-bold text-mangg-amber mb-2">
+                        <i class="ph-fill ph-broadcast"></i> DATABASE ODP FTTH REAL-TIME
+                    </div>
+                    <h2 class="font-display font-bold text-3xl sm:text-4xl text-mangg-dark">Cek Ketersediaan Jaringan di Lokasi Anda</h2>
+                </div>
+                <p class="text-sm text-stone-600 max-w-md">
+                    Jaringan fiber optik mandiri Mangg Network telah meng-cover ratusan kelurahan dan kawasan industri dengan ketersediaan port ODP siap tarik.
+                </p>
+            </div>
+
+            <!-- Interactive Search & Filter Box -->
+            <div class="bg-[#F5F5F0] p-5 sm:p-8 rounded-2xl neo-card">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+                    <div class="lg:col-span-5 space-y-3">
+                        <label class="block text-xs font-mono uppercase font-bold text-stone-700">Cari Kecamatan / Kelurahan / Kota / Kode Pos</label>
+                        <div class="relative">
+                            <i class="ph-bold ph-magnifying-glass text-lg text-stone-500 absolute left-4 top-1/2 -translate-y-1/2"></i>
+                            <input id="coverage-input" type="text" oninput="filterCoverageAreas()" placeholder="Ketik misal: Adiwerna, Slawi, Mejasem, Brebes..." 
+                                class="w-full pl-11 pr-4 py-3.5 bg-white border-2 border-mangg-dark rounded-xl text-sm font-semibold focus:outline-none">
+                        </div>
+                        <div class="flex flex-wrap gap-1.5 pt-1">
+                            <button onclick="setCoverageFilter('ALL')" class="cov-chip text-xs font-mono px-2.5 py-1 rounded bg-mangg-dark text-mangg-lime font-bold">Semua Area (12)</button>
+                            <button onclick="setCoverageFilter('Kab. Tegal')" class="cov-chip text-xs font-mono px-2.5 py-1 rounded bg-white border border-stone-300 hover:border-mangg-dark">Kab. Tegal</button>
+                            <button onclick="setCoverageFilter('Kota Tegal')" class="cov-chip text-xs font-mono px-2.5 py-1 rounded bg-white border border-stone-300 hover:border-mangg-dark">Kota Tegal</button>
+                            <button onclick="setCoverageFilter('Brebes')" class="cov-chip text-xs font-mono px-2.5 py-1 rounded bg-white border border-stone-300 hover:border-mangg-dark">Brebes</button>
+                            <button onclick="setCoverageFilter('Pemalang & Pekalongan')" class="cov-chip text-xs font-mono px-2.5 py-1 rounded bg-white border border-stone-300 hover:border-mangg-dark">Pemalang & Pekalongan</button>
+                            <button onclick="setCoverageFilter('Semarang & Banyumas')" class="cov-chip text-xs font-mono px-2.5 py-1 rounded bg-white border border-stone-300 hover:border-mangg-dark">Semarang & Purwokerto</button>
+                        </div>
+                    </div>
+
+                    <!-- Selected Area Result Status Box -->
+                    <div class="lg:col-span-7">
+                        <div id="coverage-detail-panel" class="bg-mangg-dark text-white p-5 sm:p-6 rounded-xl border border-mangg-border flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                            <div class="space-y-1.5">
+                                <div class="flex items-center gap-2">
+                                    <span class="px-2 py-0.5 rounded text-[11px] font-mono font-bold bg-mangg-lime text-mangg-dark">FTTH READY • PORT TERSEDIA</span>
+                                    <span id="selected-odp-code" class="font-mono text-xs text-stone-400">ODP-ADW-042</span>
+                                </div>
+                                <h3 id="selected-area-title" class="font-display font-bold text-xl text-white">Kec. Adiwerna, Kab. Tegal (52194)</h3>
+                                <p id="selected-area-sub" class="text-xs text-stone-300">Mencakup: Tembok Banjaran, Lemahduwur, Pesarean, Kalimati, Ujungrusi, Pagedangan. Estimasi instalasi: <strong>1x24 Jam Kerja</strong>.</p>
+                            </div>
+                            <button id="selected-area-btn" onclick="openOrderWithArea('Kec. Adiwerna, Kab. Tegal')" class="shrink-0 neo-btn-lime px-4 py-3 rounded-xl font-bold text-xs flex items-center gap-2">
+                                <span>Daftar di Area Ini</span>
+                                <i class="ph-bold ph-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Grid of Coverage Nodes -->
+                <div id="coverage-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5 mt-6">
+                    <!-- Populated via JS -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. INTERACTIVE BANDWIDTH CALCULATOR ("KALKULATOR KEBUTUHAN BANDWIDTH") -->
+    <section id="calculator" class="py-16 lg:py-24 bg-mangg-dark text-white bg-grid-dark border-b border-mangg-border">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-12">
+                <span class="font-mono text-xs uppercase font-bold text-mangg-lime px-3 py-1 rounded-full bg-mangg-slate border border-mangg-border">SMART BANDWIDTH RECOMMENDER</span>
+                <h2 class="font-display font-bold text-3xl sm:text-4xl mt-3">Berapa Mbps yang Sebenarnya Anda Butuhkan?</h2>
+                <p class="text-stone-400 text-sm sm:text-base mt-2">Geser jumlah perangkat dan pilih aktivitas harian di rumah/kantor Anda. Algoritma kami menghitung kebutuhan *throughput* riil tanpa *buffering*.</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+                <!-- Left Controls (7 Cols) -->
+                <div class="lg:col-span-7 bg-mangg-slate border border-mangg-border rounded-2xl p-6 sm:p-8 flex flex-col justify-between space-y-6">
+                    <!-- Slider 1: Jumlah Perangkat -->
+                    <div class="space-y-3">
+                        <div class="flex justify-between items-center">
+                            <label class="font-semibold text-sm sm:text-base flex items-center gap-2">
+                                <i class="ph-fill ph-devices text-mangg-lime text-lg"></i>
+                                Total Perangkat Terhubung Bersamaan (HP, Laptop, TV)
+                            </label>
+                            <span id="calc-devices-val" class="font-mono font-bold text-lg text-mangg-lime bg-mangg-dark px-3 py-1 rounded-lg border border-mangg-border">6 Perangkat</span>
+                        </div>
+                        <input id="calc-devices" type="range" min="1" max="30" value="6" oninput="updateBandwidthCalculator()" class="w-full">
+                        <div class="flex justify-between text-[11px] font-mono text-stone-400">
+                            <span>1-3 (Kos/Single)</span>
+                            <span>5-10 (Keluarga)</span>
+                            <span>15+ (Rumah Besar/Ruko)</span>
+                            <span>30 (Kantor/Cafe)</span>
+                        </div>
+                    </div>
+
+                    <!-- Activity Toggles -->
+                    <div class="space-y-3">
+                        <label class="font-semibold text-sm sm:text-base block">Pilih Aktivitas Utama di Rumah / Lokasi Anda:</label>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            <label class="flex items-start gap-3 p-3.5 rounded-xl bg-mangg-dark/70 border border-mangg-border cursor-pointer hover:border-mangg-lime transition-colors">
+                                <input type="checkbox" id="act-stream" checked onchange="updateBandwidthCalculator()" class="mt-1 w-4 h-4 accent-[#B6FF2E]">
+                                <div>
+                                    <div class="font-bold text-sm text-white">Streaming 4K UHD & YouTube</div>
+                                    <div class="text-xs text-stone-400">Netflix, Disney+, Smart TV ruang keluarga (+20 Mbps)</div>
+                                </div>
+                            </label>
+
+                            <label class="flex items-start gap-3 p-3.5 rounded-xl bg-mangg-dark/70 border border-mangg-border cursor-pointer hover:border-mangg-lime transition-colors">
+                                <input type="checkbox" id="act-game" checked onchange="updateBandwidthCalculator()" class="mt-1 w-4 h-4 accent-[#B6FF2E]">
+                                <div>
+                                    <div class="font-bold text-sm text-white">Competitive Gaming & Download</div>
+                                    <div class="text-xs text-stone-400">Valorant, MLBB, Steam Update, PS5 (+25 Mbps & Low Ping)</div>
+                                </div>
+                            </label>
+
+                            <label class="flex items-start gap-3 p-3.5 rounded-xl bg-mangg-dark/70 border border-mangg-border cursor-pointer hover:border-mangg-lime transition-colors">
+                                <input type="checkbox" id="act-wfh" onchange="updateBandwidthCalculator()" class="mt-1 w-4 h-4 accent-[#B6FF2E]">
+                                <div>
+                                    <div class="font-bold text-sm text-white">WFH, Zoom Meeting & Cloud Upload</div>
+                                    <div class="text-xs text-stone-400">Butuh upload simetris 1:1 untuk kirim file besar (+20 Mbps)</div>
+                                </div>
+                            </label>
+
+                            <label class="flex items-start gap-3 p-3.5 rounded-xl bg-mangg-dark/70 border border-mangg-border cursor-pointer hover:border-mangg-lime transition-colors">
+                                <input type="checkbox" id="act-cctv" onchange="updateBandwidthCalculator()" class="mt-1 w-4 h-4 accent-[#B6FF2E]">
+                                <div>
+                                    <div class="font-bold text-sm text-white">Smart Home & IP Camera CCTV</div>
+                                    <div class="text-xs text-stone-400">Akses pantau CCTV real-time dari luar rumah (+15 Mbps)</div>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Output Recommendation Card (5 Cols) -->
+                <div class="lg:col-span-5 bg-gradient-to-b from-mangg-slate to-[#0d141b] border-2 border-mangg-lime rounded-2xl p-6 sm:p-8 flex flex-col justify-between relative overflow-hidden">
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between">
+                            <span class="font-mono text-xs uppercase text-mangg-lime font-bold">ESTIMASI KEBUTUHAN IDEAL</span>
+                            <span class="px-2.5 py-0.5 rounded bg-mangg-lime/10 text-mangg-lime font-mono text-xs border border-mangg-lime/30">Bebas Bottleneck</span>
+                        </div>
+
+                        <div class="flex items-baseline gap-2">
+                            <span id="calc-recommended-mbps" class="font-display font-bold text-5xl sm:text-6xl text-white">75</span>
+                            <span class="font-mono text-xl text-mangg-lime font-bold">Mbps Simetris</span>
+                        </div>
+
+                        <div class="p-4 rounded-xl bg-mangg-dark border border-mangg-border space-y-2">
+                            <div class="text-xs font-mono text-stone-400">REKOMENDASI PAKET MANGG NETWORK:</div>
+                            <div id="calc-plan-name" class="font-display font-bold text-2xl text-mangg-lime">Mangg Turbo 100 Mbps</div>
+                            <div class="flex items-baseline gap-1">
+                                <span id="calc-plan-price" class="font-mono font-bold text-xl text-white">Rp 315.000</span>
+                                <span class="text-xs text-stone-400">/ bulan (Harga Flat)</span>
+                            </div>
+                            <p id="calc-plan-desc" class="text-xs text-stone-300 pt-1">Ideal untuk 6-12 perangkat aktif, streaming 4K serentak & gaming ping stabil dengan Router WiFi 6.</p>
+                        </div>
+                    </div>
+
+                    <div class="pt-6 mt-6 border-t border-mangg-border">
+                        <button id="calc-cta-btn" onclick="openOrderModal('Mangg Turbo 100 Mbps', 315000)" class="neo-btn-lime w-full py-3.5 rounded-xl font-bold text-sm flex items-center justify-center gap-2">
+                            <span>Ambil Paket Rekomendasi Ini</span>
+                            <i class="ph-bold ph-check-circle text-lg"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. COMPLETE PRICING PLANS WITH CATEGORY & BILLING SWITCHER -->
+    <section id="packages" class="py-16 lg:py-24 bg-[#F5F5F0] bg-grid-pattern border-b border-stone-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Section Header & Controls -->
+            <div class="flex flex-col lg:flex-row lg:items-end justify-between mb-10 gap-6">
+                <div>
+                    <div class="inline-flex items-center gap-2 font-mono text-xs uppercase font-bold text-mangg-dark bg-mangg-lime px-3 py-1 rounded border border-mangg-dark mb-3">
+                        TRANSPARAN • TANPA BIAYA TERSEMBUNYI
+                    </div>
+                    <h2 class="font-display font-bold text-3xl sm:text-4xl text-mangg-dark">Pilih Paket Sesuai Kebutuhan Anda</h2>
+                    <p class="text-stone-600 text-sm sm:text-base mt-1">Semua paket sudah termasuk <strong>True Unlimited Tanpa FUP</strong>, pinjam pakai Router, dan gratis penarikan kabel 150 meter.</p>
+                </div>
+
+                <!-- Billing Period Toggle -->
+                <div class="bg-white p-1.5 rounded-xl border-2 border-mangg-dark inline-flex items-center self-start">
+                    <button id="bill-monthly-btn" onclick="setBillingCycle('monthly')" class="px-4 py-2 rounded-lg text-xs font-bold bg-mangg-dark text-mangg-lime transition-all">
+                        Bayar Bulanan
+                    </button>
+                    <button id="bill-yearly-btn" onclick="setBillingCycle('yearly')" class="px-4 py-2 rounded-lg text-xs font-bold text-stone-700 hover:text-mangg-dark transition-all flex items-center gap-1.5">
+                        <span>Tahunan</span>
+                        <span class="bg-mangg-amber text-white text-[10px] font-mono px-1.5 py-0.5 rounded">Hemat 2 Bulan</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Category Tabs (Residensial / Gamer Pro / Bisnis Dedicated) -->
+            <div class="flex flex-wrap gap-2 mb-8 border-b border-stone-300 pb-4">
+                <button onclick="setPlanCategory('home')" id="cat-home" class="plan-cat-btn px-5 py-2.5 rounded-xl font-bold text-sm bg-mangg-dark text-mangg-lime border-2 border-mangg-dark flex items-center gap-2">
+                    <i class="ph-fill ph-house-line"></i> Home Fiber (Residensial)
+                </button>
+                <button onclick="setPlanCategory('gamer')" id="cat-gamer" class="plan-cat-btn px-5 py-2.5 rounded-xl font-bold text-sm bg-white text-mangg-dark border-2 border-mangg-dark hover:bg-stone-100 flex items-center gap-2">
+                    <i class="ph-fill ph-game-controller"></i> Mangg Gamer Pro (Low Ping + Public IP)
+                </button>
+                <button onclick="setPlanCategory('biz')" id="cat-biz" class="plan-cat-btn px-5 py-2.5 rounded-xl font-bold text-sm bg-white text-mangg-dark border-2 border-mangg-dark hover:bg-stone-100 flex items-center gap-2">
+                    <i class="ph-fill ph-buildings"></i> Bisnis & Dedicated SLA 99.9%
+                </button>
+            </div>
+
+            <!-- Pricing Cards Container -->
+            <div id="pricing-cards-container" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Dynamically Rendered via JS -->
+            </div>
+
+            <!-- Installation Guarantee Banner -->
+            <div class="mt-10 bg-white rounded-2xl p-5 sm:p-6 neo-card flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+                <div class="flex items-start sm:items-center gap-4">
+                    <div class="w-12 h-12 rounded-xl bg-mangg-lime border-2 border-mangg-dark flex items-center justify-center shrink-0">
+                        <i class="ph-bold ph-seal-check text-2xl text-mangg-dark"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-display font-bold text-lg text-mangg-dark">Garansi Kepuasan 7 Hari Pertama & Gratis Biaya Instalasi</h4>
+                        <p class="text-xs sm:text-sm text-stone-600">Tidak perlu bayar apapun sebelum internet aktif dan teruji *speedtest* di tempat Anda. Gratis biaya pasang baru senilai Rp 250.000.</p>
+                    </div>
+                </div>
+                <a href="#faq" class="shrink-0 text-xs font-mono font-bold underline hover:text-mangg-amber">Pelajari Syarat & Ketentuan →</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. TECHNICAL ADVANTAGE & TRANSPARENCY (BENTO GRID LAYOUT) -->
+    <section id="infrastructure" class="py-16 lg:py-24 bg-white border-b border-stone-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="max-w-3xl mb-12">
+                <span class="font-mono text-xs uppercase font-bold text-emerald-700 bg-emerald-100 px-3 py-1 rounded">ARSITEKTUR JARINGAN KELAS ENTERPRISE</span>
+                <h2 class="font-display font-bold text-3xl sm:text-4xl text-mangg-dark mt-3">Mengapa Jaringan Mangg Network Lebih Stabil?</h2>
+                <p class="text-stone-600 text-sm sm:text-base mt-2">Kami membangun infrastruktur dengan transparansi teknis penuh, bukan sekadar klaim *marketing* "up to".</p>
+            </div>
+
+            <!-- Asymmetric Bento Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-5">
+                <!-- Bento 1: True No FUP (7 Cols) -->
+                <div class="md:col-span-7 bg-[#F5F5F0] rounded-2xl p-6 sm:p-8 neo-card flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="font-mono text-xs font-bold uppercase px-2.5 py-1 rounded bg-mangg-dark text-mangg-lime">ZERO THROTTLING POLICY</span>
+                            <i class="ph-duotone ph-infinity text-3xl text-mangg-dark"></i>
+                        </div>
+                        <h3 class="font-display font-bold text-2xl text-mangg-dark">100% Tanpa FUP (Fair Usage Policy)</h3>
+                        <p class="text-sm text-stone-600 mt-2 leading-relaxed">
+                            Banyak ISP menurunkan kecepatan Anda secara drastis setelah pemakaian mencapai 300GB–500GB. Di <strong>Mangg Network</strong>, mau Anda mengunduh 5 Terabyte *game* atau *streaming* 4K 24 jam penuh, kecepatan Anda tetap utuh 100% dari tanggal 1 hingga akhir bulan.
+                        </p>
+                    </div>
+                    <!-- Visual Bar Comparison -->
+                    <div class="mt-6 pt-5 border-t border-stone-300 space-y-3">
+                        <div>
+                            <div class="flex justify-between text-xs font-mono font-bold mb-1">
+                                <span>MANGG NETWORK (Pemakaian > 1.000 GB)</span>
+                                <span class="text-emerald-700">100% SPEED STABIL</span>
+                            </div>
+                            <div class="w-full h-3 bg-stone-200 rounded-full overflow-hidden border border-mangg-dark">
+                                <div class="bg-mangg-lime h-full w-full"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-xs font-mono text-stone-500 mb-1">
+                                <span>ISP Lain dengan FUP (Setelah Kuota Habis)</span>
+                                <span class="text-red-600">Turun jadi 20% - 40%</span>
+                            </div>
+                            <div class="w-full h-3 bg-stone-200 rounded-full overflow-hidden">
+                                <div class="bg-red-400 h-full w-[30%]"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bento 2: Symmetrical 1:1 (5 Cols) -->
+                <div class="md:col-span-5 bg-mangg-dark text-white rounded-2xl p-6 sm:p-8 neo-card flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="font-mono text-xs font-bold uppercase px-2.5 py-1 rounded bg-mangg-lime text-mangg-dark">RASIO 1:1 MURNI</span>
+                            <i class="ph-duotone ph-arrows-down-up text-3xl text-mangg-lime"></i>
+                        </div>
+                        <h3 class="font-display font-bold text-2xl">Upload Sama Cepatnya dengan Download</h3>
+                        <p class="text-sm text-stone-300 mt-2 leading-relaxed">
+                            Bukan rasio timpang 1:5. Paket 100 Mbps memberi Anda 100 Mbps Download dan 100 Mbps Upload. Sangat krusial untuk *live streamer* TikTok/YouTube, *video call* Zoom, dan *backup cloud*.
+                        </p>
+                    </div>
+                    <div class="mt-6 bg-mangg-slate border border-mangg-border rounded-xl p-4 flex items-center justify-around font-mono">
+                        <div class="text-center">
+                            <div class="text-xs text-stone-400">DOWNLOAD</div>
+                            <div class="text-xl font-bold text-mangg-lime">100 Mbps</div>
+                        </div>
+                        <div class="text-stone-500 font-bold text-lg">=</div>
+                        <div class="text-center">
+                            <div class="text-xs text-stone-400">UPLOAD</div>
+                            <div class="text-xl font-bold text-mangg-amber">100 Mbps</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bento 3: Direct Content & Game Peering (6 Cols) -->
+                <div class="md:col-span-6 bg-white rounded-2xl p-6 sm:p-8 neo-card">
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="font-mono text-xs font-bold uppercase px-2.5 py-1 rounded bg-amber-100 text-amber-900 border border-amber-300">DIRECT BGP PEERING</span>
+                        <i class="ph-duotone ph-globe-hemisphere-east text-3xl text-mangg-amber"></i>
+                    </div>
+                    <h3 class="font-display font-bold text-2xl text-mangg-dark">Jalur Khusus ke Server Game & Content</h3>
+                    <p class="text-sm text-stone-600 mt-2">
+                        Terkoneksi langsung ke IIX, OpenIXP, JKT-IX, dan Equinix Singapura. Paket data game Anda tidak memutar jauh sehingga *ping* hijau stabil dan bebas *loss*.
+                    </p>
+                    <div class="grid grid-cols-3 sm:grid-cols-6 gap-2 mt-5 pt-4 border-t border-stone-200 text-center font-mono text-[11px] font-bold">
+                        <div class="p-2 rounded bg-stone-100">VALVE / STEAM</div>
+                        <div class="p-2 rounded bg-stone-100">RIOT GAMES</div>
+                        <div class="p-2 rounded bg-stone-100">MOONTON</div>
+                        <div class="p-2 rounded bg-stone-100">NETFLIX OCA</div>
+                        <div class="p-2 rounded bg-stone-100">GOOGLE GGC</div>
+                        <div class="p-2 rounded bg-stone-100">META CDN</div>
+                    </div>
+                </div>
+
+                <!-- Bento 4: CS Manusia 24/7 (6 Cols) -->
+                <div class="md:col-span-6 bg-[#F5F5F0] rounded-2xl p-6 sm:p-8 neo-card flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="font-mono text-xs font-bold uppercase px-2.5 py-1 rounded bg-emerald-200 text-emerald-950">HUMAN NOC SUPPORT</span>
+                            <i class="ph-duotone ph-headset text-3xl text-mangg-dark"></i>
+                        </div>
+                        <h3 class="font-display font-bold text-2xl text-mangg-dark">CS & Teknisi Manusia 24/7, Bukan Bot Berbelit</h3>
+                        <p class="text-sm text-stone-600 mt-2">
+                            Saat terjadi kendala, Anda langsung terhubung dengan tim *Network Operation Center* (NOC) lokal kami via WhatsApp atau telepon yang bisa langsung mengecek redaman optik modem Anda dari pusat.
+                        </p>
+                    </div>
+                    <div class="mt-5 flex items-center justify-between bg-white px-4 py-3 rounded-xl border border-stone-300">
+                        <div class="flex items-center gap-2.5">
+                            <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
+                            <span class="text-xs font-bold text-mangg-dark">Rata-rata waktu balas chat NOC: &lt; 90 Detik</span>
+                        </div>
+                        <span class="font-mono text-xs text-stone-500">Posko Teknisi Siaga</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 7. REAL-TIME SPEEDTEST & DOWNLOAD TIME SIMULATOR WIDGET -->
+    <section id="speedtest" class="py-16 lg:py-24 bg-mangg-dark text-white border-b border-mangg-border">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+                <!-- Left Info & File Download Comparison -->
+                <div class="lg:col-span-6 space-y-6">
+                    <span class="font-mono text-xs uppercase font-bold text-mangg-lime bg-mangg-slate px-3 py-1 rounded border border-mangg-border">INTERACTIVE BENCHMARK</span>
+                    <h2 class="font-display font-bold text-3xl sm:text-4xl">Uji Simulasi Kecepatan Mangg Network</h2>
+                    <p class="text-stone-400 text-sm sm:text-base">
+                        Pilih kecepatan paket dan klik tombol uji untuk melihat simulasi performa *throughput* serta perbandingan waktu unduh file berukuran besar.
+                    </p>
+
+                    <!-- Speed Preset Selector for Simulator -->
+                    <div class="space-y-2">
+                        <label class="text-xs font-mono uppercase text-stone-400">Pilih Profil Paket untuk Disimulasikan:</label>
+                        <div class="flex flex-wrap gap-2">
+                            <button onclick="setSimTargetSpeed(50)" class="sim-preset-btn px-3.5 py-2 rounded-lg font-mono text-xs font-bold bg-mangg-slate border border-mangg-border hover:border-mangg-lime">50 Mbps</button>
+                            <button onclick="setSimTargetSpeed(100)" class="sim-preset-btn px-3.5 py-2 rounded-lg font-mono text-xs font-bold bg-mangg-lime text-mangg-dark">100 Mbps</button>
+                            <button onclick="setSimTargetSpeed(250)" class="sim-preset-btn px-3.5 py-2 rounded-lg font-mono text-xs font-bold bg-mangg-slate border border-mangg-border hover:border-mangg-lime">250 Mbps</button>
+                            <button onclick="setSimTargetSpeed(500)" class="sim-preset-btn px-3.5 py-2 rounded-lg font-mono text-xs font-bold bg-mangg-slate border border-mangg-border hover:border-mangg-lime">500 Mbps</button>
+                        </div>
+                    </div>
+
+                    <!-- Real-world File Download Time Comparison -->
+                    <div class="bg-mangg-slate border border-mangg-border rounded-xl p-5 space-y-3">
+                        <div class="font-mono text-xs text-mangg-lime uppercase font-bold">WAKTU DOWNLOAD UPDATE GAME 10 GB (GENSHIN / VALORANT):</div>
+                        <div class="space-y-2">
+                            <div class="flex justify-between text-xs">
+                                <span id="sim-file-label" class="font-semibold text-white">Mangg Network (100 Mbps)</span>
+                                <span id="sim-file-time" class="font-mono font-bold text-mangg-lime">~13 Menit 20 Detik</span>
+                            </div>
+                            <div class="w-full bg-mangg-dark h-2 rounded-full overflow-hidden">
+                                <div class="bg-mangg-lime h-full w-[85%]"></div>
+                            </div>
+                        </div>
+                        <div class="space-y-1 pt-1">
+                            <div class="flex justify-between text-xs text-stone-400">
+                                <span>Broadband Biasa 15 Mbps</span>
+                                <span class="font-mono">~1 Jam 28 Menit</span>
+                            </div>
+                            <div class="w-full bg-mangg-dark h-2 rounded-full overflow-hidden">
+                                <div class="bg-stone-600 h-full w-[18%]"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Interactive Speedtest Meter -->
+                <div class="lg:col-span-6">
+                    <div class="bg-mangg-slate border-2 border-mangg-border rounded-2xl p-6 sm:p-8 text-center relative">
+                        <div class="flex items-center justify-between text-xs font-mono text-stone-400 mb-6">
+                            <span>SERVER: MANGG-CORE-JKT01</span>
+                            <span id="sim-status-badge" class="text-mangg-lime">SIAP UJI</span>
+                        </div>
+
+                        <!-- Big Speed Readout -->
+                        <div class="py-6">
+                            <div id="sim-main-readout" class="font-mono font-bold text-6xl sm:text-7xl text-white tracking-tight">100.0</div>
+                            <div class="font-mono text-sm text-mangg-lime mt-1">Mbps (Megabits per second)</div>
+                        </div>
+
+                        <!-- Progress Bar -->
+                        <div class="w-full bg-mangg-dark h-3 rounded-full overflow-hidden border border-mangg-border mb-6">
+                            <div id="sim-progress-bar" class="bg-gradient-to-r from-mangg-lime to-emerald-400 h-full w-0 transition-all duration-150"></div>
+                        </div>
+
+                        <!-- Sub Metrics -->
+                        <div class="grid grid-cols-3 gap-3 mb-6 font-mono">
+                            <div class="bg-mangg-dark p-3 rounded-xl border border-mangg-border">
+                                <div class="text-[10px] text-stone-400">PING / LATENCY</div>
+                                <div id="sim-ping-res" class="text-base sm:text-lg font-bold text-white mt-0.5">3 ms</div>
+                            </div>
+                            <div class="bg-mangg-dark p-3 rounded-xl border border-mangg-border">
+                                <div class="text-[10px] text-stone-400">JITTER</div>
+                                <div id="sim-jitter-res" class="text-base sm:text-lg font-bold text-emerald-400 mt-0.5">0.8 ms</div>
+                            </div>
+                            <div class="bg-mangg-dark p-3 rounded-xl border border-mangg-border">
+                                <div class="text-[10px] text-stone-400">UPLOAD 1:1</div>
+                                <div id="sim-ul-res" class="text-base sm:text-lg font-bold text-mangg-amber mt-0.5">99.4 Mbps</div>
+                            </div>
+                        </div>
+
+                        <button id="start-speedtest-btn" onclick="runSpeedtestSimulation()" class="neo-btn-lime w-full py-3.5 rounded-xl font-bold text-sm flex items-center justify-center gap-2">
+                            <i class="ph-bold ph-gauge text-lg"></i>
+                            <span>Jalankan Simulasi Speedtest Mangg Network</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 8. TESTIMONIALS & PRACTICAL FAQ ACCORDION -->
+    <section id="faq" class="py-16 lg:py-24 bg-[#F5F5F0]">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <!-- Real Customer Stories -->
+            <div class="mb-20">
+                <div class="flex flex-col sm:flex-row sm:items-end justify-between mb-8 gap-4">
+                    <div>
+                        <span class="font-mono text-xs uppercase font-bold text-mangg-amber">ULASAN PELANGGAN RIIL</span>
+                        <h2 class="font-display font-bold text-3xl text-mangg-dark mt-1">Dipercaya Keluarga, Gamer & Pelaku Usaha</h2>
+                    </div>
+                    <div class="flex items-center gap-2 bg-white px-4 py-2 rounded-xl border border-stone-300">
+                        <i class="ph-fill ph-star text-amber-400 text-lg"></i>
+                        <span class="font-bold text-sm">4.9 / 5.0</span>
+                        <span class="text-xs text-stone-500">(1.420+ Ulasan Google Maps)</span>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="bg-white p-6 rounded-2xl neo-card flex flex-col justify-between">
+                        <p class="text-sm text-stone-700 leading-relaxed">
+                            "Pindah ke Mangg Network paket 100 Mbps buat warkop dan *co-working* di Slawi. Pengunjung sampai 35 orang *connect* bareng sambil main MLBB dan *streaming* bola malam minggu nggak ada yang teriak *lag*. CS-nya juga gercep banget di WA."
+                        </p>
+                        <div class="mt-5 pt-4 border-t border-stone-200 flex items-center justify-between">
+                            <div>
+                                <div class="font-bold text-sm text-mangg-dark">Mas Dimas Prasetyo</div>
+                                <div class="text-xs text-stone-500">Owner Kopi Titik Kumpul — Slawi</div>
+                            </div>
+                            <span class="font-mono text-[10px] bg-stone-100 px-2 py-1 rounded font-bold">Paket 100 Mbps</span>
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-2xl neo-card flex flex-col justify-between">
+                        <p class="text-sm text-stone-700 leading-relaxed">
+                            "Kerja sebagai *remote video editor* paling butuh *upload* kencang. Dulu pakai provider sebelah *upload* file 15GB ke Google Drive makan waktu berjam-jam. Pakai Mangg Network karena simetris 1:1 selesai dalam hitungan menit!"
+                        </p>
+                        <div class="mt-5 pt-4 border-t border-stone-200 flex items-center justify-between">
+                            <div>
+                                <div class="font-bold text-sm text-mangg-dark">Rizky Ananda</div>
+                                <div class="text-xs text-stone-500">Freelance Creator — Adiwerna</div>
+                            </div>
+                            <span class="font-mono text-[10px] bg-stone-100 px-2 py-1 rounded font-bold">Gamer Pro 150 Mbps</span>
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-2xl neo-card flex flex-col justify-between">
+                        <p class="text-sm text-stone-700 leading-relaxed">
+                            "Daftar pagi jam 9 lewat web, jam 1 siang tim teknisi Mangg Network sudah sampai depan rumah buat tarik kabel dari tiang ODP. Pemasangan rapi banget dan harga bulanan beneran flat nggak tiba-tiba naik."
+                        </p>
+                        <div class="mt-5 pt-4 border-t border-stone-200 flex items-center justify-between">
+                            <div>
+                                <div class="font-bold text-sm text-mangg-dark">Ibu Hj. Ratna Sari</div>
+                                <div class="text-xs text-stone-500">Pelanggan Residensial — Kota Tegal</div>
+                            </div>
+                            <span class="font-mono text-[10px] bg-stone-100 px-2 py-1 rounded font-bold">Paket 50 Mbps</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FAQ Section -->
+            <div class="max-w-4xl mx-auto">
+                <div class="text-center mb-10">
+                    <span class="font-mono text-xs uppercase font-bold text-mangg-dark bg-mangg-lime px-3 py-1 rounded border border-mangg-dark">TANYA JAWAB TEKNIS</span>
+                    <h2 class="font-display font-bold text-3xl text-mangg-dark mt-3">Pertanyaan yang Sering Diajukan (FAQ)</h2>
+                </div>
+
+                <div class="space-y-3" id="faq-container">
+                    <!-- FAQ 1 -->
+                    <div class="bg-white rounded-xl border-2 border-mangg-dark overflow-hidden">
+                        <button onclick="toggleFaq(0)" class="w-full px-6 py-4 text-left flex items-center justify-between font-bold text-mangg-dark hover:bg-stone-50">
+                            <span>Apakah Mangg Network benar-benar tanpa FUP (Batas Pemakaian Wajar)?</span>
+                            <i id="faq-icon-0" class="ph-bold ph-caret-down text-lg transition-transform"></i>
+                        </button>
+                        <div id="faq-ans-0" class="px-6 pb-5 text-sm text-stone-600 leading-relaxed">
+                            <strong>Ya, 100% Tanpa FUP.</strong> Seluruh paket Residensial, Gamer Pro, maupun Bisnis di Mangg Network tidak memiliki kuota batas pemakaian wajar. Kecepatan internet Anda tidak akan diturunkan walau pemakaian mencapai ribuan Gigabyte dalam sebulan.
+                        </div>
+                    </div>
+
+                    <!-- FAQ 2 -->
+                    <div class="bg-white rounded-xl border-2 border-mangg-dark overflow-hidden">
+                        <button onclick="toggleFaq(1)" class="w-full px-6 py-4 text-left flex items-center justify-between font-bold text-mangg-dark hover:bg-stone-50">
+                            <span>Berapa biaya pemasangan baru dan kapan saya harus membayar tagihan pertama?</span>
+                            <i id="faq-icon-1" class="ph-bold ph-caret-down text-lg transition-transform"></i>
+                        </button>
+                        <div id="faq-ans-1" class="hidden px-6 pb-5 text-sm text-stone-600 leading-relaxed">
+                            Biaya instalasi standar (Rp 250.000) saat ini <strong>GRATIS 100%</strong> termasuk penarikan kabel fiber optik hingga 150 meter dari tiang ODP terdekat. Anda baru melakukan pembayaran paket bulan pertama setelah internet aktif dan selesai diuji oleh teknisi kami di rumah Anda.
+                        </div>
+                    </div>
+
+                    <!-- FAQ 3 -->
+                    <div class="bg-white rounded-xl border-2 border-mangg-dark overflow-hidden">
+                        <button onclick="toggleFaq(2)" class="w-full px-6 py-4 text-left flex items-center justify-between font-bold text-mangg-dark hover:bg-stone-50">
+                            <span>Berapa lama proses survei dan penarikan kabel setelah mendaftar?</span>
+                            <i id="faq-icon-2" class="ph-bold ph-caret-down text-lg transition-transform"></i>
+                        </button>
+                        <div id="faq-ans-2" class="hidden px-6 pb-5 text-sm text-stone-600 leading-relaxed">
+                            Untuk area yang sudah berstatus <strong>FTTH Ready (Tersedia ODP)</strong>, tim teknisi kami menjadwalkan instalasi dalam waktu <strong>1x24 jam</strong>. Proses penarikan kabel hingga aktivasi modem di lokasi rata-rata memakan waktu 45–90 menit.
+                        </div>
+                    </div>
+
+                    <!-- FAQ 4 -->
+                    <div class="bg-white rounded-xl border-2 border-mangg-dark overflow-hidden">
+                        <button onclick="toggleFaq(3)" class="w-full px-6 py-4 text-left flex items-center justify-between font-bold text-mangg-dark hover:bg-stone-50">
+                            <span>Bagaimana jika terjadi mati lampu PLN di area saya?</span>
+                            <i id="faq-icon-3" class="ph-bold ph-caret-down text-lg transition-transform"></i>
+                        </button>
+                        <div id="faq-ans-3" class="hidden px-6 pb-5 text-sm text-stone-600 leading-relaxed">
+                            Seluruh POP/Server OLT pusat Mangg Network dilengkapi *backup* baterai UPS Industrial dan Genset otomatis, sehingga jaringan fiber optik kami tetap menyala 24 jam meskipun listrik PLN padam. Selama router di rumah Anda diberi daya (misal menggunakan *mini UPS* 12V atau *powerbank* konverter), internet tetap bisa digunakan.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- 9. COMPLETE FOOTER -->
+    <footer class="bg-mangg-dark text-stone-400 border-t border-mangg-border">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10">
+                <!-- Col 1: Brand & Legal (4 Cols) -->
+                <div class="lg:col-span-4 space-y-4">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-xl bg-mangg-lime flex items-center justify-center text-mangg-dark font-display font-bold text-xl">
+                            M
+                        </div>
+                        <div>
+                            <span class="font-display font-bold text-xl text-white">MANGG NETWORK</span>
+                            <p class="text-[11px] font-mono text-mangg-lime">PT MANGG TELEKOMUNIKASI NUSANTARA</p>
+                        </div>
+                    </div>
+                    <p class="text-xs leading-relaxed text-stone-400">
+                        Penyedia layanan internet *Fiber To The Home* (FTTH) dan *Dedicated Metro-Ethernet* resmi berizin Kominfo & Anggota APJII. Menghadirkan konektivitas berkecepatan tinggi dengan latensi rendah.
+                    </p>
+                    <div class="pt-2 space-y-1 text-xs font-mono text-stone-300">
+                        <div><i class="ph-fill ph-buildings text-mangg-lime mr-1.5"></i> NOC & Head Office: Jl. Raya Singkil - Adiwerna No. 88, Kab. Tegal, Jawa Tengah 52194</div>
+                        <div><i class="ph-fill ph-shield-check text-mangg-lime mr-1.5"></i> Lisensi ISP / Jartaplok Packet Switched Resmi</div>
+                    </div>
+                </div>
+
+                <!-- Col 2: Layanan (2 Cols) -->
+                <div class="lg:col-span-2 space-y-3">
+                    <h4 class="font-mono text-xs font-bold uppercase text-white tracking-wider">Layanan</h4>
+                    <ul class="space-y-2 text-xs">
+                        <li><a href="#packages" onclick="setPlanCategory('home')" class="hover:text-mangg-lime">Mangg Home Fiber</a></li>
+                        <li><a href="#packages" onclick="setPlanCategory('gamer')" class="hover:text-mangg-lime">Mangg Gamer Pro</a></li>
+                        <li><a href="#packages" onclick="setPlanCategory('biz')" class="hover:text-mangg-lime">Dedicated Corporate</a></li>
+                        <li><a href="#packages" class="hover:text-mangg-lime">IP Public Static</a></li>
+                        <li><a href="#packages" class="hover:text-mangg-lime">Managed WiFi Event</a></li>
+                    </ul>
+                </div>
+
+                <!-- Col 3: Area Jangkauan (3 Cols) -->
+                <div class="lg:col-span-3 space-y-3">
+                    <h4 class="font-mono text-xs font-bold uppercase text-white tracking-wider">Pop & Jangkauan Utama</h4>
+                    <ul class="space-y-2 text-xs">
+                        <li><a href="#coverage" class="hover:text-mangg-lime">Adiwerna, Slawi & Talang (Kab. Tegal)</a></li>
+                        <li><a href="#coverage" class="hover:text-mangg-lime">Tegal Barat, Timur & Margadana</a></li>
+                        <li><a href="#coverage" class="hover:text-mangg-lime">Brebes Kota, Jatibarang & Bumiayu</a></li>
+                        <li><a href="#coverage" class="hover:text-mangg-lime">Pemalang & Pekalongan</a></li>
+                        <li><a href="#coverage" class="hover:text-mangg-lime">Purwokerto & Semarang</a></li>
+                    </ul>
+                </div>
+
+                <!-- Col 4: Pusat Bantuan NOC (3 Cols) -->
+                <div class="lg:col-span-3 space-y-3">
+                    <h4 class="font-mono text-xs font-bold uppercase text-white tracking-wider">Hubungi NOC 24/7</h4>
+                    <div class="bg-mangg-slate p-4 rounded-xl border border-mangg-border space-y-2.5">
+                        <div class="text-xs text-stone-300">Butuh bantuan teknis atau konsultasi pemasangan jalur *dedicated*?</div>
+                        <div class="font-mono font-bold text-sm text-mangg-lime">(0283) 4512-888</div>
+                        <div class="font-mono text-xs text-white">noc@manggnetwork.id</div>
+                        <button onclick="openOrderModal('Konsultasi NOC / Pasang Baru', 235000)" class="w-full py-2 rounded-lg bg-mangg-lime text-mangg-dark font-bold text-xs hover:bg-lime-300 transition-colors">
+                            Hubungi via WhatsApp Resmi
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-12 pt-8 border-t border-mangg-border flex flex-col sm:flex-row items-center justify-between text-xs text-stone-500 gap-4">
+                <div>© 2026 PT Mangg Telekomunikasi Nusantara (Mangg Network). Seluruh hak cipta dilindungi.</div>
+                <div class="flex gap-4 font-mono">
+                    <a href="javascript:void(0)" onclick="openToast('Menampilkan Dokumen SLA 99.98%')" class="hover:text-stone-300">Kebijakan SLA</a>
+                    <a href="javascript:void(0)" onclick="openToast('Menampilkan Kebijakan Privasi Pelanggan')" class="hover:text-stone-300">Privasi Data</a>
+                    <a href="javascript:void(0)" onclick="openToast('Semua Sistem Berjalan Normal (100% Up)')" class="text-mangg-lime">Status Server</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- FLOATING QUICK ACTION BUTTON (NON-INTRUSIVE NOC / WHATSAPP) -->
+    <div class="fixed bottom-5 right-5 z-40">
+        <button onclick="openOrderModal('Mangg Velocity 50 Mbps', 235000)" class="group bg-mangg-dark text-white pl-4 pr-5 py-3 rounded-full border-2 border-mangg-lime shadow-[4px_4px_0px_#0A0F14] flex items-center gap-3 hover:scale-105 transition-transform">
+            <span class="relative flex h-3 w-3">
+                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-mangg-lime opacity-75"></span>
+                <span class="relative inline-flex rounded-full h-3 w-3 bg-mangg-lime"></span>
+            </span>
+            <div class="text-left">
+                <div class="text-[10px] font-mono text-mangg-lime leading-none">ONLINE 24 JAM</div>
+                <div class="text-xs font-bold leading-tight mt-0.5">Chat Sales & NOC</div>
+            </div>
+            <i class="ph-fill ph-whatsapp-logo text-2xl text-mangg-lime"></i>
+        </button>
+    </div>
+
+    <!-- MODAL 1: REGISTRATION / ORDER DRAWER MODAL -->
+    <div id="order-modal" class="fixed inset-0 z-50 hidden bg-mangg-dark/80 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white w-full max-w-lg rounded-2xl neo-card overflow-hidden animate-fadeIn">
+            <div class="bg-mangg-dark text-white px-6 py-4 flex items-center justify-between border-b border-mangg-border">
+                <div>
+                    <span class="font-mono text-[10px] uppercase text-mangg-lime font-bold">FORMULIR INSTALASI FTTH</span>
+                    <h3 class="font-display font-bold text-lg">Daftar Pemasangan Mangg Network</h3>
+                </div>
+                <button onclick="closeOrderModal()" class="w-8 h-8 rounded-lg bg-mangg-slate text-stone-300 hover:text-white flex items-center justify-center">
+                    <i class="ph-bold ph-x"></i>
+                </button>
+            </div>
+
+            <form id="registration-form" onsubmit="submitRegistration(event)" class="p-6 space-y-4 max-h-[82vh] overflow-y-auto">
+                <div class="bg-[#F5F5F0] p-3.5 rounded-xl border border-stone-300 flex items-center justify-between">
+                    <div>
+                        <div class="text-[11px] font-mono text-stone-500">PAKET YANG DIPILIH:</div>
+                        <div id="modal-selected-plan" class="font-display font-bold text-base text-mangg-dark">Mangg Velocity 50 Mbps</div>
+                    </div>
+                    <div class="text-right">
+                        <div id="modal-selected-price" class="font-mono font-bold text-sm text-emerald-700">Rp 235.000/bln</div>
+                        <div class="text-[10px] text-stone-500">Gratis Instalasi</div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                    <div>
+                        <label class="block text-xs font-bold text-stone-700 mb-1">Nama Lengkap *</label>
+                        <input id="reg-name" type="text" required placeholder="Cth: Budi Santoso" class="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 text-sm focus:outline-none focus:border-mangg-dark">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-stone-700 mb-1">Nomor WhatsApp Aktif *</label>
+                        <input id="reg-wa" type="tel" required placeholder="0812xxxxxxxx" class="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 text-sm focus:outline-none focus:border-mangg-dark">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-stone-700 mb-1">Pilih Paket Layanan</label>
+                    <select id="reg-plan-select" onchange="syncModalPlanDropdown()" class="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 text-sm font-medium bg-white focus:outline-none focus:border-mangg-dark">
+                        <option value="Mangg Lite 30 Mbps|175000">Mangg Lite 30 Mbps — Rp 175.000/bln</option>
+                        <option value="Mangg Velocity 50 Mbps|235000">Mangg Velocity 50 Mbps — Rp 235.000/bln</option>
+                        <option value="Mangg Turbo 100 Mbps|315000">Mangg Turbo 100 Mbps — Rp 315.000/bln</option>
+                        <option value="Mangg Gamer Pro 150 Mbps|395000">Mangg Gamer Pro 150 Mbps — Rp 395.000/bln</option>
+                        <option value="Mangg Bisnis Dedicated 250 Mbps|750000">Mangg Bisnis 250 Mbps — Rp 750.000/bln</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-stone-700 mb-1">Kecamatan / Area & Alamat Lengkap Pemasangan *</label>
+                    <textarea id="reg-address" rows="2" required placeholder="Nama Jalan, RT/RW, Desa/Kelurahan, Patokan Rumah..." class="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 text-sm focus:outline-none focus:border-mangg-dark"></textarea>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-stone-700 mb-1">Jadwal Kunjungan Teknisi yang Diinginkan</label>
+                    <select id="reg-schedule" class="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 text-sm bg-white">
+                        <option value="Besok Pagi (08.00 - 12.00 WIB)">Besok Pagi (08.00 - 12.00 WIB)</option>
+                        <option value="Besok Siang (13.00 - 16.00 WIB)">Besok Siang (13.00 - 16.00 WIB)</option>
+                        <option value="Hari Ini (Jika Slot ODP Tersedia)">Hari Ini (Jika Slot Teknisi Tersedia)</option>
+                        <option value="Akhir Pekan (Sabtu / Minggu)">Akhir Pekan (Sabtu / Minggu)</option>
+                    </select>
+                </div>
+
+                <!-- Ticket Confirmation Box (Hidden before submit) -->
+                <div id="reg-success-box" class="hidden bg-emerald-50 border-2 border-emerald-600 rounded-xl p-4 space-y-2">
+                    <div class="flex items-center gap-2 text-emerald-800 font-bold text-sm">
+                        <i class="ph-fill ph-check-circle text-lg"></i>
+                        <span>Tiket Booking Instalasi Berhasil Dibuat!</span>
+                    </div>
+                    <p id="reg-ticket-info" class="text-xs text-emerald-900 font-mono"></p>
+                    <button type="button" onclick="continueToWhatsApp()" class="w-full mt-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs py-2.5 rounded-lg flex items-center justify-center gap-2">
+                        <i class="ph-fill ph-whatsapp-logo text-base"></i>
+                        <span>Kirim Tiket ke WhatsApp NOC Sekarang</span>
+                    </button>
+                </div>
+
+                <div class="pt-2">
+                    <button type="submit" class="neo-btn-lime w-full py-3.5 rounded-xl font-bold text-sm flex items-center justify-center gap-2">
+                        <i class="ph-bold ph-paper-plane-tilt"></i>
+                        <span>Buat Tiket Instalasi & Teruskan ke WhatsApp</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL 2: CLIENT AREA LOGIN ("PORTAL PELANGGAN") -->
+    <div id="client-modal" class="fixed inset-0 z-50 hidden bg-mangg-dark/80 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white w-full max-w-md rounded-2xl neo-card overflow-hidden">
+            <div class="bg-mangg-dark text-white px-6 py-4 flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                    <i class="ph-fill ph-shield-check text-mangg-lime text-xl"></i>
+                    <span class="font-display font-bold">Portal Pelanggan ManggNet</span>
+                </div>
+                <button onclick="toggleClientModal(false)" class="text-stone-400 hover:text-white"><i class="ph-bold ph-x"></i></button>
+            </div>
+            <form onsubmit="handleClientLogin(event)" class="p-6 space-y-4">
+                <p class="text-xs text-stone-600">Masuk menggunakan ID Pelanggan (Cth: <code class="font-mono bg-stone-100 px-1">MN-2026xxxx</code>) untuk cek tagihan, ubah *password* WiFi dari jarak jauh, atau memantau *traffic*.</p>
+                <div>
+                    <label class="block text-xs font-bold text-stone-700 mb-1">ID Pelanggan / Nomor HP Terdaftar</label>
+                    <input type="text" required placeholder="MN-20260891" class="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 text-sm font-mono">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-stone-700 mb-1">Kata Sandi / PIN</label>
+                    <input type="password" required placeholder="••••••••" class="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 text-sm">
+                </div>
+                <button type="submit" class="neo-btn-lime w-full py-3 rounded-xl font-bold text-sm">Masuk ke Dashboard ONT</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- CUSTOM TOAST NOTIFICATION -->
+    <div id="custom-toast" class="fixed top-24 right-5 z-50 hidden bg-mangg-dark text-white px-4 py-3 rounded-xl border-2 border-mangg-lime shadow-lg flex items-center gap-3 max-w-sm">
+        <i class="ph-fill ph-info text-mangg-lime text-xl shrink-0"></i>
+        <span id="toast-message" class="text-xs font-medium">Notifikasi</span>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // --- 1. LIVE CLOCK & TELEMETRY JITTER SIMULATION ---
+        function updateClockAndTelemetry() {
+            const now = new Date();
+            const timeStr = now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+            document.getElementById('live-clock').textContent = timeStr + ' WIB';
+
+            // Subtle realistic fluctuations
+            const dl = (942 + Math.random() * 8).toFixed(1);
+            const ul = (938 + Math.random() * 8).toFixed(1);
+            document.getElementById('telemetry-dl').textContent = dl;
+            document.getElementById('telemetry-ul').textContent = ul;
+
+            // Ping fluctuations
+            document.getElementById('ping-jkt').textContent = (2 + Math.floor(Math.random() * 2)) + ' ms';
+            document.getElementById('ping-sg').textContent = (11 + Math.floor(Math.random() * 2)) + ' ms';
+            document.getElementById('ping-ml').textContent = (3 + Math.floor(Math.random() * 2)) + ' ms';
+        }
+        setInterval(updateClockAndTelemetry, 2500);
+        updateClockAndTelemetry();
+
+        // --- 2. COVERAGE AREAS DATA & SEARCH LOGIC ---
+        const coverageAreas = [
+            { area: 'Kec. Adiwerna', city: 'Kab. Tegal', zip: '52194', odp: 'ODP-ADW-042', ports: '8 Port Kosong', sub: 'Tembok Banjaran, Lemahduwur, Pesarean, Ujungrusi, Kalimati, Pagedangan' },
+            { area: 'Kec. Slawi', city: 'Kab. Tegal', zip: '52411', odp: 'ODP-SLW-108', ports: '12 Port Kosong', sub: 'Procotslawi, Kagok,Trayeman, Pakembaran, Kudaile, Dukuhwringin' },
+            { area: 'Kec. Talang & Dukuhturi', city: 'Kab. Tegal', zip: '52193', odp: 'ODP-TLG-019', ports: '6 Port Kosong', sub: 'Langgen, Pegirikan, Pacul, Pepedan, Karanganyar, Debong Wetan' },
+            { area: 'Tegal Timur & Mejasem', city: 'Kota Tegal', zip: '52125', odp: 'ODP-TGL-211', ports: '14 Port Kosong', sub: 'Mejasem Barat, Kejambon, Slerok, Panggung, Mintaragen' },
+            { area: 'Tegal Barat & Kraton', city: 'Kota Tegal', zip: '52112', odp: 'ODP-TGL-088', ports: '9 Port Kosong', sub: 'Kraton, Tegalsari, Kemandungan, Pesurungan Kidul, Debong Lor' },
+            { area: 'Margadana & Cabawan', city: 'Kota Tegal', zip: '52143', odp: 'ODP-MGD-034', ports: '7 Port Kosong', sub: 'Kaligangsa, Krandon, Sumurpanggang, Pesurungan Lor' },
+            { area: 'Brebes Kota & Pasarbatang', city: 'Brebes', zip: '52212', odp: 'ODP-BRB-055', ports: '11 Port Kosong', sub: 'Brebes, Gandasuli, Limbangan Wetan, Limbangan Kulon, Saditan' },
+            { area: 'Jatibarang & Bumiayu', city: 'Brebes', zip: '52261', odp: 'ODP-BMY-014', ports: '5 Port Kosong', sub: 'Jatibarang Lor, Kalierang, Dukuhturi Bumiayu, Jatisawit' },
+            { area: 'Pemalang Kota & Taman', city: 'Pemalang & Pekalongan', zip: '52311', odp: 'ODP-PML-072', ports: '10 Port Kosong', sub: 'Mulyoharjo, Pelutan, Bojongbata, Beji, Wanarejan' },
+            { area: 'Pekalongan Barat & Kedungwuni', city: 'Pemalang & Pekalongan', zip: '51111', odp: 'ODP-PKL-120', ports: '9 Port Kosong', sub: 'Medono, Podosugih, Tirto, Kedungwuni Timur, Karangdadap' },
+            { area: 'Purwokerto & Sokaraja', city: 'Semarang & Banyumas', zip: '53114', odp: 'ODP-PWT-093', ports: '15 Port Kosong', sub: 'Bancarkembar, Sumampir, Arcawinangun, Berkoh, Dukuhwaluh' },
+            { area: 'Semarang Barat & Ngaliyan', city: 'Semarang & Banyumas', zip: '50149', odp: 'ODP-SMG-304', ports: '16 Port Kosong', sub: 'Kalibanteng, Manyaran, Krapyak, Bringin, BSB City' }
+        ];
+
+        let currentCityFilter = 'ALL';
+
+        function renderCoverageGrid(list) {
+            const container = document.getElementById('coverage-grid');
+            if (list.length === 0) {
+                container.innerHTML = `
+                    <div class="col-span-full bg-white p-6 rounded-xl border border-stone-300 text-center">
+                        <p class="font-bold text-mangg-dark">Area yang Anda ketik belum muncul di daftar publik?</p>
+                        <p class="text-xs text-stone-600 mt-1">Tim kami terus menambah tiang ODP baru setiap minggu. Klik tombol di bawah untuk cek titik koordinat bersama tim NOC kami.</p>
+                        <button onclick="openOrderModal('Request Survei Jaringan Baru', 235000)" class="mt-3 px-4 py-2 rounded-lg bg-mangg-dark text-mangg-lime text-xs font-bold">Tanyakan Koordinat Saya ke NOC</button>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = list.map((item, idx) => `
+                <div onclick="selectCoverageNode(${idx})" class="bg-white p-4 rounded-xl border-2 border-stone-300 hover:border-mangg-dark cursor-pointer transition-all flex flex-col justify-between group">
+                    <div>
+                        <div class="flex items-center justify-between text-[11px] font-mono mb-1.5">
+                            <span class="px-2 py-0.5 rounded bg-emerald-100 text-emerald-900 font-bold">FTTH READY</span>
+                            <span class="text-stone-500">${item.odp}</span>
+                        </div>
+                        <h4 class="font-display font-bold text-base text-mangg-dark group-hover:text-emerald-700">${item.area}</h4>
+                        <div class="text-xs font-semibold text-stone-500">${item.city} • Kode Pos ${item.zip}</div>
+                        <p class="text-[11px] text-stone-500 mt-2 line-clamp-2">${item.sub}</p>
+                    </div>
+                    <div class="mt-3 pt-2.5 border-t border-stone-200 flex items-center justify-between text-xs font-mono">
+                        <span class="text-emerald-700 font-bold">${item.ports}</span>
+                        <span class="text-mangg-dark font-bold group-hover:translate-x-1 transition-transform">Pilih →</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function selectCoverageNode(index) {
+            const filtered = getFilteredCoverageList();
+            const item = filtered[index] || coverageAreas[0];
+            document.getElementById('selected-odp-code').textContent = item.odp + ' (' + item.ports + ')';
+            document.getElementById('selected-area-title').textContent = `${item.area}, ${item.city} (${item.zip})`;
+            document.getElementById('selected-area-sub').innerHTML = `Mencakup: ${item.sub}. Estimasi instalasi: <strong>1x24 Jam Kerja</strong>.`;
+            document.getElementById('selected-area-btn').setAttribute('onclick', `openOrderWithArea('${item.area}, ${item.city}')`);
+        }
+
+        function getFilteredCoverageList() {
+            const q = (document.getElementById('coverage-input').value || '').toLowerCase();
+            return coverageAreas.filter(item => {
+                const matchCat = currentCityFilter === 'ALL' || item.city === currentCityFilter;
+                const matchQuery = item.area.toLowerCase().includes(q) || 
+                                   item.city.toLowerCase().includes(q) || 
+                                   item.zip.includes(q) || 
+                                   item.sub.toLowerCase().includes(q);
+                return matchCat && matchQuery;
+            });
+        }
+
+        function filterCoverageAreas() {
+            const list = getFilteredCoverageList();
+            renderCoverageGrid(list);
+            if (list.length > 0) selectCoverageNode(0);
+        }
+
+        function setCoverageFilter(city) {
+            currentCityFilter = city;
+            filterCoverageAreas();
+        }
+
+        function quickFillSearch(term) {
+            document.getElementById('hero-search-input').value = term;
+            triggerHeroCoverageSearch();
+        }
+
+        function triggerHeroCoverageSearch() {
+            const val = document.getElementById('hero-search-input').value;
+            document.getElementById('coverage-input').value = val;
+            currentCityFilter = 'ALL';
+            filterCoverageAreas();
+            document.getElementById('coverage').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // --- 3. BANDWIDTH CALCULATOR LOGIC ---
+        function updateBandwidthCalculator() {
+            const devices = parseInt(document.getElementById('calc-devices').value) || 1;
+            const stream = document.getElementById('act-stream').checked;
+            const game = document.getElementById('act-game').checked;
+            const wfh = document.getElementById('act-wfh').checked;
+            const cctv = document.getElementById('act-cctv').checked;
+
+            document.getElementById('calc-devices-val').textContent = devices + ' Perangkat';
+
+            let totalMbps = devices * 5;
+            if (stream) totalMbps += 20;
+            if (game) totalMbps += 25;
+            if (wfh) totalMbps += 20;
+            if (cctv) totalMbps += 15;
+
+            document.getElementById('calc-recommended-mbps').textContent = totalMbps;
+
+            let planName = 'Mangg Lite 30 Mbps';
+            let planPrice = 175000;
+            let planDesc = 'Cocok untuk 1-4 perangkat, browsing lancar, sosial media & streaming HD tanpa FUP.';
+
+            if (totalMbps > 35 && totalMbps <= 65) {
+                planName = 'Mangg Velocity 50 Mbps';
+                planPrice = 235000;
+                planDesc = 'Pilihan terpopuler keluarga. Lancar untuk 5-8 perangkat, Smart TV 4K & WFH.';
+            } else if (totalMbps > 65 && totalMbps <= 125) {
+                planName = 'Mangg Turbo 100 Mbps';
+                planPrice = 315000;
+                planDesc = 'Ideal untuk 8-15 perangkat aktif, streaming 4K serentak & gaming ping stabil dengan Router WiFi 6.';
+            } else if (totalMbps > 125 && totalMbps <= 190) {
+                planName = 'Mangg Gamer Pro 150 Mbps';
+                planPrice = 395000;
+                planDesc = 'Dilengkapi routing prioritas gaming Singapura/Jakarta & IP Public Dynamic bebas NAT.';
+            } else if (totalMbps > 190) {
+                planName = 'Mangg Bisnis 250 Mbps';
+                planPrice = 750000;
+                planDesc = 'Kapasitas tinggi untuk 20-35 perangkat, ruko, kafe, kantor dengan jaminan SLA 99.9%.';
+            }
+
+            document.getElementById('calc-plan-name').textContent = planName;
+            document.getElementById('calc-plan-price').textContent = 'Rp ' + planPrice.toLocaleString('id-ID');
+            document.getElementById('calc-plan-desc').textContent = planDesc;
+            document.getElementById('calc-cta-btn').setAttribute('onclick', `openOrderModal('${planName}', ${planPrice})`);
+        }
+
+        // --- 4. PRICING PLANS DATA & RENDERER ---
+        const pricingData = {
+            home: [
+                {
+                    name: 'Mangg Lite',
+                    speed: '30',
+                    monthly: 175000,
+                    badge: 'HEMAT & STABIL',
+                    popular: false,
+                    devices: 'Ideal 1 - 5 Perangkat',
+                    router: 'Dipinjami Router Dual-Band AC1200',
+                    perks: ['Rasio Simetris 1:1 (30/30 Mbps)', '100% True Unlimited Tanpa FUP', 'Gratis Instalasi (Kabel 150m)', 'Support CS & Teknisi 24/7']
+                },
+                {
+                    name: 'Mangg Velocity',
+                    speed: '50',
+                    monthly: 235000,
+                    badge: 'TERLARIS KELUARGA',
+                    popular: true,
+                    devices: 'Ideal 5 - 10 Perangkat',
+                    router: 'Dipinjami Router WiFi 6 AX1800',
+                    perks: ['Rasio Simetris 1:1 (50/50 Mbps)', '100% True Unlimited Tanpa FUP', 'Streaming 4K UHD & Zoom Lancar', 'Gratis Instalasi & Setting WiFi']
+                },
+                {
+                    name: 'Mangg Turbo',
+                    speed: '100',
+                    monthly: 315000,
+                    badge: 'PERFORMA TINGGI',
+                    popular: false,
+                    devices: 'Ideal 10 - 18 Perangkat',
+                    router: 'Dipinjami Router WiFi 6 High-Gain',
+                    perks: ['Rasio Simetris 1:1 (100/100 Mbps)', '100% True Unlimited Tanpa FUP', 'Prioritas Penanganan Gangguan', 'Cocok untuk Rumah 2 Lantai / CCTV']
+                }
+            ],
+            gamer: [
+                {
+                    name: 'Gamer Pro',
+                    speed: '100',
+                    monthly: 345000,
+                    badge: 'LOW LATENCY ROUTING',
+                    popular: false,
+                    devices: 'Direct Peering SG1 & JKT',
+                    router: 'ONT WiFi 6 + Port Gigabit Gaming',
+                    perks: ['Ping Singapura < 12ms / Jakarta < 4ms', 'IP Public Dynamic (Open NAT PS5/PC)', 'Simetris 1:1 untuk Live Streaming', '100% Tanpa FUP — Download Steam Cepat']
+                },
+                {
+                    name: 'Gamer Pro Max',
+                    speed: '150',
+                    monthly: 395000,
+                    badge: 'FAVORIT STREAMER & PRO',
+                    popular: true,
+                    devices: 'Direct Peering + IP Public',
+                    router: 'ONT WiFi 6 AX3000 Dual-Core',
+                    perks: ['Jalur Khusus Valve, Riot, Moonton, Meta', 'IP Public Static / Dynamic Tersedia', 'Upload 150 Mbps Stabil untuk OBS 1080p60', 'VIP Direct Line ke Engineer NOC']
+                },
+                {
+                    name: 'Gamer Ultra',
+                    speed: '250',
+                    monthly: 525000,
+                    badge: ' BASECAMP / SQUAD',
+                    popular: false,
+                    devices: 'Hingga 25 Perangkat Gaming',
+                    router: 'WiFi 6 Mesh Ready System',
+                    perks: ['Rasio Simetris 250/250 Mbps Murni', '100% Bebas FUP & Bebas Packet Loss', 'Termasuk 1 IP Public Static Gratis', 'SLA Prioritas Respon < 2 Jam']
+                }
+            ],
+            biz: [
+                {
+                    name: 'Mangg Biz SOHO',
+                    speed: '150',
+                    monthly: 495000,
+                    badge: 'CAFE / RUKO / UMKM',
+                    popular: false,
+                    devices: 'Kapasitas 25+ User Aktif',
+                    router: 'Router Enterprise + Captive Portal',
+                    perks: ['Rasio Simetris 1:1 (150/150 Mbps)', '1 IP Public Static Termasuk', 'Jaminan Uptime SLA 99.8%', 'Faktur Pajak & Invoice Resmi Perusahaan']
+                },
+                {
+                    name: 'Mangg Biz Pro',
+                    speed: '250',
+                    monthly: 750000,
+                    badge: 'KANTOR & INSTANSI',
+                    popular: true,
+                    devices: 'Kapasitas 45+ User Aktif',
+                    router: 'MikroTik RB / Ruijie Cloud Managed',
+                    perks: ['Rasio Simetris 1:1 (250/250 Mbps)', '1 IP Public Static + Monitoring MRTG', 'Jaminan Uptime SLA 99.9%', 'Teknisi On-Site Prioritas < 2 Jam']
+                },
+                {
+                    name: 'Mangg Dedicated',
+                    speed: '500',
+                    monthly: 1650000,
+                    badge: 'DEDICATED METRO-E',
+                    popular: false,
+                    devices: 'Kapasitas 100+ User / Pabrik',
+                    router: 'Full Managed Core Router + Failover',
+                    perks: ['Bandwidth Dedicated 1:1 CIR 100%', 'Subnet /29 IP Public Static', 'SLA 99.98% dengan Kompensasi Restitusi', 'Account Manager & NOC Khusus 24/7']
+                }
+            ]
+        };
+
+        let activeCategory = 'home';
+        let activeBilling = 'monthly';
+
+        function renderPricingCards() {
+            const plans = pricingData[activeCategory];
+            const container = document.getElementById('pricing-cards-container');
+
+            container.innerHTML = plans.map(plan => {
+                const isYearly = activeBilling === 'yearly';
+                const displayPrice = isYearly ? Math.round((plan.monthly * 10) / 12) : plan.monthly;
+                const billingNote = isYearly 
+                    ? `Dibayar Rp ${(plan.monthly * 10).toLocaleString('id-ID')}/tahun (Hemat 2 Bulan)` 
+                    : 'Harga Flat Bulanan • Belum termasuk PPN 11%';
+
+                return `
+                    <div class="rounded-2xl p-6 sm:p-8 flex flex-col justify-between relative ${plan.popular ? 'bg-mangg-dark text-white border-2 border-mangg-dark shadow-[6px_6px_0px_#B6FF2E]' : 'bg-white text-mangg-dark neo-card'}">
+                        <div>
+                            <div class="flex items-center justify-between gap-2 mb-4">
+                                <span class="font-mono text-[11px] font-bold uppercase px-2.5 py-1 rounded ${plan.popular ? 'bg-mangg-lime text-mangg-dark' : 'bg-stone-200 text-mangg-dark'}">
+                                    ${plan.badge}
+                                </span>
+                                <span class="font-mono text-xs ${plan.popular ? 'text-stone-300' : 'text-stone-500'}">SIMETRIS 1:1</span>
+                            </div>
+
+                            <h3 class="font-display font-bold text-2xl">${plan.name}</h3>
+                            <div class="mt-3 flex items-baseline gap-2">
+                                <span class="font-display font-extrabold text-5xl ${plan.popular ? 'text-mangg-lime' : 'text-mangg-dark'}">${plan.speed}</span>
+                                <span class="font-mono text-lg font-bold">Mbps</span>
+                            </div>
+                            <p class="text-xs font-medium mt-1 ${plan.popular ? 'text-stone-300' : 'text-stone-500'}">${plan.devices}</p>
+
+                            <div class="my-6 pt-5 border-t ${plan.popular ? 'border-mangg-border' : 'border-stone-200'}">
+                                <div class="flex items-baseline gap-1">
+                                    <span class="text-xs font-mono">Rp</span>
+                                    <span class="font-mono font-bold text-3xl">${displayPrice.toLocaleString('id-ID')}</span>
+                                    <span class="text-xs ${plan.popular ? 'text-stone-400' : 'text-stone-500'}">/ bulan</span>
+                                </div>
+                                <div class="text-[11px] mt-1 ${plan.popular ? 'text-mangg-lime' : 'text-emerald-700 font-medium'}">${billingNote}</div>
+                            </div>
+
+                            <div class="p-3 rounded-xl mb-5 text-xs font-semibold flex items-center gap-2.5 ${plan.popular ? 'bg-mangg-slate border border-mangg-border text-stone-200' : 'bg-stone-100 text-mangg-dark'}">
+                                <i class="ph-fill ph-router text-lg ${plan.popular ? 'text-mangg-lime' : 'text-mangg-amber'}"></i>
+                                <span>${plan.router}</span>
+                            </div>
+
+                            <ul class="space-y-2.5 text-xs sm:text-sm mb-8">
+                                ${plan.perks.map(perk => `
+                                    <li class="flex items-start gap-2.5">
+                                        <i class="ph-bold ph-check-circle text-base shrink-0 mt-0.5 ${plan.popular ? 'text-mangg-lime' : 'text-emerald-600'}"></i>
+                                        <span>${perk}</span>
+                                    </li>
+                                `).join('')}
+                            </ul>
+                        </div>
+
+                        <button onclick="openOrderModal('${plan.name} ${plan.speed} Mbps', ${displayPrice})" 
+                            class="w-full py-3.5 rounded-xl font-bold text-sm flex items-center justify-center gap-2 transition-all ${plan.popular ? 'neo-btn-lime' : 'bg-mangg-dark text-white hover:bg-mangg-slate'}">
+                            <span>Pilih Paket & Daftar</span>
+                            <i class="ph-bold ph-arrow-right"></i>
+                        </button>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function setPlanCategory(cat) {
+            activeCategory = cat;
+            ['home', 'gamer', 'biz'].forEach(c => {
+                const btn = document.getElementById('cat-' + c);
+                if (c === cat) {
+                    btn.className = 'plan-cat-btn px-5 py-2.5 rounded-xl font-bold text-sm bg-mangg-dark text-mangg-lime border-2 border-mangg-dark flex items-center gap-2';
+                } else {
+                    btn.className = 'plan-cat-btn px-5 py-2.5 rounded-xl font-bold text-sm bg-white text-mangg-dark border-2 border-mangg-dark hover:bg-stone-100 flex items-center gap-2';
+                }
+            });
+            renderPricingCards();
+        }
+
+        function setBillingCycle(cycle) {
+            activeBilling = cycle;
+            const mBtn = document.getElementById('bill-monthly-btn');
+            const yBtn = document.getElementById('bill-yearly-btn');
+            if (cycle === 'monthly') {
+                mBtn.className = 'px-4 py-2 rounded-lg text-xs font-bold bg-mangg-dark text-mangg-lime transition-all';
+                yBtn.className = 'px-4 py-2 rounded-lg text-xs font-bold text-stone-700 hover:text-mangg-dark transition-all flex items-center gap-1.5';
+            } else {
+                yBtn.className = 'px-4 py-2 rounded-lg text-xs font-bold bg-mangg-dark text-mangg-lime transition-all flex items-center gap-1.5';
+                mBtn.className = 'px-4 py-2 rounded-lg text-xs font-bold text-stone-700 hover:text-mangg-dark transition-all';
+            }
+            renderPricingCards();
+        }
+
+        // --- 5. REAL-TIME SPEEDTEST SIMULATOR ---
+        let simTargetSpeed = 100;
+        let simRunning = false;
+
+        function setSimTargetSpeed(mbps) {
+            if (simRunning) return;
+            simTargetSpeed = mbps;
+            document.getElementById('sim-main-readout').textContent = mbps.toFixed(1);
+            document.getElementById('sim-ul-res').textContent = (mbps * 0.99).toFixed(1) + ' Mbps';
+            document.getElementById('sim-file-label').textContent = `Mangg Network (${mbps} Mbps)`;
+
+            // Calculate 10GB (80,000 Megabits) download time
+            const totalSeconds = Math.round(80000 / mbps);
+            const mins = Math.floor(totalSeconds / 60);
+            const secs = totalSeconds % 60;
+            document.getElementById('sim-file-time').textContent = `~${mins} Menit ${secs} Detik`;
+        }
+
+        function runSpeedtestSimulation() {
+            if (simRunning) return;
+            simRunning = true;
+
+            const btn = document.getElementById('start-speedtest-btn');
+            const readout = document.getElementById('sim-main-readout');
+            const bar = document.getElementById('sim-progress-bar');
+            const badge = document.getElementById('sim-status-badge');
+
+            btn.disabled = true;
+            btn.innerHTML = `<i class="ph-bold ph-spinner animate-spin text-lg"></i><span>Menguji Throughput Jaringan...</span>`;
+            badge.textContent = 'MENGUJI DOWNLOAD & UPLOAD...';
+
+            let step = 0;
+            const totalSteps = 28;
+            const interval = setInterval(() => {
+                step++;
+                const progress = Math.min(100, Math.round((step / totalSteps) * 100));
+                bar.style.width = progress + '%';
+
+                const currentVal = (simTargetSpeed * (step / totalSteps) * (0.95 + Math.random() * 0.1)).toFixed(1);
+                readout.textContent = currentVal;
+
+                if (step >= totalSteps) {
+                    clearInterval(interval);
+                    const finalDl = (simTargetSpeed + (Math.random() * 3)).toFixed(1);
+                    const finalUl = (simTargetSpeed + (Math.random() * 2)).toFixed(1);
+                    readout.textContent = finalDl;
+                    document.getElementById('sim-ul-res').textContent = finalUl + ' Mbps';
+                    document.getElementById('sim-ping-res').textContent = '3 ms';
+                    badge.textContent = 'HASIL TERVERIFIKASI (SIMETRIS 1:1)';
+                    btn.disabled = false;
+                    btn.innerHTML = `<i class="ph-bold ph-arrows-clockwise text-lg"></i><span>Uji Ulang Simulasi Speedtest</span>`;
+                    simRunning = false;
+                }
+            }, 90);
+        }
+
+        // --- 6. FAQ ACCORDION ---
+        function toggleFaq(index) {
+            const ans = document.getElementById('faq-ans-' + index);
+            const icon = document.getElementById('faq-icon-' + index);
+            const isHidden = ans.classList.contains('hidden');
+            if (isHidden) {
+                ans.classList.remove('hidden');
+                icon.classList.add('rotate-180');
+            } else {
+                ans.classList.add('hidden');
+                icon.classList.remove('rotate-180');
+            }
+        }
+
+        // --- 7. ORDER MODAL & WHATSAPP CHECKOUT ---
+        let lastBookingTicket = '';
+
+        function openOrderModal(planTitle, price) {
+            document.getElementById('modal-selected-plan').textContent = planTitle;
+            document.getElementById('modal-selected-price').textContent = 'Rp ' + Number(price).toLocaleString('id-ID') + '/bln';
+            document.getElementById('reg-success-box').classList.add('hidden');
+            document.getElementById('order-modal').classList.remove('hidden');
+        }
+
+        function openOrderWithArea(areaName) {
+            document.getElementById('reg-address').value = areaName + ' — ';
+            openOrderModal('Mangg Velocity 50 Mbps', 235000);
+        }
+
+        function closeOrderModal() {
+            document.getElementById('order-modal').classList.add('hidden');
+        }
+
+        function syncModalPlanDropdown() {
+            const val = document.getElementById('reg-plan-select').value.split('|');
+            document.getElementById('modal-selected-plan').textContent = val[0];
+            document.getElementById('modal-selected-price').textContent = 'Rp ' + Number(val[1]).toLocaleString('id-ID') + '/bln';
+        }
+
+        function submitRegistration(e) {
+            e.preventDefault();
+            const name = document.getElementById('reg-name').value;
+            const wa = document.getElementById('reg-wa').value;
+            const plan = document.getElementById('modal-selected-plan').textContent;
+            const addr = document.getElementById('reg-address').value;
+            const sched = document.getElementById('reg-schedule').value;
+
+            const randomTicket = 'MANGG-' + Math.floor(100000 + Math.random() * 900000);
+            lastBookingTicket = `Halo NOC Mangg Network, saya ingin mendaftar pemasangan WiFi baru.%0A%0A*No. Tiket:* ${randomTicket}%0A*Nama:* ${name}%0A*No. WA:* ${wa}%0A*Paket:* ${plan}%0A*Alamat:* ${addr}%0A*Jadwal Survei/Pasang:* ${sched}`;
+
+            document.getElementById('reg-ticket-info').textContent = `KODE TIKET: ${randomTicket} • Status: Menunggu Konfirmasi Jadwal Teknisi`;
+            document.getElementById('reg-success-box').classList.remove('hidden');
+        }
+
+        function continueToWhatsApp() {
+            window.open(`https://wa.me/6281234567890?text=${lastBookingTicket}`, '_blank');
+        }
+
+        // --- 8. CLIENT AREA MODAL & TOAST ---
+        function toggleClientModal(show) {
+            const modal = document.getElementById('client-modal');
+            if (show) modal.classList.remove('hidden');
+            else modal.classList.add('hidden');
+        }
+
+        function handleClientLogin(e) {
+            e.preventDefault();
+            toggleClientModal(false);
+            openToast('Verifikasi Sesi Portal Pelanggan berhasil dikirim ke WhatsApp terdaftar Anda.');
+        }
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        function openToast(msg) {
+            const toast = document.getElementById('custom-toast');
+            document.getElementById('toast-message').textContent = msg;
+            toast.classList.remove('hidden');
+            setTimeout(() => {
+                toast.classList.add('hidden');
+            }, 3500);
+        }
+
+        // Initialize components on load
+        window.onload = function() {
+            filterCoverageAreas();
+            updateBandwidthCalculator();
+            renderPricingCards();
+        };
+    </script>
+</body>
+</html>

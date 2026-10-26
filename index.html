@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Landing Page Collection</title>
+    <meta
+      name="description"
+      content="Preview semua project landing page dari repo WithMangg/landing-page dalam tema dark yang clean dan modern."
+    />
+    <style>
+      :root {
+        --bg: #07111f;
+        --bg-soft: #0d1729;
+        --panel: rgba(14, 23, 38, 0.8);
+        --panel-strong: rgba(18, 29, 49, 0.96);
+        --border: rgba(148, 163, 184, 0.18);
+        --text: #edf4ff;
+        --muted: #a8b7cc;
+        --accent: #7dd3fc;
+        --accent-2: #8b5cf6;
+        --accent-3: #fbbf24;
+        --success: #34d399;
+        --shadow: 0 24px 60px rgba(2, 6, 23, 0.75);
+      }
+
+      * { box-sizing: border-box; }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        font-family: Inter, "Segoe UI", sans-serif;
+        background:
+          radial-gradient(circle at top left, rgba(125, 211, 252, 0.12), transparent 28%),
+          radial-gradient(circle at bottom right, rgba(139, 92, 246, 0.12), transparent 24%),
+          linear-gradient(180deg, #050d18 0%, #0a1220 100%);
+        color: var(--text);
+      }
+
+      a { color: inherit; text-decoration: none; }
+
+      .page {
+        max-width: 1280px;
+        margin: 0 auto;
+        padding: 32px 20px 80px;
+      }
+
+      .topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 18px;
+        padding: 18px 20px;
+        margin-bottom: 22px;
+        border: 1px solid var(--border);
+        border-radius: 18px;
+        background: rgba(10, 17, 28, 0.8);
+        backdrop-filter: blur(16px);
+        box-shadow: var(--shadow);
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        min-width: 0;
+      }
+
+      .brand-mark {
+        width: 42px;
+        height: 42px;
+        display: grid;
+        place-items: center;
+        border-radius: 14px;
+        font-size: 1.1rem;
+        font-weight: 800;
+        background: linear-gradient(135deg, #0ea5e9 0%, #8b5cf6 100%);
+        box-shadow: 0 12px 32px rgba(14, 165, 233, 0.38);
+      }
+
+      .brand-copy {
+        min-width: 0;
+      }
+
+      .brand-copy strong {
+        display: block;
+        font-size: 0.96rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .brand-copy span {
+        color: var(--muted);
+        font-size: 0.74rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      .header-actions {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+
+      .chip,
+      .nav-pill {
+        border: 1px solid var(--border);
+        background: rgba(15, 23, 38, 0.7);
+        color: var(--muted);
+        border-radius: 999px;
+        padding: 9px 14px;
+        font-size: 0.72rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      .nav-pill {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s ease;
+      }
+
+      .nav-pill:hover {
+        color: var(--text);
+        border-color: rgba(125, 211, 252, 0.4);
+        transform: translateY(-1px);
+      }
+
+      .hero {
+        display: grid;
+        grid-template-columns: 1.3fr 0.7fr;
+        gap: 24px;
+        align-items: stretch;
+        margin-bottom: 30px;
+      }
+
+      .hero-panel {
+        position: relative;
+        overflow: hidden;
+        padding: 32px 28px;
+        border: 1px solid var(--border);
+        border-radius: 28px;
+        background: linear-gradient(135deg, rgba(10, 17, 28, 0.86), rgba(15, 24, 39, 0.95));
+        box-shadow: var(--shadow);
+      }
+
+      .hero-panel::before,
+      .hero-panel::after {
+        content: "";
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(30px);
+        opacity: 0.4;
+      }
+
+      .hero-panel::before {
+        width: 220px;
+        height: 220px;
+        background: rgba(56, 189, 248, 0.18);
+        right: -20px;
+        top: -40px;
+      }
+
+      .hero-panel::after {
+        width: 200px;
+        height: 200px;
+        background: rgba(139, 92, 246, 0.16);
+        left: -24px;
+        bottom: -30px;
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 12px;
+        border: 1px solid rgba(125, 211, 252, 0.22);
+        background: rgba(125, 211, 252, 0.08);
+        border-radius: 999px;
+        color: #bfeaff;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        font-size: 0.7rem;
+        font-weight: 700;
+      }
+
+      .eyebrow::before {
+        content: "";
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #67e8f9, #8b5cf6);
+        box-shadow: 0 0 0 6px rgba(125, 211, 252, 0.12);
+      }
+
+      h1 {
+        margin: 18px 0 14px;
+        font-size: clamp(2.2rem, 4vw, 4.2rem);
+        line-height: 0.98;
+        letter-spacing: -0.065em;
+      }
+
+      .lead {
+        max-width: 680px;
+        color: var(--muted);
+        font-size: 1.04rem;
+        line-height: 1.75;
+      }
+
+      .metrics {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-top: 24px;
+      }
+
+      .metric {
+        min-width: 120px;
+        padding: 14px 16px;
+        border-radius: 16px;
+        border: 1px solid var(--border);
+        background: rgba(15, 23, 38, 0.72);
+      }
+
+      .metric strong {
+        display: block;
+        font-size: 1.35rem;
+        margin-bottom: 4px;
+      }
+
+      .metric span {
+        color: var(--muted);
+        font-size: 0.72rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .preview-window {
+        position: relative;
+        min-height: 260px;
+        border: 1px solid var(--border);
+        border-radius: 28px;
+        background: linear-gradient(180deg, rgba(14, 23, 38, 1), rgba(8, 13, 22, 1));
+        overflow: hidden;
+        box-shadow: var(--shadow);
+      }
+
+      .browser-bar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 14px;
+        padding: 12px 16px;
+        border-bottom: 1px solid var(--border);
+        background: rgba(15, 23, 38, 0.9);
+      }
+
+      .dots {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+      }
+
+      .dot:nth-child(1) { background: #fb7185; }
+      .dot:nth-child(2) { background: #fbbf24; }
+      .dot:nth-child(3) { background: #34d399; }
+
+      .browser-label {
+        color: var(--muted);
+        font-size: 0.7rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      .mini-view {
+        position: relative;
+        height: calc(100% - 50px);
+        padding: 16px;
+        background:
+          linear-gradient(120deg, rgba(17,24,39,0.2), rgba(17,24,39,0.9)),
+          linear-gradient(135deg, rgba(14,165,233,0.18), rgba(139,92,246,0.12));
+      }
+
+      .mini-card {
+        position: absolute;
+        right: 20px;
+        bottom: 18px;
+        width: 170px;
+        padding: 14px;
+        border-radius: 18px;
+        border: 1px solid rgba(255,255,255,0.08);
+        background: rgba(15, 23, 38, 0.9);
+        backdrop-filter: blur(10px);
+        box-shadow: 0 16px 40px rgba(0,0,0,0.28);
+      }
+
+      .mini-card .title {
+        display: block;
+        font-size: 0.75rem;
+        color: var(--muted);
+        margin-bottom: 8px;
+      }
+
+      .mini-card .value {
+        display: block;
+        font-size: 1.8rem;
+        font-weight: 800;
+        letter-spacing: -0.08em;
+      }
+
+      .mini-card .bar {
+        margin-top: 12px;
+        height: 8px;
+        border-radius: 999px;
+        background: linear-gradient(90deg, #7dd3fc, #8b5cf6, #fbbf24);
+      }
+
+      .grid-wrap {
+        margin-top: 24px;
+      }
+
+      .section-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 14px;
+        margin-bottom: 18px;
+      }
+
+      .section-head h2 {
+        margin: 0;
+        font-size: clamp(1.2rem, 2vw, 1.8rem);
+        letter-spacing: -0.04em;
+      }
+
+      .section-head span {
+        color: var(--muted);
+        font-size: 0.76rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      .project-grid {
+        display: grid;
+        grid-template-columns: repeat(12, minmax(0, 1fr));
+        gap: 22px;
+      }
+
+      .project-card {
+        position: relative;
+        grid-column: span 6;
+        min-height: 360px;
+        padding: 20px;
+        border-radius: 26px;
+        border: 1px solid var(--border);
+        background: rgba(15, 23, 38, 0.7);
+        overflow: hidden;
+        box-shadow: var(--shadow);
+        transition: transform 0.2s ease, border-color 0.2s ease;
+      }
+
+      .project-card:hover {
+        transform: translateY(-4px);
+        border-color: rgba(125, 211, 252, 0.3);
+      }
+
+      .project-card::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: var(--glow, linear-gradient(135deg, rgba(125,211,252,0.18), rgba(139,92,246,0.15)));
+      }
+
+      .project-card > * {
+        position: relative;
+        z-index: 1;
+      }
+
+      .card-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 12px;
+      }
+
+      .tiny-tag {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        padding: 7px 10px;
+        border: 1px solid rgba(255,255,255,0.08);
+        border-radius: 999px;
+        background: rgba(15, 23, 38, 0.52);
+        color: var(--muted);
+        font-size: 0.68rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      .tiny-tag::before {
+        content: "";
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: var(--badge-color, #7dd3fc);
+        box-shadow: 0 0 14px var(--badge-color, #7dd3fc);
+      }
+
+      .project-card h3 {
+        margin: 18px 0 10px;
+        font-size: clamp(1.6rem, 2vw, 2.2rem);
+        letter-spacing: -0.05em;
+        line-height: 1.05;
+      }
+
+      .project-card p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 0.96rem;
+        line-height: 1.7;
+        max-width: 58ch;
+      }
+
+      .project-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 18px;
+      }
+
+      .meta-pill {
+        padding: 7px 10px;
+        border-radius: 999px;
+        border: 1px solid rgba(255,255,255,0.08);
+        background: rgba(15, 23, 38, 0.45);
+        color: #dfeafc;
+        font-size: 0.68rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .card-visual {
+        position: relative;
+        margin-top: 22px;
+        width: 100%;
+        height: 132px;
+        border-radius: 20px;
+        border: 1px solid rgba(255,255,255,0.08);
+        background:
+          linear-gradient(135deg, rgba(15, 23, 38, 0.44), rgba(15, 23, 38, 0.18)),
+          var(--visual-gradient, linear-gradient(135deg, #0f172a, #1e293b));
+        overflow: hidden;
+      }
+
+      .card-visual::before,
+      .card-visual::after {
+        content: "";
+        position: absolute;
+        border-radius: 18px;
+        border: 1px solid rgba(255,255,255,0.08);
+        background: rgba(255,255,255,0.04);
+      }
+
+      .card-visual::before {
+        width: 52%;
+        height: 54%;
+        right: 18px;
+        top: 18px;
+        transform: skewY(-6deg);
+      }
+
+      .card-visual::after {
+        width: 38%;
+        height: 32%;
+        left: 18px;
+        bottom: 18px;
+        transform: skewY(6deg);
+      }
+
+      .card-actions {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        margin-top: 20px;
+      }
+
+      .open-link {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        padding: 12px 16px;
+        min-width: 128px;
+        border-radius: 14px;
+        background: linear-gradient(135deg, #0ea5e9 0%, #8b5cf6 100%);
+        color: white;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+        box-shadow: 0 14px 30px rgba(14, 165, 233, 0.26);
+      }
+
+      .open-link:hover {
+        filter: brightness(1.06);
+      }
+
+      .project-index {
+        color: rgba(255,255,255,0.84);
+        font-size: 0.74rem;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+      }
+
+      @media (max-width: 980px) {
+        .hero {
+          grid-template-columns: 1fr;
+        }
+
+        .project-card {
+          grid-column: span 12;
+        }
+      }
+
+      @media (max-width: 640px) {
+        .page {
+          padding-left: 14px;
+          padding-right: 14px;
+        }
+
+        .topbar {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+
+        .header-actions {
+          width: 100%;
+        }
+
+        .header-actions .chip,
+        .header-actions .nav-pill {
+          flex: 1;
+          text-align: center;
+        }
+
+        .hero-panel,
+        .preview-window,
+        .project-card {
+          border-radius: 22px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page">
+      <header class="topbar">
+        <div class="brand">
+          <div class="brand-mark">P</div>
+          <div class="brand-copy">
+            <strong>Project Preview</strong>
+            <span>WithMangg / landing-page</span>
+          </div>
+        </div>
+
+        <div class="header-actions">
+          <span class="chip">5 Projects</span>
+          <span class="chip">HTML Only</span>
+          <a class="nav-pill" href="#portfolio">Browse</a>
+        </div>
+      </header>
+
+      <section class="hero">
+        <div class="hero-panel">
+          <div class="eyebrow">Collection</div>
+          <h1>Creative landing pages, all in one dark showcase.</h1>
+          <p class="lead">
+            Sebuah preview gallery yang menampilkan seluruh concept landing page dalam repo ini — mulai dari
+            brand luxury, roastery, rental motor, UMKM, hingga eksperimen edukasi 3D. Semua dibuat dengan gaya
+            modern, bersih, dan fokus pada pengalaman visual yang menarik.
+          </p>
+
+          <div class="metrics">
+            <div class="metric">
+              <strong>5</strong>
+              <span>Projects</span>
+            </div>
+            <div class="metric">
+              <strong>100%</strong>
+              <span>HTML</span>
+            </div>
+            <div class="metric">
+              <strong>Dark</strong>
+              <span>Theme</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="preview-window">
+          <div class="browser-bar">
+            <div class="dots">
+              <span class="dot"></span>
+              <span class="dot"></span>
+              <span class="dot"></span>
+            </div>
+            <div class="browser-label">Live Preview</div>
+          </div>
+
+          <div class="mini-view">
+            <div class="mini-card">
+              <span class="title">Featured</span>
+              <span class="value">Aurelia</span>
+              <div class="bar"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="grid-wrap" id="portfolio">
+        <div class="section-head">
+          <h2>Project Showcase</h2>
+          <span>Explore all pages</span>
+        </div>
+
+        <div class="project-grid" id="projectGrid"></div>
+      </div>
+    </div>
+
+    <script>
+      const projects = [
+        {
+          title: 'Aurelia',
+          accent: '#c56a6a',
+          glow: 'linear-gradient(135deg, rgba(122, 42, 48, 0.28), rgba(212, 132, 94, 0.18))',
+          visual: 'linear-gradient(135deg, #1b1a1d, #31251d 42%, #7a3a41 100%)',
+          tag: 'Luxury',
+          tags: ['Luxury', 'Automotive', 'Editorial'],
+          description: 'Landing page premium untuk layanan mobilitas pribadi dengan aesthetic eksklusif, modern, dan penuh karakter mewah.',
+          index: '01',
+          href: 'aurelia_luxury_car_rental.html'
+        },
+        {
+          title: 'Lepidoptera 3D',
+          accent: '#fbbf24',
+          glow: 'linear-gradient(135deg, rgba(245, 158, 11, 0.2), rgba(59, 130, 246, 0.14))',
+          visual: 'linear-gradient(135deg, #111827, #0f172a 40%, #1d4ed8 100%)',
+          tag: '3D Edu',
+          tags: ['3D', 'Science', 'Interactive'],
+          description: 'Eksplorasi edukasi kupu-kupu interaktif dengan visual 3D, scientific panel, dan dark mode yang sangat nyaman untuk belajar.',
+          index: '02',
+          href: 'ensiklopedia_3d_interaktif_kupu_kupu.html'
+        },
+        {
+          title: 'Karsa Roda',
+          accent: '#f97316',
+          glow: 'linear-gradient(135deg, rgba(249,115,22,0.2), rgba(22,163,74,0.16))',
+          visual: 'linear-gradient(135deg, #11231b, #163b2b 45%, #d97706 100%)',
+          tag: 'Travel',
+          tags: ['Rental', 'Jogja', 'Booking'],
+          description: 'Landing page jasa sewa motor Jogja yang fokus pada transaksi cepat, trust-building, dan promosi value proposition yang jelas.',
+          index: '03',
+          href: 'karsa_roda_sewa_motor_jogja_kalcer_terpercaya.html'
+        },
+        {
+          title: 'UMKM Rasa Karsa Nusantara',
+          accent: '#34d399',
+          glow: 'linear-gradient(135deg, rgba(52,211,153,0.22), rgba(251,191,36,0.12))',
+          visual: 'linear-gradient(135deg, #111827, #1f2937 42%, #14532d 100%)',
+          tag: 'UMKM',
+          tags: ['Branding', 'Food', 'Culture'],
+          description: 'Concept showcase untuk produk UMKM lokal dengan pendekatan visual kuat, modern, dan kaya identitas budaya Indonesia.',
+          index: '04',
+          href: 'landing_page_umkm_rasa_karsa_nusantara.html'
+        },
+        {
+          title: 'Senja & Seduh',
+          accent: '#f59e0b',
+          glow: 'linear-gradient(135deg, rgba(245,158,11,0.2), rgba(120,53,15,0.18))',
+          visual: 'linear-gradient(135deg, #120d0b, #1f140f 36%, #b45309 100%)',
+          tag: 'Coffee',
+          tags: ['Coffee', 'Culture', 'Roastery'],
+          description: 'Desain brand coffee roastery dengan tema warm dark luxury, cocok untuk produk kopi specialty dan pengalaman premium.',
+          index: '05',
+          href: 'senja_seduh_indonesian_specialty_coffee.html'
+        }
+      ];
+
+      const grid = document.getElementById('projectGrid');
+
+      projects.forEach((project) => {
+        const card = document.createElement('article');
+        card.className = 'project-card';
+        card.style.setProperty('--glow', project.glow);
+        card.style.setProperty('--badge-color', project.accent);
+        card.style.setProperty('--visual-gradient', project.visual);
+
+        card.innerHTML = `
+          <div class="card-top">
+            <span class="tiny-tag">${project.tag}</span>
+            <span class="project-index">${project.index}</span>
+          </div>
+
+          <h3>${project.title}</h3>
+          <p>${project.description}</p>
+
+          <div class="project-meta">
+            ${project.tags.map((tag) => `<span class="meta-pill">${tag}</span>`).join('')}
+          </div>
+
+          <div class="card-visual"></div>
+
+          <div class="card-actions">
+            <a class="open-link" href="${project.href}" target="_blank" rel="noreferrer">
+              Open demo →
+            </a>
+            <span class="project-index">Preview</span>
+          </div>
+        `;
+
+        grid.appendChild(card);
+      });
+    </script>
+  </body>
+</html>
